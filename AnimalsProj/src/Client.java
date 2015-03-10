@@ -15,13 +15,14 @@ public class Client {
 		PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 		BufferedReader in = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()));
 		BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
-		
+		System.out.println("Starting the client.");
 		String userInput;
-        while ((userInput = sysIn.readLine()) != null) {
-        	//System.out.println("echo 1: " + in.readLine());
+        while (true) {
+        	userInput = sysIn.readLine();
+        	if("quit".equalsIgnoreCase(userInput))
+        		break;
         	out.println(userInput);
-        	System.out.println("echo 2: " + in.readLine());
-        	//System.out.println("echo 1: " + in.readLine());
+        	System.out.println("Client received response:" + in.readLine());
         }
 	}
 

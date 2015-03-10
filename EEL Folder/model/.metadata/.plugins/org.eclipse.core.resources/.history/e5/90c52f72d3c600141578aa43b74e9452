@@ -1,0 +1,17 @@
+import java.util.ArrayList;
+
+
+public class GameState {
+
+	private String mWinner;
+	private String mCurrentTurn;
+	
+	private ArrayList<Player> mPlayers;
+	private GameState mGameState;
+	
+	public GameState(){} //Default Constructor
+	
+	public void updateBoard(){
+		//mGameState.;
+	}
+}

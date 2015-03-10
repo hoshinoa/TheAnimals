@@ -11,8 +11,9 @@ public class Server {
 	
 	private static int port = 8901;
 	private static ServerSocket servSock;
-	private static PrintWriter out;
+	//private static PrintWriter out;
 	private static BufferedReader in;
+	private static ObjectOutputStream out;
 	//ClientConnections clients;
 	//Room[] rooms;
 	
@@ -22,16 +23,30 @@ public class Server {
 	public static void main(String[] args) throws Exception{
 		System.out.println("The Server is running.");
 		servSock = new ServerSocket(port);
-		Socket s = servSock.accept(); //So that we can get an input stream
-		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		out = new PrintWriter(s.getOutputStream(), true);
+		while(true)
+		{
+			waitForConnection();
+			setupStreams();
+			whileChatting();
+		}
+		private void waitForConnection()
+		{
+			System.out.println("Waiting for someone to connect...\n");
+			Socket s = servSock.accept(); //So that we can get an input stream
+		}
+		private void setupStreams()
+		{
+			//out = new PrintWriter(s.getOutputStream(), true);
+			out = new objectOutputStream(s.getOutputStream());
+			out.flush();
+			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		}
+			//To take input from the Server Console itself?
+			BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
 		
-		//To take input from the Server Console itself?
-		BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
-		
-		boolean inSession = true;
-		String nextLine = "", sysInput = "";
-		while(inSession){
+			boolean inSession = true;
+			String nextLine = "", sysInput = "";
+			while(inSession){
 			sysInput = sysIn.readLine();
 			nextLine = in.readLine();
 			if("quit".equals(sysInput)){

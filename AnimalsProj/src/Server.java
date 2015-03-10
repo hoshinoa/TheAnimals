@@ -20,7 +20,7 @@ public class Server {
 	//createRoom()
 	
 	public static void main(String[] args) throws Exception{
-
+		System.out.println("The Server is running.");
 		servSock = new ServerSocket(port);
 		Socket s = servSock.accept(); //So that we can get an input stream
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -34,7 +34,6 @@ public class Server {
 		while(inSession){
 			sysInput = sysIn.readLine();
 			nextLine = in.readLine();
-			//if("quit".equals(sysInput) || sysInput != null){
 			if("quit".equals(sysInput)){
 
 				System.out.println("Quiting");
@@ -42,10 +41,10 @@ public class Server {
 			}
 			else{
 				//Reads a line and writes it to the connected socket, sending it to the server
+				out.println("[Server: Message received!]");
 				out.println(nextLine);
 				//The server echoes the info back, so we can print that here:
-				System.out.println("Echo of client: " + nextLine);
-				//System.out.println("Echo of SysInput: " + sysInput);
+				System.out.println("Server: echo of client: " + nextLine);
 			}
 			
 		}

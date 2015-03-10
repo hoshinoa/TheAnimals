@@ -8,4 +8,8 @@ public class GamePiece {
 	
 	private Image mSprite;
 	
+	public GamePiece(){} //Default Constructor - Should be used to set an image
+	
+	//This function changes the Image sprite for the GamePiece
+	public void setSprite(){} 
 }

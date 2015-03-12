@@ -32,6 +32,11 @@ public class Client {
 				homeScreen.textField.setText("");
 			}
 		});
+		homeScreen.makeNewRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				out.println("MAKENEWROOM");
+			}
+		});
 	}
 	
 	private String getName() {
@@ -74,12 +79,12 @@ public class Client {
         		homeScreen.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("UPDATEPLAYERLIST")) {
         		System.out.println("I'm updating player list");
-        		//Need to update player list
         		String playerList [] = line.split("\\s+");
-        		for(String player : playerList){
-        			//Change Homescreen
-        			System.out.println(player);
-        		}
+        		homeScreen.updatePlayerList(playerList);
+        	} else if(line.startsWith("UPDATEROOMLIST")) {
+        		System.out.println("Updating room list");
+        		String roomList [] = line.split("\\s+");
+        		homeScreen.updatePlayerList(roomList);
         	}
         }
         

@@ -61,39 +61,26 @@ public class Server {
 				
 				out.println("NAMEACCEPTED");
 				writers.add(out);
-				//TODO added a new person so update client's player list
-				for(PrintWriter writer: writers) {
-					String sendThis = "UPDATEPLAYERLIST " + updateClientsPlayerList(); 
-					System.out.println(sendThis);
-					writer.println(sendThis);
-				}
-				//TODO going along with graceful loss of user, needs to update on lost connection, some ping function
+
+				updateClientsPlayerList();
+				updateClientsPlayerList();
 				
 				while(true) {
 					String input = in.readLine();
-					//if(input == null) { return; }
 					if(input.startsWith("USERS")){
 						
 						System.out.println("USERS");
 						
-					} else if (input.startsWith("MAKENEWROOM")){
-						//Spawn a new room
+					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
+						
+						System.out.println("Making a new room");
 						
 						synchronized (gameRooms) {
 							Room newRoom = new Room("Game Room :" + gameRooms.size());
 							gameRooms.add(newRoom);
 						}
 						
-						//TODO added a new room so update client's game room list
-						
-					} else if(input.startsWith("LISTOFROOMS")){
-						//TODO JSONIFY this
-						String sendThis = "Num rooms: " + gameRooms.size() + '\n';
-						for(Room room : gameRooms) {
-							sendThis += room.getNameOfRoom() + " | Players: " + room.getCurrentPlayerCount() 
-																			 + "/" + room.getMaxPlayers() + '\n';
-						}
-						out.println(sendThis);
+						updateClientsRoomList();
 						
 					} else { 
 						for(PrintWriter writer: writers) {
@@ -117,19 +104,28 @@ public class Server {
 		
 	}
 	
-	public static String updateClientsPlayerList(){ //get player list
+	public static void updateClientsPlayerList(){ //get player list
 		//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
-		String sendThis = "";
-		sendThis = clientNames.size() + " "; //Number of clients
+		//TODO going along with graceful loss of user, needs to update on lost connection, some ping function
+		String sendThis = "UPDATEPLAYERLIST ";
+		sendThis += clientNames.size() + " "; //Number of clients
 
-		for(String name: clientNames) {
-			sendThis += name + " ";
-		}
+		for(String name: clientNames) { sendThis += name + " "; }
 		
-		return sendThis; //returns a single string of all the clients separated by \n's
+		for(PrintWriter writer: writers) { writer.println(sendThis); }
 	}
 	
-	public void updateClientsRoomList(){
+	public static void updateClientsRoomList(){
+		//TODO JSONIFY this
+		//TODO be able to update when the room is closed or full
+		String sendThis = "UPDATEROOMLIST ";
+		sendThis += gameRooms.size() + " "; // Game Roome Size
+		for(Room room : gameRooms) {
+			sendThis += room.getNameOfRoom() + "|Players:" + room.getCurrentPlayerCount() 
+															 + "/" + room.getMaxPlayers() + " ";
+		}
+		
+		for(PrintWriter writer: writers) { writer.println(sendThis); }
 		
 	}
 	

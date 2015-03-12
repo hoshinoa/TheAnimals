@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.util.Arrays;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -24,8 +25,10 @@ import javax.swing.ListSelectionModel;
 
 public class HomeScreen extends JFrame {
 	
-	private JList playerList;
-	private JList gameList;
+	private JList<String> playerList;
+	private JList<String> gameList;
+	
+	JButton makeNewRoom;
 	
 	//Chat Interface
 	JTextField textField = new JTextField(40);
@@ -42,7 +45,7 @@ public class HomeScreen extends JFrame {
 		JLabel chatLabel = new JLabel("Chat");
 		chatLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		chatLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		chatLabel.setBounds(550, 11, 306, 25);
+		chatLabel.setBounds(560, 11, 306, 25);
 		getContentPane().add(chatLabel);
 		
 		textField = new JTextField(40);
@@ -50,49 +53,37 @@ public class HomeScreen extends JFrame {
 		
 		//left side of the screen user list
 		JScrollPane messagesHolder = new JScrollPane(messageArea);
-		messagesHolder.setBounds(550, 50, 250, 400);
+		messagesHolder.setBounds(560, 50, 250, 400);
 		getContentPane().add(messagesHolder);
-		textField.setBounds(550, 491, 250, 30);
+		textField.setBounds(560, 491, 250, 30);
 		getContentPane().add(textField);
 		//right side of the screen rooms list and make new room
 		
 		
 		//Player List
-		
+		//TODO make JScrollPanel for names
 		JLabel playerLabel = new JLabel("Waiting Room - Players: ");
 		playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		playerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		playerLabel.setBounds(10, 10, 223, 26);
 		getContentPane().add(playerLabel);
 		
-		playerList = new JList();
+		playerList = new JList<String>();
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playerList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		/*
-		playerList.setModel(new AbstractListModel() {
-			private static final long serialVersionUID = 1L;
-			String[] values = new String[] {"Carrey", "ninetails", "fireFox", "Rocketmouse", "FireFighter298", "joseph", "Hailey"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		}); */
-		
 		playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		playerList.setBounds(10, 47, 223, 491);
 		getContentPane().add(playerList);
 		
 		//Game List
-		JLabel gameLabel = new JLabel("Rooms");
+		JLabel gameLabel = new JLabel("Open Rooms");
 		gameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		gameLabel.setBounds(243, 11, 306, 25);
 		getContentPane().add(gameLabel);
 		
-		//gameList = new JList();
-		//gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gameList = new JList<String>();
+		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		/*
 		gameList.setModel(new AbstractListModel() {
@@ -117,35 +108,27 @@ public class HomeScreen extends JFrame {
 		    });
 		*/
 		
-		//gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		//gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		//gameList.setBounds(243, 47, 306, 433);
-		//getContentPane().add(gameList);
+		gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
+		gameList.setBounds(243, 47, 306, 433);
+		getContentPane().add(gameList);
 		
 		//Button for some action
-		JButton makeNewRoom = new JButton("Make New Room");
+		makeNewRoom = new JButton("Make New Room");
 		makeNewRoom.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		makeNewRoom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Making new room");
-			}
-		});
 		makeNewRoom.setBounds(243, 491, 306, 47);
 		getContentPane().add(makeNewRoom);
 		
 	}
 	
-	public void updatePlayerList(){
-		
+	public void updatePlayerList(final String[] players){
+		playerList.setListData(Arrays.copyOfRange(players, 2, players.length));
 	}
 	
-	public void updateRoomList(){
-		
+	public void updateRoomList(final String[] rooms){
+		gameList.setListData(Arrays.copyOfRange(rooms, 2, rooms.length));
 	}
 	
-	public void updateView(){
-		
-	}
 	
 	//Uncomment main to test the screen
 	/*

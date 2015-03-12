@@ -72,10 +72,10 @@ public class Client {
         		out.println(getName());
         	} else if(line.startsWith("NAMEACCEPTED")) {
         		textField.setEditable(true);
-        	} else if (line.startsWith("MESSAGE")){
-        		messageArea.append(line.substring(8) + "\n");
         	}
         }
+        
+        
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -86,3 +86,11 @@ public class Client {
 	}
 
 }
+
+
+/* Notes:
+ * else if (line.startsWith("MESSAGE")){
+        		messageArea.append(line.substring(8) + "\n");
+        	}
+ * 
+ */

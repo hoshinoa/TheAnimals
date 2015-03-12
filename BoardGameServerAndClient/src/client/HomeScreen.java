@@ -13,6 +13,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.ListSelectionModel;
 
@@ -23,11 +26,25 @@ public class HomeScreen extends JFrame {
 	private JLabel gameLabel;
 	private JList gameList;
 	
+	//Chat Interface
+	JTextField textField = new JTextField(40);
+	JTextArea messageArea = new JTextArea(8,40);
+	
 	public HomeScreen() {
 		this.setTitle("Waiting Room");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 588);
 		getContentPane().setLayout(null);
+		
+		//Chat Interface
+		textField = new JTextField(40);
+		messageArea = new JTextArea(8,40);
+		
+		//left side of the screen user list
+		getContentPane().add(new JScrollPane(messageArea), "Center");
+		getContentPane().add(textField, "South");
+		//right side of the screen rooms list and make new room
+		
 		
 		//Player List
 		playerLabel = new JLabel("Waiting Room - Players: ");

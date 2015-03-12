@@ -60,17 +60,27 @@ public class Server {
 				out.println("NAMEACCEPTED");
 				System.out.println("NAMEACCEPTED");
 				writers.add(out);
-				//testing branches
-				//Chat Messaging system
+				
 				while(true) {
 					String input = in.readLine();
-					if(input == null) { return; }
-					for(PrintWriter writer: writers) {
-						writer.println("MESSAGE" + name + ": " + input);
+					//if(input == null) { return; }
+					if(input.startsWith("SEND")){
+						
+						//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
+						String sendThis = "";
+						sendThis = clientNames.size() + "";
+						for(String name: clientNames) {
+							sendThis += name + " ";
+						}
+						out.println(sendThis);
+					} else {
+						System.out.println(input);
 					}
+					//check for actions
+					//make room
+					//enter a room
+					
 				}
-				
-				//Comment out the messaging system and make the server a room handler instead
 				
 				
 			} catch (IOException e) {
@@ -87,3 +97,15 @@ public class Server {
 	}
 	
 }
+
+/*
+ * 				/*
+				//Chat Messaging system
+				while(true) {
+					String input = in.readLine();
+					if(input == null) { return; }
+					for(PrintWriter writer: writers) {
+						writer.println("MESSAGE" + name + ": " + input);
+					}
+				} */
+ 

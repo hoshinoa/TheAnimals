@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -21,6 +22,10 @@ public class Client {
 	JFrame frame = new JFrame("Chatter");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8,40);
+	
+	//Homescreen for the room list
+	JFrame homeFrame = new JFrame("Rooms");
+	JButton makeNewRoomButton = new JButton("Make New Room");
 	
 	public Client(){
 		textField.setEditable(false);
@@ -81,6 +86,7 @@ public class Client {
 	public static void main(String[] args) throws IOException{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		client.frame.setSize(300, 300);
 		client.frame.setVisible(true);
 		client.run();
 	}

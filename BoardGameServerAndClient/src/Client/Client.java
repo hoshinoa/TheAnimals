@@ -30,8 +30,11 @@ public class Client {
 	public Client(){
 		textField.setEditable(false);
 		messageArea.setEditable(false);
-		frame.getContentPane().add(textField, "North");
+		
+		//left side of the screen user list
 		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+		frame.getContentPane().add(textField, "South");
+		//right side of the screen rooms list and make new room
 		
 		textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -64,7 +67,8 @@ public class Client {
 	private void run() throws IOException {
 		//String serverAddress = getServerAddress();
 		String serverAddress = "localhost";
-		String portNumber = getPortNumber();
+		//String portNumber = getPortNumber();
+		String portNumber = "8901";
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -78,7 +82,7 @@ public class Client {
         	} else if(line.startsWith("NAMEACCEPTED")) {
         		textField.setEditable(true);
         	} else if (line.startsWith("MESSAGE")){
-        		messageArea.append(line.substring(8) + "\n");
+        		messageArea.append(line.substring(7) + "\n");
         	}
         }
         
@@ -102,3 +106,5 @@ public class Client {
         	}
  * 
  */
+
+//TODO add a graceful disconnect for users

@@ -18,7 +18,8 @@ public class Server {
 	//Main
 	public static void main(String[] args) throws IOException{
 		
-		ServerSocket servSock = new ServerSocket(0);
+		//ServerSocket servSock = new ServerSocket(0);
+		ServerSocket servSock = new ServerSocket(8901);
 		System.out.println("Server is running on Port: " + servSock.getLocalPort());
 		try{
 			while(true){

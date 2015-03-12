@@ -5,6 +5,7 @@ public class Room {
 	private String nameOfRoom;
 	private int maxPlayers;
 	private int currentPlayerCount;
+	private int portNumber;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;

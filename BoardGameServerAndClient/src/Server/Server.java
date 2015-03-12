@@ -60,7 +60,7 @@ public class Server {
 				out.println("NAMEACCEPTED");
 				System.out.println("NAMEACCEPTED");
 				writers.add(out);
-				
+				//testing branches
 				//Chat Messaging system
 				while(true) {
 					String input = in.readLine();

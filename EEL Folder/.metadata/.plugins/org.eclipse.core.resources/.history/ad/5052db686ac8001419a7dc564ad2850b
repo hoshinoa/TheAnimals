@@ -1,0 +1,10 @@
+
+public interface GameLogic 
+{
+	public GameState currentGameState;
+	
+	public intializeGame(int, int);
+	public runGame(ArrayList<Player> players);
+	public boolean winnerExists();
+	
+}

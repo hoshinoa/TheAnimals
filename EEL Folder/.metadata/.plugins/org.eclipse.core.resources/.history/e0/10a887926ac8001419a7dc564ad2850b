@@ -1,0 +1,13 @@
+
+public interface GameLogic 
+{
+	public GameState currentGameState;
+	
+	public void intializeGame(int boardWidth, int boardHeight);
+	public runGame(ArrayList<Player> players);
+	public boolean winnerExists();
+	public void makeMove();
+	public boolean validMove();
+	
+	
+}

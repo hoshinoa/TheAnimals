@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+
+public abstract class Game 
+{
+	public String gameTitle;
+	public int BOARD_WIDTH;
+	public int BOARD_HEIGHT;
+	public ArrayList<Player> gPlayers;
+	public GameLogic gameLogic;
+	
+	public Game(String gameTitle, int boardWidth, int boardHeight, ArrayList<Player> gPlayers) 
+	{
+		this.gameTitle = gameTitle;
+		this.gPlayers = gPlayers;
+		BOARD_WIDTH = boardWidth;
+		BOARD_HEIGHT = boardHeight;
+	}
+	
+	public void startGame()
+	{
+		gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
+	}
+	
+	public GamePiece[][] playTurn(int playerIndex, GamePiece[][] board)
+	{
+		currentPlayer = gPlayers.get(i);
+	}
+	
+	public boolean gameOver()
+	{
+		if(gameLogic.winnerExists())
+			return true;
+		else
+			return false;
+	}
+	
+	public ArrayList<Player> getScoreBoard()
+	{
+		return gPlayers;
+	}
+}

@@ -1,0 +1,10 @@
+import java.util.ArrayList;
+
+public interface GameLogic 
+{
+	public void runGame(int boardWidth, int boardHeight, ArrayList<Player> players);
+	public boolean winnerExists();
+	public void makeMove(Player p, GamePieces[][] gameBoard);
+	public boolean validMove(GameState gs);
+	public boolean invalidBoard(GameState gs);
+}

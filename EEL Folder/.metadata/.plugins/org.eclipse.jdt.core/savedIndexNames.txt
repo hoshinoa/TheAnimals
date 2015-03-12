@@ -1,0 +1,3 @@
+INDEX VERSION 1.126+C:\Users\Evelyn Y. Luu\Documents\GitHub\TheAnimals\EEL Folder\.metadata\.plugins\org.eclipse.jdt.core
+37385497.index
+4177982259.index

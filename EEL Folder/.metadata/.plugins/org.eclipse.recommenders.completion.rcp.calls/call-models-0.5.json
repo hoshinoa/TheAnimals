@@ -1,0 +1,12 @@
+{
+  "C:\\Users\\Evelyn Y. Luu\\Documents\\GitHub\\TheAnimals\\EEL Folder\\Controller\\src": {
+    "location": "C:\\Users\\Evelyn Y. Luu\\Documents\\GitHub\\TheAnimals\\EEL Folder\\Controller\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\Evelyn Y. Luu\\Documents\\GitHub\\TheAnimals\\EEL Folder\\Controller\\src\u0027. Skipped."
+  },
+  "C:\\Program Files\\Java\\jdk1.7.0_45\\jre\\lib\\rt.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "C:\\Program Files\\Java\\jdk1.7.0_45\\jre\\lib\\rt.jar",
+    "status": "RESOLVED"
+  }
+}

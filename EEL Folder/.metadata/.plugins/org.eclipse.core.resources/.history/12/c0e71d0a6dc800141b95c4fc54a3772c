@@ -1,0 +1,26 @@
+
+public abstract class Game 
+{
+	private String gameTitle;
+	private ArrayList<Player> players;
+	public GameLogic gameLogic;
+	
+	public Game(String gameTitle, ArrayList<Player> players) 
+	{
+		this.gameTitle = gameTitle;
+		this.players = players;
+	}
+	
+	public boolean gameOver()
+	{
+		if(gameLogic.winnerExists())
+			return true;
+		else
+			return false;
+	}
+	
+	public ArrayList<Player> getScoreBoard()
+	{
+		return players;
+	}
+}

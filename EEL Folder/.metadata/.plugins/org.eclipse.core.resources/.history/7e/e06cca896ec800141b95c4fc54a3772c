@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+public abstract class Game 
+{
+	private String gameTitle;
+	private ArrayList<Player> gPlayers;
+	public GameLogic gameLogic;
+	
+	public Game(String gameTitle, ArrayList<Player> players) 
+	{
+		this.gameTitle = gameTitle;
+		this.gPlayers = gPlayers;
+	}
+	
+	public void startGame(int boardWidth, int boardHeight)
+	{
+	}
+	
+	public boolean gameOver()
+	{
+		if(gameLogic.winnerExists())
+			return true;
+		else
+			return false;
+	}
+	
+	public ArrayList<Player> getScoreBoard()
+	{
+		return gPlayers;
+	}
+}

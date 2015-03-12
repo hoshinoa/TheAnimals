@@ -1,0 +1,17 @@
+import java.util.ArrayList;
+
+public interface GameLogic 
+{
+	// The Game abstract class calls on runGame to initialize the first game state 
+	// and set up the game board.
+	public void runGame(int boardWidth, int boardHeight, ArrayList<Player> players);
+	
+	//
+	public GamePiece[][] makeMove(Player p, GamePiece[][] gameBoard);
+	
+	public boolean validMove(GameState gs);
+	
+	public boolean invalidBoard(GameState gs);
+	
+	public boolean winnerExists();
+}

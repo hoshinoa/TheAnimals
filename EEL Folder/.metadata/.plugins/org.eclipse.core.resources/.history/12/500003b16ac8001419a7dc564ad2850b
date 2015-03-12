@@ -1,0 +1,12 @@
+
+public abstract class Game 
+{
+	private String gameTitle;
+	private ArrayList<Player> players;
+	public GameLogic gameLogic;
+	
+	
+	public Game() 
+	{
+	}
+}

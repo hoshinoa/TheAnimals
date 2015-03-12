@@ -1,2 +1,7 @@
 .metadata
 .DS_STORE
+
+#Eclipse Specific#
+BoardGameServerAndClient/.classpath
+BoardGameServerAndClient/.project
+BoardGameServerAndClient/.settings

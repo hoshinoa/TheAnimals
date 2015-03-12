@@ -9,13 +9,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class Server {
 
-	/*
+	
 	private static int port;
 	private static ServerSocket servSock;
 	//private static ObjectOutputStream out;
@@ -23,18 +24,18 @@ public class Server {
 	private static BufferedReader in;
 	//static ClientConnections clients;
 	//Room[] rooms;
-
+	
 	public Server(){
 		port = 8901; //Current port choice is arbitrary.
 	}
 
-	*/
+	
 	
 	public static void main(String[] args) {
 		
 		//Step 1 Show a JFrame choosing the port number to run on
-		Server.ServerDialogs helper = new Server.ServerDialogs();
-		helper.getPortNumber();
+		Server.ServerDialogs serverHelper = new Server.ServerDialogs();
+		serverHelper.getPortNumber();
 		
 		//System.out.println("The Server is running.");
 		/*
@@ -63,18 +64,25 @@ public class Server {
 
 	}
 	
+	/**
+	 * 
+	 */
 	static class ServerDialogs{
 		
 		private JFrame frame;
 		
+		public ServerDialogs(){
+			frame = new JFrame("Server Settings");
+			frame.setSize(300,300);
+			frame.setResizable(false);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 		/**
 		 * 
 		 */
 		public void getPortNumber(){
-			frame = new JFrame("Server Settings");
-			frame.setSize(500, 500);
-			frame.getContentPane().add(new JTextField());
-			System.out.println("Meow");
+			frame.getContentPane().add(new JButton("Launch Server"));
+			//frame.getContentPane().add(new JTextField());
 			frame.setVisible(true);
 		}
 		

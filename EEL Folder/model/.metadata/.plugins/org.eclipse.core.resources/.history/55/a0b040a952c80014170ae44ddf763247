@@ -20,13 +20,16 @@ public class Server {
 	
 	public static void main(String[] args) throws Exception{
 		
+		System.out.println("The Server is running.");
+		
 		try{
+			System.out.println("I'm inside of the try block");
 			servSock = new ServerSocket(port);
-			Socket s = servSock.accept(); //So that we can get an input stream
-			System.out.println("The Server is running.");
+			//Socket s = servSock.accept(); //So that we can get an input stream
 		} catch(BindException e) { //Server is already running
-			System.out.println("Server is already running...");
-			System.exit(0);
+			System.out.println("I'm inside of the catch block");
+			//servSock.close(); 
+			System.out.println("Server was already running, restarting the server");
 		}
 		
 		/*

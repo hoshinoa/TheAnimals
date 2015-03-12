@@ -26,7 +26,6 @@ public class Server {
 			System.out.println("The Server is running.");
 		} catch(BindException e) { //Server is already running
 			System.out.println("Server is already running...");
-			System.exit(0);
 		}
 		
 		/*

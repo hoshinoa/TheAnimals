@@ -20,13 +20,15 @@ public class Server {
 	
 	public static void main(String[] args) throws Exception{
 		
+		System.out.println("The Server is running.");
+		
+		servSock = new ServerSocket(port);
+		
 		try{
-			servSock = new ServerSocket(port);
 			Socket s = servSock.accept(); //So that we can get an input stream
-			System.out.println("The Server is running.");
 		} catch(BindException e) { //Server is already running
-			System.out.println("Server is already running...");
-			System.exit(0);
+			servSock.close(); 
+			System.out.println("Server was already running, restarting the server");
 		}
 		
 		/*

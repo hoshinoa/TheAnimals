@@ -20,7 +20,7 @@ public class Client {
         	if("quit".equalsIgnoreCase(userInput))
         		break;
         	out.println(userInput);
-        	System.out.println("Client received responses:" + in.readLine());
+        	System.out.println("Client received response:" + in.readLine());
         }
 	}
 

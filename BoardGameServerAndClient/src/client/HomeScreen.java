@@ -62,7 +62,7 @@ public class HomeScreen extends JFrame {
 		getContentPane().add(gameLabel);
 		
 		//gameList = new JList();
-		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		//gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		/*
 		gameList.setModel(new AbstractListModel() {
@@ -87,10 +87,10 @@ public class HomeScreen extends JFrame {
 		    });
 		*/
 		
-		gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		gameList.setBounds(243, 47, 306, 433);
-		getContentPane().add(gameList);
+		//gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		//gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
+		//gameList.setBounds(243, 47, 306, 433);
+		//getContentPane().add(gameList);
 		
 		//Button for some action
 		JButton makeNewRoom = new JButton("Make New Room");
@@ -124,5 +124,6 @@ public class HomeScreen extends JFrame {
 		test.setVisible(true);
 	}
 	*/
+	
 	
 }

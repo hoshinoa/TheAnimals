@@ -13,7 +13,7 @@ public class Server {
     private static HashSet<String> clientNames = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     
-    
+    private static HashSet<Room> rooms = new HashSet<Room>();
     
 	//Main
 	public static void main(String[] args) throws IOException{
@@ -61,6 +61,7 @@ public class Server {
 				System.out.println("NAMEACCEPTED");
 				writers.add(out);
 				
+				//Chat Messaging system
 				while(true) {
 					String input = in.readLine();
 					if(input == null) { return; }
@@ -68,6 +69,10 @@ public class Server {
 						writer.println("MESSAGE" + name + ": " + input);
 					}
 				}
+				
+				//Comment out the messaging system and make the server a room handler instead
+				
+				
 			} catch (IOException e) {
 				System.err.println(e);
 			} finally {

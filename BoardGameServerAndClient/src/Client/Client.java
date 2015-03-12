@@ -73,8 +73,9 @@ public class Client {
         	} else if (line.startsWith("MESSAGE")){
         		homeScreen.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("UPDATEPLAYERLIST")) {
+        		System.out.println("I'm updating player list");
         		//Need to update player list
-        		String playerList [] = line.split("\\n");
+        		String playerList [] = line.split("\\s+");
         		for(String player : playerList){
         			//Change Homescreen
         			System.out.println(player);

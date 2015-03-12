@@ -53,7 +53,7 @@ public class Server {
 					synchronized (clientNames) {
 						if(!clientNames.contains(name)) {
 							clientNames.add(name);
-							System.out.println("Added to room: " + name);
+							System.out.println("Added waiting to room: " + name);
 							break;
 						}
 					}
@@ -63,7 +63,9 @@ public class Server {
 				writers.add(out);
 				//TODO added a new person so update client's player list
 				for(PrintWriter writer: writers) {
-					writer.println("UPDATEPLAYERLIST\n" + updateClientsPlayerList());
+					String sendThis = "UPDATEPLAYERLIST " + updateClientsPlayerList(); 
+					System.out.println(sendThis);
+					writer.println(sendThis);
 				}
 				//TODO going along with graceful loss of user, needs to update on lost connection, some ping function
 				
@@ -118,10 +120,10 @@ public class Server {
 	public static String updateClientsPlayerList(){ //get player list
 		//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
 		String sendThis = "";
-		sendThis = clientNames.size() + "\n"; //Number of clients
+		sendThis = clientNames.size() + " "; //Number of clients
 
 		for(String name: clientNames) {
-			sendThis += name + "\n";
+			sendThis += name + " ";
 		}
 		
 		return sendThis; //returns a single string of all the clients separated by \n's

@@ -19,32 +19,24 @@ public class Client {
 
 	private BufferedReader in;
 	private PrintWriter out;
-	private JFrame frame = new JFrame("Waiting Room");
-	private JTextField textField = new JTextField(40);
-	private JTextArea messageArea = new JTextArea(8,40);
 	
 	private HomeScreen homeScreen = new HomeScreen();
 	
 	public Client(){
-		textField.setEditable(false);
-		messageArea.setEditable(false);
 		
-		//left side of the screen user list
-		homeScreen.getContentPane().add(new JScrollPane(messageArea), "Center");
-		homeScreen.getContentPane().add(textField, "South");
-		//right side of the screen rooms list and make new room
-		
-		textField.addActionListener(new ActionListener(){
+		homeScreen.textField.setEditable(false);
+		homeScreen.messageArea.setEditable(false);
+		homeScreen.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				out.println(textField.getText());
-				textField.setText("");
+				out.println(homeScreen.textField.getText());
+				homeScreen.textField.setText("");
 			}
 		});
 	}
 	
 	private String getName() {
 		return JOptionPane.showInputDialog(
-				frame,
+				homeScreen,
 				"Choose a user name",
 				"Screen name selection",
 				JOptionPane.PLAIN_MESSAGE);
@@ -74,13 +66,12 @@ public class Client {
         
         while(true) {
         	String line = in.readLine();
-        	System.out.println(line);
         	if(line.startsWith("SUBMITNAME")){
         		out.println(getName());
         	} else if(line.startsWith("NAMEACCEPTED")) {
-        		textField.setEditable(true);
+        		homeScreen.textField.setEditable(true);
         	} else if (line.startsWith("MESSAGE")){
-        		messageArea.append(line.substring(7) + "\n");
+        		homeScreen.messageArea.append(line.substring(7) + "\n");
         	}
         }
         
@@ -89,8 +80,6 @@ public class Client {
 	
 	public static void main(String[] args) throws IOException{
 		Client client = new Client();
-		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		client.frame.setSize(800, 800);
 		client.homeScreen.setVisible(true);
 		client.run();
 	}

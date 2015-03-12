@@ -13,7 +13,7 @@ public class Server {
     private static HashSet<String> clientNames = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     
-    private static HashSet<Room> rooms = new HashSet<Room>();
+    private static HashSet<Room> gameRooms = new HashSet<Room>();
     
 	//Main
 	public static void main(String[] args) throws IOException{
@@ -64,18 +64,41 @@ public class Server {
 				while(true) {
 					String input = in.readLine();
 					//if(input == null) { return; }
-					if(input.startsWith("SEND")){
+					if(input.startsWith("USERS")){
 						
 						//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
 						String sendThis = "";
-						sendThis = clientNames.size() + "";
+						sendThis = "Num users online: " + clientNames.size() + "\n";
+						
+						//Sends a list of clients
 						for(String name: clientNames) {
-							sendThis += name + " ";
+							sendThis += name + "\n";
 						}
 						out.println(sendThis);
-					} else {
-						System.out.println(input);
-					}
+						
+					} else if (input.startsWith("MAKENEWROOM")){
+						//Spawn a new room
+						
+						synchronized (gameRooms) {
+							/*
+							if(!clientNames.contains(name)) {
+								clientNames.add(name);
+								System.out.println("Added to room: " + name);
+								break;
+							}
+							*/
+							Room newRoom = new Room("Game Room :" + gameRooms.size());
+							gameRooms.add(newRoom);
+						}
+						
+					} else if(input.startsWith("LISTOFROOMS")){
+						String sendThis = "";
+						for(Room room : gameRooms) {
+							
+						}
+						
+					} else { System.out.println(input); }
+					
 					//check for actions
 					//make room
 					//enter a room

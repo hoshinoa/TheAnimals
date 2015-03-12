@@ -4,6 +4,7 @@ public class Room {
 
 	private String nameOfRoom;
 	private int maxPlayers;
+	private int currentPlayerCount;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
@@ -23,6 +24,14 @@ public class Room {
 
 	public void setMaxPlayers(int maxPlayers) {
 		this.maxPlayers = maxPlayers;
+	}
+
+	public int getCurrentPlayerCount() {
+		return currentPlayerCount;
+	}
+
+	public void setCurrentPlayerCount(int currentPlayerCount) {
+		this.currentPlayerCount = currentPlayerCount;
 	}
 	
 }

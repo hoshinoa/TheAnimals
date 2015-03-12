@@ -8,6 +8,8 @@ public class Room {
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
+		this.maxPlayers = 2;
+		this.currentPlayerCount = 1;
 	}
 
 	public String getNameOfRoom() {

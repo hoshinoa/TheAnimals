@@ -92,10 +92,13 @@ public class Server {
 						}
 						
 					} else if(input.startsWith("LISTOFROOMS")){
-						String sendThis = "";
+						//TODO JSONIFY this
+						String sendThis = "Num rooms: " + gameRooms.size() + '\n';
 						for(Room room : gameRooms) {
-							
+							sendThis += room.getNameOfRoom() + " | Players: " + room.getCurrentPlayerCount() 
+																			 + "/" + room.getMaxPlayers() + '\n';
 						}
+						out.println(sendThis);
 						
 					} else { System.out.println(input); }
 					

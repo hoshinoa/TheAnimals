@@ -44,11 +44,23 @@ public class Client {
 				JOptionPane.PLAIN_MESSAGE);
 	}
 	
-	private void run() throws IOException {
-		String serverAddress = "localhost";
-		String portNumber = JOptionPane.showInputDialog(
+	private String getPortNumber() {
+		return JOptionPane.showInputDialog(
 				"Enter Port Number the Server is running on");
         //TODO add some error handling for non valid port numbers
+	}
+	
+	private String getServerAddress(){
+		return JOptionPane.showInputDialog(
+				"Enter Server IP the Server is running on");
+		//TODO add some error handling for non valid IP Address
+	}
+	
+	private void run() throws IOException {
+		//String serverAddress = getServerAddress();
+		String serverAddress = "localhost";
+		String portNumber = getPortNumber();
+		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);

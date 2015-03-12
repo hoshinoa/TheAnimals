@@ -13,6 +13,8 @@ public class Server {
     private static HashSet<String> clientNames = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     
+    
+    
 	//Main
 	public static void main(String[] args) throws IOException{
 		
@@ -43,9 +45,7 @@ public class Server {
 				
 				while(true) {
 					out.println("SUBMITNAME");
-					System.out.println("I'm trying");
 					name = in.readLine();
-					System.out.println("I'm trying I really am");
 					System.out.println(name);
 					if(name == null) { System.out.println("name was null"); return;}
 					synchronized (clientNames) {

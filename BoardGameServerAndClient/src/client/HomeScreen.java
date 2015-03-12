@@ -32,9 +32,10 @@ public class HomeScreen extends JFrame {
 	JTextArea messageArea = new JTextArea(8,40);
 	
 	public HomeScreen() {
-		this.setTitle("Waiting Room");
+		setTitle("Waiting Room");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		//Chat Interface

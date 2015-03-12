@@ -72,6 +72,13 @@ public class Client {
         		homeScreen.textField.setEditable(true);
         	} else if (line.startsWith("MESSAGE")){
         		homeScreen.messageArea.append(line.substring(7) + "\n");
+        	} else if(line.startsWith("UPDATEPLAYERLIST")) {
+        		//Need to update player list
+        		String playerList [] = line.split("\\n");
+        		for(String player : playerList){
+        			//Change Homescreen
+        			System.out.println(player);
+        		}
         	}
         }
         

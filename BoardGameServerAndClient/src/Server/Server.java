@@ -30,6 +30,7 @@ public class Server {
 	}
 	//End of Main
 	
+	//Handler is a Thread for a new client
 	private static class Handler extends Thread{
 		private String name;
 		private Socket socket;
@@ -61,21 +62,17 @@ public class Server {
 				out.println("NAMEACCEPTED");
 				writers.add(out);
 				//TODO added a new person so update client's player list
+				for(PrintWriter writer: writers) {
+					writer.println("UPDATEPLAYERLIST\n" + updateClientsPlayerList());
+				}
+				//TODO going along with graceful loss of user, needs to update on lost connection, some ping function
 				
 				while(true) {
 					String input = in.readLine();
 					//if(input == null) { return; }
 					if(input.startsWith("USERS")){
 						
-						//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
-						String sendThis = "";
-						sendThis = "Num users online: " + clientNames.size() + "\n";
-						
-						//Sends a list of clients
-						for(String name: clientNames) {
-							sendThis += name + "\n";
-						}
-						out.println(sendThis);
+						System.out.println("USERS");
 						
 					} else if (input.startsWith("MAKENEWROOM")){
 						//Spawn a new room
@@ -115,6 +112,22 @@ public class Server {
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
 		}
+		
+	}
+	
+	public static String updateClientsPlayerList(){ //get player list
+		//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
+		String sendThis = "";
+		sendThis = clientNames.size() + "\n"; //Number of clients
+
+		for(String name: clientNames) {
+			sendThis += name + "\n";
+		}
+		
+		return sendThis; //returns a single string of all the clients separated by \n's
+	}
+	
+	public void updateClientsRoomList(){
 		
 	}
 	

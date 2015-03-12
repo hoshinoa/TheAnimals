@@ -30,8 +30,8 @@ public class Client {
 		messageArea.setEditable(false);
 		
 		//left side of the screen user list
-		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
-		frame.getContentPane().add(textField, "South");
+		homeScreen.getContentPane().add(new JScrollPane(messageArea), "Center");
+		homeScreen.getContentPane().add(textField, "South");
 		//right side of the screen rooms list and make new room
 		
 		textField.addActionListener(new ActionListener(){
@@ -91,7 +91,7 @@ public class Client {
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		client.frame.setSize(800, 800);
-		client.frame.setVisible(true);
+		client.homeScreen.setVisible(true);
 		client.run();
 	}
 

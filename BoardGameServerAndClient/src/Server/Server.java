@@ -58,7 +58,6 @@ public class Server {
 				}
 				
 				out.println("NAMEACCEPTED");
-				System.out.println("NAMEACCEPTED");
 				writers.add(out);
 				
 				while(true) {
@@ -80,13 +79,6 @@ public class Server {
 						//Spawn a new room
 						
 						synchronized (gameRooms) {
-							/*
-							if(!clientNames.contains(name)) {
-								clientNames.add(name);
-								System.out.println("Added to room: " + name);
-								break;
-							}
-							*/
 							Room newRoom = new Room("Game Room :" + gameRooms.size());
 							gameRooms.add(newRoom);
 						}
@@ -100,11 +92,11 @@ public class Server {
 						}
 						out.println(sendThis);
 						
-					} else { System.out.println(input); }
-					
-					//check for actions
-					//make room
-					//enter a room
+					} else { 
+						for(PrintWriter writer: writers) {
+							writer.println("MESSAGE" + name + " : " + input);
+						}
+					}
 					
 				}
 				

@@ -19,7 +19,7 @@ public class Client {
 
 	private BufferedReader in;
 	private PrintWriter out;
-	JFrame frame = new JFrame("Chatter");
+	JFrame frame = new JFrame("Waiting Room");
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8,40);
 	
@@ -77,6 +77,8 @@ public class Client {
         		out.println(getName());
         	} else if(line.startsWith("NAMEACCEPTED")) {
         		textField.setEditable(true);
+        	} else if (line.startsWith("MESSAGE")){
+        		messageArea.append(line.substring(8) + "\n");
         	}
         }
         
@@ -86,7 +88,7 @@ public class Client {
 	public static void main(String[] args) throws IOException{
 		Client client = new Client();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		client.frame.setSize(300, 300);
+		client.frame.setSize(800, 800);
 		client.frame.setVisible(true);
 		client.run();
 	}

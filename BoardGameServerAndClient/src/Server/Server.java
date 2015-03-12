@@ -1,11 +1,14 @@
 package server;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -72,17 +75,19 @@ public class Server {
 		private JFrame frame;
 		
 		public ServerDialogs(){
+			//Initial setup of the frame
 			frame = new JFrame("Server Settings");
-			frame.setSize(300,300);
+			frame.setSize(300,100);
 			frame.setResizable(false);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setLayout(new FlowLayout());
 		}
 		/**
 		 * 
 		 */
 		public void getPortNumber(){
+			frame.getContentPane().add(new JTextField("Enter Port Number"));
 			frame.getContentPane().add(new JButton("Launch Server"));
-			//frame.getContentPane().add(new JTextField());
 			frame.setVisible(true);
 		}
 		

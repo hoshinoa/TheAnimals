@@ -6,6 +6,10 @@ import java.net.Socket;
 public class Client {
 
 	private static int port = 8901;
+	
+	public static void disconnect(){
+		//disconnect
+	}
 
 	public static void main(String[] args) throws Exception{
 		Socket clientSocket = new Socket("localhost", port);

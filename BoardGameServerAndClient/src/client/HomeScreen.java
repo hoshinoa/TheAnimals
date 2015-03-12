@@ -24,9 +24,7 @@ import javax.swing.ListSelectionModel;
 
 public class HomeScreen extends JFrame {
 	
-	private JLabel playerLabel;
 	private JList playerList;
-	private JLabel gameLabel;
 	private JList gameList;
 	
 	//Chat Interface
@@ -36,26 +34,35 @@ public class HomeScreen extends JFrame {
 	public HomeScreen() {
 		this.setTitle("Waiting Room");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(800, 800, 575, 588);
+		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
 		
 		//Chat Interface
+		JLabel chatLabel = new JLabel("Chat");
+		chatLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		chatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		chatLabel.setBounds(550, 11, 306, 25);
+		getContentPane().add(chatLabel);
+		
 		textField = new JTextField(40);
 		messageArea = new JTextArea(8,40);
 		
 		//left side of the screen user list
-		getContentPane().add(new JScrollPane(messageArea), "Center");
-		textField.setBounds(10, 10, 223, 26);
-		getContentPane().add(textField, "South");
+		JScrollPane messagesHolder = new JScrollPane(messageArea);
+		messagesHolder.setBounds(550, 50, 250, 400);
+		getContentPane().add(messagesHolder);
+		textField.setBounds(550, 491, 250, 30);
+		getContentPane().add(textField);
 		//right side of the screen rooms list and make new room
 		
 		
 		//Player List
-		playerLabel = new JLabel("Waiting Room - Players: ");
+		
+		JLabel playerLabel = new JLabel("Waiting Room - Players: ");
 		playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		playerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		playerLabel.setBounds(10, 10, 223, 26);
-		//getContentPane().add(playerLabel);
+		getContentPane().add(playerLabel);
 		
 		playerList = new JList();
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -74,14 +81,14 @@ public class HomeScreen extends JFrame {
 		
 		playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		playerList.setBounds(10, 47, 223, 491);
-		//getContentPane().add(playerList);
+		getContentPane().add(playerList);
 		
 		//Game List
-		gameLabel = new JLabel("Games");
+		JLabel gameLabel = new JLabel("Rooms");
 		gameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		gameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		gameLabel.setBounds(243, 11, 306, 25);
-		//getContentPane().add(gameLabel);
+		getContentPane().add(gameLabel);
 		
 		//gameList = new JList();
 		//gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

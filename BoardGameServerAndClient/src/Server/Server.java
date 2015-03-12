@@ -60,6 +60,7 @@ public class Server {
 				
 				out.println("NAMEACCEPTED");
 				writers.add(out);
+				//TODO added a new person so update client's player list
 				
 				while(true) {
 					String input = in.readLine();
@@ -83,6 +84,8 @@ public class Server {
 							Room newRoom = new Room("Game Room :" + gameRooms.size());
 							gameRooms.add(newRoom);
 						}
+						
+						//TODO added a new room so update client's game room list
 						
 					} else if(input.startsWith("LISTOFROOMS")){
 						//TODO JSONIFY this
@@ -116,15 +119,3 @@ public class Server {
 	}
 	
 }
-
-/*
- * 				/*
-				//Chat Messaging system
-				while(true) {
-					String input = in.readLine();
-					if(input == null) { return; }
-					for(PrintWriter writer: writers) {
-						writer.println("MESSAGE" + name + ": " + input);
-					}
-				} */
- 

@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +9,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 public class Server {
 
+	/*
 	private static int port;
 	private static ServerSocket servSock;
 	//private static ObjectOutputStream out;
@@ -22,23 +28,16 @@ public class Server {
 		port = 8901; //Current port choice is arbitrary.
 	}
 
-	/**Precondition: The back end of the system must be brought up
-	 * 				 to support the connections.
-	 * Postcondition: The Server session has ended; sockets are disconnected.
-	 * 
-	 * The main method of the Server. It opens the Server socket, and while 
-	 * there are no fatal exceptions and the System has not told it to quit,
-	 * the Server will wait for connections and set up streams whenever
-	 * connections from clients are made.
-	 * 
-	 * @param args (currently not in use)
-	 */
+	*/
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		System.out.println("The Server is running.");
-
+		//Step 1 Show a JFrame choosing the port number to run on
+		Server.ServerDialogs helper = new Server.ServerDialogs();
+		helper.getPortNumber();
+		
+		//System.out.println("The Server is running.");
+		/*
 		servSock = new ServerSocket(port);
 		//clients = new ClientConnections();
 		Socket connected;
@@ -60,24 +59,35 @@ public class Server {
 		connected.close();
 		//clients.closeConnections();
 		servSock.close();//Closes socket after end of session
+		*/
 
 	}
+	
+	static class ServerDialogs{
+		
+		private JFrame frame;
+		
+		/**
+		 * 
+		 */
+		public void getPortNumber(){
+			frame = new JFrame("Server Settings");
+			frame.setSize(500, 500);
+			frame.getContentPane().add(new JTextField());
+			System.out.println("Meow");
+			frame.setVisible(true);
+		}
+		
+	}
 
-	/**Precondition:
-	 * Postcondition:
-	 * @return
-	 */
+	/*
 	private static Socket waitForConnection() throws Exception
 	{
 		System.out.println("Waiting for someone to connect...\n");
 		return servSock.accept();
 	}
 	
-	/**Precondition:
-	 * Postcondition:
-	 * Should probably set up the Client's info and add it to ClientConnections?
-	 * @param s
-	 */
+
 	private static void setupStreams(Socket s) throws Exception
 	{
 		//out = new ObjectOutputStream(s.getOutputStream());
@@ -88,12 +98,9 @@ public class Server {
 		//call populateClients?
 	}
 	
-	/**Precondition:
-	 * Postcondition:
-	 * @param 
-	 */
 	public static void createRoom(){
 		//Make a room and put two Clients in where they can choose the game
 	}
+	*/
 		
 }

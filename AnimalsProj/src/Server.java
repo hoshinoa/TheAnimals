@@ -11,9 +11,10 @@ public class Server {
 	
 	private static int port = 8901;
 	private static ServerSocket servSock;
-	//private static PrintWriter out;
+	private static PrintWriter out;
 	private static BufferedReader in;
-	private static ObjectOutputStream out;
+	private static PrintWriter out2;
+	private static BufferedReader in2;
 	//ClientConnections clients;
 	//Room[] rooms;
 	
@@ -23,32 +24,24 @@ public class Server {
 	public static void main(String[] args) throws Exception{
 		System.out.println("The Server is running.");
 		servSock = new ServerSocket(port);
-		while(true)
-		{
-			waitForConnection();
-			setupStreams();
-			whileChatting();
-		}
-		private void waitForConnection()
-		{
-			System.out.println("Waiting for someone to connect...\n");
-			Socket s = servSock.accept(); //So that we can get an input stream
-		}
-		private void setupStreams()
-		{
-			//out = new PrintWriter(s.getOutputStream(), true);
-			out = new objectOutputStream(s.getOutputStream());
-			out.flush();
-			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		}
-			//To take input from the Server Console itself?
-			BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
 		
-			boolean inSession = true;
-			String nextLine = "", sysInput = "";
-			while(inSession){
+		Socket s = servSock.accept(); //So that we can get an input stream
+		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		out = new PrintWriter(s.getOutputStream(), true);
+		
+		Socket s2 = servSock.accept(); //So that we can get an input stream
+		in2 = new BufferedReader(new InputStreamReader(s2.getInputStream()));
+		out2 = new PrintWriter(s2.getOutputStream(), true);
+		
+		//To take input from the Server Console itself?
+		BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
+		
+		boolean inSession = true;
+		String nextLine = "", nextLine2 = "", sysInput = "";
+		while(inSession){
 			sysInput = sysIn.readLine();
 			nextLine = in.readLine();
+			nextLine2 = in2.readLine();
 			if("quit".equals(sysInput)){
 
 				System.out.println("Quiting");
@@ -58,11 +51,16 @@ public class Server {
 				//Reads a line and writes it to the connected socket, sending it to the server
 				out.println("[Server: Message received!]");
 				out.println(nextLine);
+				out2.println(nextLine2);
+
 				//The server echoes the info back, so we can print that here:
 				System.out.println("Server: echo of client: " + nextLine);
+				System.out.println("Server: echo of client: " + nextLine2);
+
 			}
 			
 		}
+		s2.close();
 		s.close();
 		servSock.close();//Closes socket after end of session
 

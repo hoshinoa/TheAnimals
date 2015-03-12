@@ -24,6 +24,7 @@ public class HomeScreen extends JFrame {
 	private JList gameList;
 	
 	public HomeScreen() {
+		this.setTitle("Waiting Room");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 588);
 		getContentPane().setLayout(null);

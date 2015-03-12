@@ -21,6 +21,7 @@ public class HomeScreen extends JFrame {
 	private JLabel playerLabel;
 	private JList playerList;
 	private JLabel gameLabel;
+	private JList gameList;
 	
 	public HomeScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +61,7 @@ public class HomeScreen extends JFrame {
 		gameLabel.setBounds(243, 11, 306, 25);
 		getContentPane().add(gameLabel);
 		
-		final JList gameList = new JList();
+		//gameList = new JList();
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		/*

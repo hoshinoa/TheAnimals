@@ -29,11 +29,10 @@ public class Server {
 			System.exit(0);
 			
 			//Instructions to close the Server if you can't close it
-			// (Windows) Close terminal or restart pc lol
+			// (Windows) Restart pc lol
 			// (Mac or linux based) open a terminal
 			// run lsof -i:PORT <- WHERE PORT IS THE PORT NUMBER OF THE SERVER
 			// find the PID(PROCESS ID) and run kill -9 PID command <- WHERE PID IS THE PROCESS ID 
-			// if all else fails just restart
 		}
 		
 		/*
@@ -58,7 +57,7 @@ public class Server {
 				out.println("[Server: Message received!]");
 				out.println(nextLine);
 				//The server echoes the info back, so we can print that here:
-				System.out.println("Server: echo of client: " + nextLine);
+				System.out.println("Server: echo of client kkk: " + nextLine);
 			}
 			
 		}

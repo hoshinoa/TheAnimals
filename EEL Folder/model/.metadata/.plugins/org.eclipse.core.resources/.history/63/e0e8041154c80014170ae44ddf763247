@@ -58,7 +58,7 @@ public class Server {
 				out.println("[Server: Message received!]");
 				out.println(nextLine);
 				//The server echoes the info back, so we can print that here:
-				System.out.println("Server: echo of client: " + nextLine);
+				System.out.println("Server: echo of client kkk: " + nextLine);
 			}
 			
 		}

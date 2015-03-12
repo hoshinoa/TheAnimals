@@ -1,36 +1,32 @@
 package server;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import java.net.ServerSocket;
-
+import java.net.Socket;
 
 public class Server {
-
-	private static ServerSocket servSock;
 	
-	public static void main(String[] args) {
+	//Main
+	public static void main(String[] args) throws IOException{
 		
-		try { //Open socket on a random usable port
-			servSock = new ServerSocket(0);
-			System.out.println("The Server is running on port: " + servSock.getLocalPort());
-		} catch (IOException e) {
-			System.err.println("No available ports, closing now");
-			System.exit(-1);
-		}
-		
-		//while();
-		
-		
-		try { //Close the socket 
-			servSock.close(); 
-		} catch (IOException e) {
-			System.err.println("There was a problem closing the server");
-			System.exit(-1);
+		ServerSocket servSock = new ServerSocket(0);
+		System.out.println("Server is running on Port: " + servSock.getLocalPort());
+		try{
+			while(true){
+				Socket socket = servSock.accept();
+				try {
+					PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+					out.println("meow");
+				} finally {
+					socket.close();
+				}
+			}
+		} finally {
+			servSock.close();
 		}
 		
 	}
+	//End of Main
 
-
-		
 }

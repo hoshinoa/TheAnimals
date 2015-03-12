@@ -19,13 +19,11 @@ public class Client {
 
 	private BufferedReader in;
 	private PrintWriter out;
-	JFrame frame = new JFrame("Waiting Room");
-	JTextField textField = new JTextField(40);
-	JTextArea messageArea = new JTextArea(8,40);
+	private JFrame frame = new JFrame("Waiting Room");
+	private JTextField textField = new JTextField(40);
+	private JTextArea messageArea = new JTextArea(8,40);
 	
-	//Homescreen for the room list
-	JFrame homeFrame = new JFrame("Rooms");
-	JButton makeNewRoomButton = new JButton("Make New Room");
+	private HomeScreen homeScreen = new HomeScreen();
 	
 	public Client(){
 		textField.setEditable(false);
@@ -98,13 +96,5 @@ public class Client {
 	}
 
 }
-
-
-/* Notes:
- * else if (line.startsWith("MESSAGE")){
-        		messageArea.append(line.substring(8) + "\n");
-        	}
- * 
- */
 
 //TODO add a graceful disconnect for users

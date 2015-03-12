@@ -2,16 +2,18 @@ package server;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,7 +22,6 @@ import javax.swing.JTextField;
 public class Server {
 
 	
-	private static int port;
 	private static ServerSocket servSock;
 	//private static ObjectOutputStream out;
 	private static PrintWriter out;
@@ -28,26 +29,23 @@ public class Server {
 	//static ClientConnections clients;
 	//Room[] rooms;
 	
-	public Server(){
-		port = 8901; //Current port choice is arbitrary.
-	}
-
-	
 	
 	public static void main(String[] args) {
 		
-		//Step 1 Show a JFrame choosing the port number to run on
-		Server.ServerDialogs serverHelper = new Server.ServerDialogs();
-		serverHelper.getPortNumber();
+		try {
+			servSock = new ServerSocket(0);
+			System.out.println("The Server is running on port: " + servSock.getLocalPort());
+		} catch (IOException e) {
+			System.err.println("No available ports, closing now");
+			System.exit(0);
+		}
 		
-		//System.out.println("The Server is running.");
-		/*
-		servSock = new ServerSocket(port);
 		//clients = new ClientConnections();
 		Socket connected;
 
 		BufferedReader sysIn = new BufferedReader( new InputStreamReader(System.in));
-
+		
+		/*
 		String sysInput = "";
 		while(true)
 		{
@@ -65,32 +63,6 @@ public class Server {
 		servSock.close();//Closes socket after end of session
 		*/
 
-	}
-	
-	/**
-	 * 
-	 */
-	static class ServerDialogs{
-		
-		private JFrame frame;
-		
-		public ServerDialogs(){
-			//Initial setup of the frame
-			frame = new JFrame("Server Settings");
-			frame.setSize(300,100);
-			frame.setResizable(false);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setLayout(new FlowLayout());
-		}
-		/**
-		 * 
-		 */
-		public void getPortNumber(){
-			frame.getContentPane().add(new JTextField("Enter Port Number"));
-			frame.getContentPane().add(new JButton("Launch Server"));
-			frame.setVisible(true);
-		}
-		
 	}
 
 	/*

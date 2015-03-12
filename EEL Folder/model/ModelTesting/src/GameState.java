@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class GameState {
 
-	private String mWinner;
-	private String mCurrentTurn;
+	private Player mWinner;
+	private Player mCurrentTurn;
 	
 	private ArrayList<Player> mPlayers;
 	private GameState mGameState;

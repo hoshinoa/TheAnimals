@@ -82,6 +82,7 @@ public class HomeScreen extends JFrame {
 		gameLabel.setBounds(243, 11, 306, 25);
 		getContentPane().add(gameLabel);
 		
+		//TODO Add JScrollPane for Rooms/Game list
 		gameList = new JList<String>();
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		

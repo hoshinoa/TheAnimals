@@ -63,7 +63,7 @@ public class Server {
 				writers.add(out);
 
 				updateClientsPlayerList();
-				updateClientsPlayerList();
+				updateClientsRoomList();
 				
 				while(true) {
 					String input = in.readLine();
@@ -76,7 +76,7 @@ public class Server {
 						System.out.println("Making a new room");
 						
 						synchronized (gameRooms) {
-							Room newRoom = new Room("Game Room :" + gameRooms.size());
+							Room newRoom = new Room("Game-Room:" + gameRooms.size());
 							gameRooms.add(newRoom);
 						}
 						

@@ -84,7 +84,7 @@ public class Client {
         	} else if(line.startsWith("UPDATEROOMLIST")) {
         		System.out.println("Updating room list");
         		String roomList [] = line.split("\\s+");
-        		homeScreen.updatePlayerList(roomList);
+        		homeScreen.updateRoomList(roomList);
         	}
         }
         

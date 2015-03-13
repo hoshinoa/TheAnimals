@@ -39,10 +39,13 @@ import javax.swing.JPanel;
                 public void mouseExited(MouseEvent e) {
                     setBackground(defaultBackground);
                 }
-                
+                /*
+                 * Mouse click here
+                 */
                 @Override
                 public void mousePressed(MouseEvent e) {
                     setBackground(Color.RED);
+                    System.out.println("Clicked at: x:" + x + " y: " + y);
                 }
             });
         }

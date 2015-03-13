@@ -10,13 +10,7 @@ public class BoardGenerator extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 
-		public BoardGenerator() {
-			
-			/*
-			 * Grid size	
-			 */
-			int gridRows = 8;
-			int gridCols = 8;
+		public BoardGenerator(int gridCols, int gridRows) {
 			
             setLayout(new GridBagLayout());
 

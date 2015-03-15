@@ -51,13 +51,15 @@ public class HomeScreen extends JFrame {
 		textField = new JTextField(40);
 		messageArea = new JTextArea(8,40);
 		
-		//left side of the screen user list
+		textField.setEditable(false);
+		messageArea.setEditable(false);
+		
 		JScrollPane messagesHolder = new JScrollPane(messageArea);
 		messagesHolder.setBounds(560, 50, 250, 400);
 		getContentPane().add(messagesHolder);
 		textField.setBounds(560, 491, 250, 30);
 		getContentPane().add(textField);
-		//right side of the screen rooms list and make new room
+
 		
 		
 		//Player List
@@ -114,7 +116,7 @@ public class HomeScreen extends JFrame {
 		gameList.setBounds(243, 47, 306, 433);
 		getContentPane().add(gameList);
 		
-		//Button for some action
+		//Make new room button
 		makeNewRoom = new JButton("Make New Room");
 		makeNewRoom.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		makeNewRoom.setBounds(243, 491, 306, 47);

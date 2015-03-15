@@ -2,10 +2,11 @@ package games;
 
 public class SimpleGameFactory {
 
-	public Game createPizza(String type) {
+	public Game createGame(String gameType) {
 		Game game = null;
 
-		if (type.equals("Tic-Tac-Toe")) {
+		if (gameType == "Tic-Tac-Toe") {
+			System.out.println("Starting tic tac toe");
 			game = new TicTacToeGame();
 		} 
 		

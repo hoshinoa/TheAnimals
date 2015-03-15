@@ -66,6 +66,7 @@ public class Server {
 				updateClientsRoomList();
 				
 				while(true) {
+					//TODO ping users to check if online
 					String input = in.readLine();
 					if(input.startsWith("USERS")){
 						
@@ -81,6 +82,7 @@ public class Server {
 						
 						synchronized (gameRooms) {
 							Room newRoom = new Room(roomOptions[2] + "|" + roomOptions[1] + "|");
+							newRoom.gameSetup(roomOptions[1]);
 							gameRooms.add(newRoom);
 						}
 						

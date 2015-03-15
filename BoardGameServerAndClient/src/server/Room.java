@@ -1,16 +1,25 @@
 package server;
 
-public class Room {
+import games.Game;
+import games.SimpleGameFactory;
 
+public class Room {
+	
+	//TODO figure out  what should be part of room and what should be part of game
 	private String nameOfRoom;
 	private int maxPlayers;
 	private int currentPlayerCount;
+	private SimpleGameFactory gameFactory;
+	private Game game;
 	//private int portNumber;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
-		this.maxPlayers = 2;
-		this.currentPlayerCount = 1;
+		gameFactory = new SimpleGameFactory();
+	}
+	
+	public void gameSetup(String gameType){
+		game = gameFactory.createGame(gameType);
 	}
 	
 	//Setters and getters

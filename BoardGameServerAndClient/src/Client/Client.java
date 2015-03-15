@@ -34,7 +34,12 @@ public class Client {
 		//Make new room button
 		homeScreen.makeNewRoom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				out.println("MAKENEWROOM");
+				String sendThis = "MAKENEWROOM" + " ";
+				String choice = homeScreen.showGamesList();
+				if(choice != null) {
+					sendThis += choice;
+					out.println(sendThis);
+				}
 			}
 		});
 	}

@@ -139,7 +139,13 @@ public class HomeScreen extends JFrame {
 		int choice = JOptionPane.showOptionDialog(null, "Please choose a game to play", "Choose Game",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 		null, options, options[0]);
-		return options[choice];
+		
+		if(choice == 0) {
+			return null;
+		} else {
+			return options[choice] + " " + (JOptionPane.showInputDialog(
+					"Name of the Game Room").replace(' ', '_')) + " ";
+		}
 		
 	}
 	

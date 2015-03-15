@@ -73,10 +73,14 @@ public class Server {
 						
 					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
 						
-						System.out.println("Making a new room");
+						String roomOptions [] = input.split("\\s+");
+						
+						System.out.println(roomOptions[0]); //MAKENEWROOM
+						System.out.println(roomOptions[1]); //GAMETYPE
+						System.out.println(roomOptions[2]); //GAMEROOM NAME
 						
 						synchronized (gameRooms) {
-							Room newRoom = new Room("Game-Room:" + gameRooms.size());
+							Room newRoom = new Room(roomOptions[2]);
 							gameRooms.add(newRoom);
 						}
 						

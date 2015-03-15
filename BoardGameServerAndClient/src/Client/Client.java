@@ -24,14 +24,19 @@ public class Client {
 	
 	public Client(){
 		
+		
+		//TODO Could refactor this back into the HomeScreen Class
 		homeScreen.textField.setEditable(false);
 		homeScreen.messageArea.setEditable(false);
+		
 		homeScreen.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				out.println(homeScreen.textField.getText());
 				homeScreen.textField.setText("");
 			}
 		});
+		
+		//Make new room button
 		homeScreen.makeNewRoom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				out.println("MAKENEWROOM");

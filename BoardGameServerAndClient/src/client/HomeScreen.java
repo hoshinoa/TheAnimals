@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -132,14 +133,25 @@ public class HomeScreen extends JFrame {
 		gameList.setListData(Arrays.copyOfRange(rooms, 2, rooms.length));
 	}
 	
+	public String showGamesList() {
+		
+		String[] options = { "Cancel", "Tic-Tac-Toe" };
+		int choice = JOptionPane.showOptionDialog(null, "Please choose a game to play", "Choose Game",
+		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+		null, options, options[0]);
+		return options[choice];
+		
+	}
 	
 	//Uncomment main to test the screen
 	/*
 	public static void main(String args[]){
 		HomeScreen test = new HomeScreen();
 		test.setVisible(true);
+		System.out.println(test.showGamesList());
 	}
 	*/
+	
 	
 	
 }

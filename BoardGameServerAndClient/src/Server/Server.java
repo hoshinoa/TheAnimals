@@ -75,12 +75,12 @@ public class Server {
 						
 						String roomOptions [] = input.split("\\s+");
 						
-						System.out.println(roomOptions[0]); //MAKENEWROOM
-						System.out.println(roomOptions[1]); //GAMETYPE
-						System.out.println(roomOptions[2]); //GAMEROOM NAME
+						//System.out.println(roomOptions[0]); //MAKENEWROOM
+						//System.out.println(roomOptions[1]); //GAMETYPE
+						//System.out.println(roomOptions[2]); //GAMEROOM NAME
 						
 						synchronized (gameRooms) {
-							Room newRoom = new Room(roomOptions[2]);
+							Room newRoom = new Room(roomOptions[2] + "|" + roomOptions[1] + "|");
 							gameRooms.add(newRoom);
 						}
 						

@@ -13,12 +13,13 @@ public class Server {
     private static HashSet<String> clientNames = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     
-    private static HashSet<Room> rooms = new HashSet<Room>();
+    private static HashSet<Room> gameRooms = new HashSet<Room>();
     
 	//Main
 	public static void main(String[] args) throws IOException{
 		
-		ServerSocket servSock = new ServerSocket(0);
+		//ServerSocket servSock = new ServerSocket(0);
+		ServerSocket servSock = new ServerSocket(8901);
 		System.out.println("Server is running on Port: " + servSock.getLocalPort());
 		try{
 			while(true){
@@ -29,6 +30,7 @@ public class Server {
 	}
 	//End of Main
 	
+	//Handler is a Thread for a new client
 	private static class Handler extends Thread{
 		private String name;
 		private Socket socket;
@@ -51,26 +53,42 @@ public class Server {
 					synchronized (clientNames) {
 						if(!clientNames.contains(name)) {
 							clientNames.add(name);
-							System.out.println("Added to room: " + name);
+							System.out.println("Added waiting to room: " + name);
 							break;
 						}
 					}
 				}
 				
 				out.println("NAMEACCEPTED");
-				System.out.println("NAMEACCEPTED");
 				writers.add(out);
+
+				updateClientsPlayerList();
+				updateClientsRoomList();
 				
-				//Chat Messaging system
 				while(true) {
 					String input = in.readLine();
-					if(input == null) { return; }
-					for(PrintWriter writer: writers) {
-						writer.println("MESSAGE" + name + ": " + input);
+					if(input.startsWith("USERS")){
+						
+						System.out.println("USERS");
+						
+					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
+						
+						System.out.println("Making a new room");
+						
+						synchronized (gameRooms) {
+							Room newRoom = new Room("Game-Room:" + gameRooms.size());
+							gameRooms.add(newRoom);
+						}
+						
+						updateClientsRoomList();
+						
+					} else { 
+						for(PrintWriter writer: writers) {
+							writer.println("MESSAGE" + name + " : " + input);
+						}
 					}
+					
 				}
-				
-				//Comment out the messaging system and make the server a room handler instead
 				
 				
 			} catch (IOException e) {
@@ -83,6 +101,31 @@ public class Server {
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
 		}
+		
+	}
+	
+	public static void updateClientsPlayerList(){ //get player list
+		//TODO JSON stuff //need to choose a json parsing library -> JSONObject looks fine
+		//TODO going along with graceful loss of user, needs to update on lost connection, some ping function
+		String sendThis = "UPDATEPLAYERLIST ";
+		sendThis += clientNames.size() + " "; //Number of clients
+
+		for(String name: clientNames) { sendThis += name + " "; }
+		
+		for(PrintWriter writer: writers) { writer.println(sendThis); }
+	}
+	
+	public static void updateClientsRoomList(){
+		//TODO JSONIFY this
+		//TODO be able to update when the room is closed or full
+		String sendThis = "UPDATEROOMLIST ";
+		sendThis += gameRooms.size() + " "; // Game Roome Size
+		for(Room room : gameRooms) {
+			sendThis += room.getNameOfRoom() + "|Players:" + room.getCurrentPlayerCount() 
+															 + "/" + room.getMaxPlayers() + " ";
+		}
+		
+		for(PrintWriter writer: writers) { writer.println(sendThis); }
 		
 	}
 	

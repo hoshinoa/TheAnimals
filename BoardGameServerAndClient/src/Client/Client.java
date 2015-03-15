@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -18,27 +19,34 @@ public class Client {
 
 	private BufferedReader in;
 	private PrintWriter out;
-	JFrame frame = new JFrame("Chatter");
-	JTextField textField = new JTextField(40);
-	JTextArea messageArea = new JTextArea(8,40);
+	
+	private HomeScreen homeScreen = new HomeScreen();
 	
 	public Client(){
-		textField.setEditable(false);
-		messageArea.setEditable(false);
-		frame.getContentPane().add(textField, "North");
-		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
 		
-		textField.addActionListener(new ActionListener(){
+		
+		//TODO Could refactor this back into the HomeScreen Class
+		homeScreen.textField.setEditable(false);
+		homeScreen.messageArea.setEditable(false);
+		
+		homeScreen.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				out.println(textField.getText());
-				textField.setText("");
+				out.println(homeScreen.textField.getText());
+				homeScreen.textField.setText("");
+			}
+		});
+		
+		//Make new room button
+		homeScreen.makeNewRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				out.println("MAKENEWROOM");
 			}
 		});
 	}
 	
 	private String getName() {
 		return JOptionPane.showInputDialog(
-				frame,
+				homeScreen,
 				"Choose a user name",
 				"Screen name selection",
 				JOptionPane.PLAIN_MESSAGE);
@@ -59,7 +67,8 @@ public class Client {
 	private void run() throws IOException {
 		//String serverAddress = getServerAddress();
 		String serverAddress = "localhost";
-		String portNumber = getPortNumber();
+		//String portNumber = getPortNumber();
+		String portNumber = "8901";
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -67,22 +76,32 @@ public class Client {
         
         while(true) {
         	String line = in.readLine();
-        	System.out.println(line);
         	if(line.startsWith("SUBMITNAME")){
         		out.println(getName());
         	} else if(line.startsWith("NAMEACCEPTED")) {
-        		textField.setEditable(true);
+        		homeScreen.textField.setEditable(true);
         	} else if (line.startsWith("MESSAGE")){
-        		messageArea.append(line.substring(8) + "\n");
+        		homeScreen.messageArea.append(line.substring(7) + "\n");
+        	} else if(line.startsWith("UPDATEPLAYERLIST")) {
+        		System.out.println("I'm updating player list");
+        		String playerList [] = line.split("\\s+");
+        		homeScreen.updatePlayerList(playerList);
+        	} else if(line.startsWith("UPDATEROOMLIST")) {
+        		System.out.println("Updating room list");
+        		String roomList [] = line.split("\\s+");
+        		homeScreen.updateRoomList(roomList);
         	}
         }
+        
+        
 	}
 	
 	public static void main(String[] args) throws IOException{
 		Client client = new Client();
-		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		client.frame.setVisible(true);
+		client.homeScreen.setVisible(true);
 		client.run();
 	}
 
 }
+
+//TODO add a graceful disconnect for users

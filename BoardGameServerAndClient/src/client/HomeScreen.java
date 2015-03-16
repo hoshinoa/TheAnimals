@@ -64,7 +64,6 @@ public class HomeScreen extends JFrame {
 		
 		
 		//Player List
-		//TODO make JScrollPanel for names
 		JLabel playerLabel = new JLabel("Waiting Room - Players: ");
 		playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		playerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -74,8 +73,6 @@ public class HomeScreen extends JFrame {
 		playerList = new JList<String>();
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playerList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		//playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		//playerList.setBounds(10, 47, 223, 491);
 		
 		JScrollPane namesHolder = new JScrollPane(playerList);
 		namesHolder.setBounds(10, 47, 223, 491);
@@ -89,7 +86,6 @@ public class HomeScreen extends JFrame {
 		gameLabel.setBounds(243, 11, 306, 25);
 		getContentPane().add(gameLabel);
 		
-		//TODO Add JScrollPane for Rooms/Game list
 		gameList = new JList<String>();
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -116,10 +112,7 @@ public class HomeScreen extends JFrame {
 		    });
 		*/
 		
-		//gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		//gameList.setBounds(243, 47, 306, 433);
-		//getContentPane().add(gameList);
 		
 		JScrollPane gamesHolder = new JScrollPane(gameList);
 		gamesHolder.setBounds(243, 47, 306, 433);
@@ -159,13 +152,12 @@ public class HomeScreen extends JFrame {
 	}
 	
 	//Uncomment main to test the screen
-	
+	/*
 	public static void main(String args[]){
 		HomeScreen test = new HomeScreen();
 		test.setVisible(true);
 	}
-	
-	
+	*/
 	
 	
 }

@@ -127,7 +127,7 @@ public class Server {
 		String sendThis = "UPDATEROOMLIST ";
 		sendThis += gameRooms.size() + " "; // Game Roome Size
 		for(Room room : gameRooms) {
-			sendThis += room.getNameOfRoom() + "|Players:" + room.getCurrentPlayerCount() 
+			sendThis += room.getNameOfRoom() + "Players:" + room.getCurrentPlayerCount() 
 															 + "/" + room.getMaxPlayers() + " ";
 		}
 		

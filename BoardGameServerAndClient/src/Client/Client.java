@@ -49,7 +49,7 @@ public class Client {
 				homeScreen,
 				"Choose a user name",
 				"Screen name selection",
-				JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.PLAIN_MESSAGE).replace(' ','_');
 	}
 	
 	private String getPortNumber() {

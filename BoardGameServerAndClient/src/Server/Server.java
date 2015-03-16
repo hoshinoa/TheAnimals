@@ -68,10 +68,8 @@ public class Server {
 				while(true) {
 					//TODO ping users to check if online
 					String input = in.readLine();
-					if(input.startsWith("USERS")){
-						
-						System.out.println("USERS");
-						
+					if(input == null){	
+						return; //don't do anything on empty returns
 					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
 						
 						String roomOptions [] = input.split("\\s+");
@@ -87,6 +85,9 @@ public class Server {
 						}
 						
 						updateClientsRoomList();
+						connectToNewGame();
+						
+						break;
 						
 					} else { 
 						for(PrintWriter writer: writers) {
@@ -102,6 +103,7 @@ public class Server {
 			} finally {
 				if(name != null) { clientNames.remove(name); }
 				if(out != null) { writers.remove(out); }
+				updateClientsPlayerList();
 				try {
 					socket.close();
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
@@ -132,6 +134,10 @@ public class Server {
 		}
 		
 		for(PrintWriter writer: writers) { writer.println(sendThis); }
+		
+	}
+	
+	public static void connectToNewGame(){
 		
 	}
 	

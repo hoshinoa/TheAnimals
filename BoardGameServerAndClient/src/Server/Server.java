@@ -112,7 +112,7 @@ public class Server {
 		
 		public void connectToNewGame(){
 			// send instructions to client to connect to new game
-			out.println("NEWGAME");
+			out.println("CONNECTTONEWGAMEROOM");
 		}
 		
 	}

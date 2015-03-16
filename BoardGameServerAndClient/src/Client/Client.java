@@ -20,10 +20,11 @@ public class Client {
 	private BufferedReader in;
 	private PrintWriter out;
 	
-	private HomeScreen homeScreen = new HomeScreen();
+	private HomeScreen homeScreen;
+	private String serverAddress;
 	
 	public Client(){
-		
+		homeScreen = new HomeScreen();
 		homeScreen.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				out.println(homeScreen.textField.getText());
@@ -65,8 +66,8 @@ public class Client {
 	}
 	
 	private void run() throws IOException {
-		//String serverAddress = getServerAddress();
-		String serverAddress = "localhost";
+		//serverAddress = getServerAddress();
+		serverAddress = "localhost";
 		//String portNumber = getPortNumber();
 		String portNumber = "8901";
 		
@@ -92,6 +93,7 @@ public class Client {
         		homeScreen.updateRoomList(roomList);
         	} else if(line.startsWith("CONNECTTONEWGAMEROOM")) {
         		connectToNewGameRoom();
+        		break;
         	}
         }
         
@@ -99,7 +101,7 @@ public class Client {
 	}
 	
 	public void connectToNewGameRoom(){
-	
+		System.out.println("connecting");
 	}
 	
 	public static void main(String[] args) throws IOException{

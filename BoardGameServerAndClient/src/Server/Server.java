@@ -36,6 +36,7 @@ public class Server {
 		private Socket socket;
 		private BufferedReader in;
 		private PrintWriter out;
+		private Room newRoom;
 		
 		public Handler(Socket socket){ this.socket = socket; }
 		
@@ -79,7 +80,7 @@ public class Server {
 						//System.out.println(roomOptions[2]); //GAMEROOM NAME
 						
 						synchronized (gameRooms) {
-							Room newRoom = new Room(roomOptions[2] + "|" + roomOptions[1] + "|");
+							newRoom = new Room(roomOptions[2] + "|" + roomOptions[1] + "|");
 							newRoom.gameSetup(roomOptions[1]);
 							gameRooms.add(newRoom);
 						}
@@ -110,9 +111,59 @@ public class Server {
 			}
 		}
 		
-		public void connectToNewGame(){
+		public void connectToNewGame() throws IOException{
 			// send instructions to client to connect to new game
-			out.println("CONNECTTONEWGAMEROOM");
+			ServerSocket gameServSock = new ServerSocket(0);
+			System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
+			
+			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
+			out.println(sendThis);
+			
+			try{
+				while(true){ //While numplayers
+					new GameHandler(gameServSock.accept()).start();
+				}
+			} finally { gameServSock.close(); }
+			
+		}
+		
+		private static class GameHandler extends Thread{
+			private String name;
+			private Socket socket;
+			private BufferedReader in;
+			private PrintWriter out;
+			private Room newRoom;
+			
+			public GameHandler(Socket socket){ this.socket = socket; }
+			
+			public void run(){
+				System.out.println("Running new thread");
+				try{
+					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					out = new PrintWriter(socket.getOutputStream(), true);
+					
+					while(true) {
+						//TODO ping users to check if online
+						String input = in.readLine();
+						if(input == null){	
+							return; //don't do anything on empty returns
+						} else { 
+							for(PrintWriter writer: writers) {
+								writer.println("MESSAGE" + name + " : " + input);
+							}
+						}
+					}
+					
+					
+				} catch (IOException e) {
+					System.err.println(e);
+				} finally {
+					try {
+						socket.close();
+					} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
+				}
+			} // end of run()
+			
 		}
 		
 	}

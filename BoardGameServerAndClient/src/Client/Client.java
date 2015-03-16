@@ -101,8 +101,14 @@ public class Client {
         
 	}
 	
-	public void connectToNewGameRoom(){
+	public void connectToNewGameRoom() throws IOException{
+		//change portNumber
 		System.out.println("connecting");
+		
+        Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream(), true);
+        
 	}
 	
 	public static void main(String[] args) throws IOException{

@@ -115,7 +115,7 @@ public class Server {
 							newRoom.gameSetup(roomOptions[1]);
 							gameRoomsList.add(newRoom);
 						}
-						
+
 						createNewRoom(gameRoomsList.indexOf(newRoom));
 						
 						for(PrintWriter writer: writers) {
@@ -169,7 +169,10 @@ public class Server {
 		}
 		
 		public void connectToRoom(int roomNumber) throws IOException{
-			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameRoomsList.get(roomNumber).getPortNumber();
+			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameRoomsList.get(roomNumber).getPortNumber() + " ";
+			sendThis += gameRoomsList.get(roomNumber).getGameCols() + " ";
+			sendThis += gameRoomsList.get(roomNumber).getGameRows();
+			System.out.println(sendThis);
 			out.println(sendThis);
 			gameRoomsList.get(roomNumber).recentlyAddedPlayer = name;
 			

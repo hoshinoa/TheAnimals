@@ -114,7 +114,14 @@ public class Client {
 	public void connectToNewGameRoom(String instructions) throws IOException{
 		homeScreen.dispose();
 		
-		final GameRoomScreen newRoom = new GameRoomScreen();
+		String info [] = instructions.split("\\s+");
+		//info[0] = CONNECTTONEWGAMEROOM
+		//info[1] = PORTNUMBER
+		//info[2] = COLS
+		//info[3] = ROWS
+		portNumber = info[1];
+		System.out.println(instructions);
+		final GameRoomScreen newRoom = new GameRoomScreen(Integer.parseInt(info[2]), Integer.parseInt(info[3]));
 		newRoom.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				out.println(newRoom.textField.getText());
@@ -123,13 +130,6 @@ public class Client {
 		});
 		
 		newRoom.setVisible(true);
-		
-		String info [] = instructions.split("\\s+");
-		//info[0] = CONNECTTONEWGAMEROOM
-		//info[1] = PORTNUMBER
-		portNumber = info[1];
-		System.out.println(instructions);
-		System.out.println("connecting to " + portNumber);
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

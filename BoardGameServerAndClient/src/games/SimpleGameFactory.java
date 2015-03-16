@@ -5,8 +5,9 @@ public class SimpleGameFactory {
 	public Game createGame(String gameType) {
 		Game game = null;
 
-		if (gameType == "Tic-Tac-Toe") {
+		if (gameType.contains("Tic-Tac-Toe")) {
 			System.out.println("Starting tic tac toe");
+			//TODO use Game's better constructor
 			game = new TicTacToeGame();
 		} 
 		

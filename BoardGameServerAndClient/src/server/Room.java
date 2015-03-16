@@ -41,7 +41,7 @@ public class Room {
 	}
 
 	public void gameSetup(String gameType) throws IOException{
-		game = gameFactory.createGame(gameType);
+		this.game = gameFactory.createGame(gameType);
 		servSock = new ServerSocket(portNumber);
 		portNumber = servSock.getLocalPort();
 	}
@@ -78,6 +78,15 @@ public class Room {
 	public void incrementPlayerCount() {
 		this.currentPlayerCount ++;
 	}
+	
+	public int getGameCols(){
+		return game.BOARD_HEIGHT;
+	}
+	
+	public int getGameRows(){
+		return game.BOARD_WIDTH;
+	}
+	
 	//End of Setters and getters
 	
 	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{

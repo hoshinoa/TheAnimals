@@ -5,18 +5,15 @@ import java.util.ArrayList;
 public abstract class Game 
 {
 	public String gameTitle;
-	private int BOARD_WIDTH;
-	private int BOARD_HEIGHT;
+	public int BOARD_WIDTH;
+	public int BOARD_HEIGHT;
 	//public ArrayList<Player> gPlayers;
 	public GameLogic gameLogic;
-	
-	
+
 	// Creates a new game.
 	// Takes in the game's title, game board width & height, and chosen game logic.
-	public Game(){
-		
-	}
-	
+	public Game(){}
+
 	public Game(String gameTitle, int boardWidth, int boardHeight, GameLogic gameLogic) 
 	{
 		this.gameTitle = gameTitle;

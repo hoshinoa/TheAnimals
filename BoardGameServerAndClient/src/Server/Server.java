@@ -110,6 +110,10 @@ public class Server {
 			}
 		}
 		
+		public void connectToNewGame(){
+			
+		}
+		
 	}
 	
 	public static void updateClientsPlayerList(){ //get player list
@@ -134,10 +138,6 @@ public class Server {
 		}
 		
 		for(PrintWriter writer: writers) { writer.println(sendThis); }
-		
-	}
-	
-	public static void connectToNewGame(){
 		
 	}
 	

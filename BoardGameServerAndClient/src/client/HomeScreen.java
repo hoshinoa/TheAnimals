@@ -74,9 +74,13 @@ public class HomeScreen extends JFrame {
 		playerList = new JList<String>();
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playerList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		playerList.setBounds(10, 47, 223, 491);
-		getContentPane().add(playerList);
+		//playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		//playerList.setBounds(10, 47, 223, 491);
+		
+		JScrollPane namesHolder = new JScrollPane(playerList);
+		namesHolder.setBounds(10, 47, 223, 491);
+		namesHolder.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		getContentPane().add(namesHolder);
 		
 		//Game List
 		JLabel gameLabel = new JLabel("Open Rooms");
@@ -112,10 +116,15 @@ public class HomeScreen extends JFrame {
 		    });
 		*/
 		
-		gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		//gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		gameList.setBounds(243, 47, 306, 433);
-		getContentPane().add(gameList);
+		//gameList.setBounds(243, 47, 306, 433);
+		//getContentPane().add(gameList);
+		
+		JScrollPane gamesHolder = new JScrollPane(gameList);
+		gamesHolder.setBounds(243, 47, 306, 433);
+		gamesHolder.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		getContentPane().add(gamesHolder);
 		
 		//Make new room button
 		makeNewRoom = new JButton("Make New Room");
@@ -150,13 +159,12 @@ public class HomeScreen extends JFrame {
 	}
 	
 	//Uncomment main to test the screen
-	/*
+	
 	public static void main(String args[]){
 		HomeScreen test = new HomeScreen();
 		test.setVisible(true);
-		System.out.println(test.showGamesList());
 	}
-	*/
+	
 	
 	
 	

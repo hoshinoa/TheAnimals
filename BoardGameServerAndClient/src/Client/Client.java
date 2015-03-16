@@ -128,7 +128,7 @@ public class Client {
 		//info[0] = CONNECTTONEWGAMEROOM
 		//info[1] = PORTNUMBER
 		portNumber = info[1];
-		
+		System.out.println(instructions);
 		System.out.println("connecting to " + portNumber);
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
@@ -136,7 +136,7 @@ public class Client {
         out = new PrintWriter(socket.getOutputStream(), true);
         
         while(true) {
-        	//Ping for connection
+        	//TODO Ping for connection
         	String line = in.readLine();
         	if (line.startsWith("MESSAGE")){
         		newRoom.messageArea.append(line.substring(7) + "\n");
@@ -154,5 +154,3 @@ public class Client {
 	}
 
 }
-
-//TODO add a graceful disconnect for users

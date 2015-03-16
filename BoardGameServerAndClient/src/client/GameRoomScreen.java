@@ -11,7 +11,6 @@ import javax.swing.SwingConstants;
 
 public class GameRoomScreen extends JFrame{
 
-	//Chat Interface
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8,40);
 	
@@ -41,10 +40,11 @@ public class GameRoomScreen extends JFrame{
 	}
 	
 	//For testing purposes uncomment if you want
-	
+	/*
 	public static void main(String args[]) {
 		GameRoomScreen test = new GameRoomScreen();
 		test.setVisible(true);
 	}
+	*/
 	
 }

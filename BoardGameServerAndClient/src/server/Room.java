@@ -13,8 +13,8 @@ import games.SimpleGameFactory;
 
 public class Room {
 	
-	private static HashSet<String> clientNames = new HashSet<String>();
-    private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
+	private HashSet<String> clientNames = new HashSet<String>();
+    private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 	
 	//TODO Handle disconnects from players
 	//TODO figure out  what should be part of room and what should be part of game
@@ -29,7 +29,7 @@ public class Room {
 	
 	private int portNumber; 
 	public ServerSocket servSock;
-	private static String recentlyAddedPlayer;
+	public String recentlyAddedPlayer;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
@@ -80,24 +80,39 @@ public class Room {
 	}
 	//End of Setters and getters
 	
-	public void connectToRoom(String name , ServerSocket gameServSock) throws IOException{
-		this.recentlyAddedPlayer = name;
-		servSock = gameServSock;
-		try{
-			while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
-				//TODO allow for game options that have minAmount of players vs maxAmount of players
-				new GameHandler(gameServSock.accept()).start();
-				incrementPlayerCount();
-				
-			}
-		} finally { System.out.println("Closing room on port " + gameServSock.getLocalPort());
-					gameServSock.close(); }
-		
-	}
+	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{
+		new GameRoomServer(gameServSock).start(); }
 	
+	private class GameRoomServer extends Thread{
+	
+		private ServerSocket servSock;
+		
+		public GameRoomServer(ServerSocket servSock) { this.servSock = servSock; }
+		
+		public void run(){
+			System.out.println("Starting new game room server");
+			try{
+				while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
+					//TODO allow for game options that have minAmount of players vs maxAmount of players
+					new GameHandler(this.servSock.accept()).start();
+					incrementPlayerCount();
+				}
+				
+				//TODO add other server functions Do other stuff
+				
+			} catch (IOException e) {
+				System.err.println("Error in sockets"); e.printStackTrace();
+			} finally { 
+				System.out.println("Closing room on port " + this.servSock.getLocalPort());
+				try { this.servSock.close();} catch (IOException e) { System.err.println("Error closing room socket"); e.printStackTrace(); }
+			}
+			
+		} //End of run()
+		
+	} // End of GameRoomServerThread
 	
 	//Multi thread handler for the game
-	private static class GameHandler extends Thread{
+	private class GameHandler extends Thread{
 		private String name;
 		private Socket socket;
 		private BufferedReader in;
@@ -113,7 +128,7 @@ public class Room {
 			this.socket = socket; }
 		
 		public void run(){
-			System.out.println("Running new game room thread");
+			
 			try{
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out = new PrintWriter(socket.getOutputStream(), true);

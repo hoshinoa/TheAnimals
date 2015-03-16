@@ -90,10 +90,16 @@ public class Client {
         		System.out.println("Updating room list");
         		String roomList [] = line.split("\\s+");
         		homeScreen.updateRoomList(roomList);
+        	} else if(line.startsWith("CONNECTTONEWGAMEROOM")) {
+        		connectToNewGameRoom();
         	}
         }
         
         
+	}
+	
+	public void connectToNewGameRoom(){
+	
 	}
 	
 	public static void main(String[] args) throws IOException{

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public abstract class Game 
 {
-	public String gameTitle;
+	private String gameTitle;
 	private int BOARD_WIDTH;
 	private int BOARD_HEIGHT;
 	public ArrayList<Player> gPlayers;

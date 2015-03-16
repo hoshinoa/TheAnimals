@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Server {
@@ -13,7 +14,8 @@ public class Server {
     private static HashSet<String> clientNames = new HashSet<String>();
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
     
-    private static HashSet<Room> gameRooms = new HashSet<Room>();
+    //private static HashSet<Room> gameRooms = new HashSet<Room>();
+    private static ArrayList<Room> gameRoomsList = new ArrayList<Room>();
     
 	//Main
 	public static void main(String[] args) throws IOException{
@@ -33,14 +35,14 @@ public class Server {
 	
 	//ServerStatus is a Thread for updating clients on server status
 	private static class ServerStatus extends Thread{
-		
+		//TODO check for full rooms
 		public void run(){
 			while(true) {
 				long millis = System.currentTimeMillis();
 				updateClientsPlayerList();
 				updateClientsRoomList();
 			    try {
-					sleep(2000 - millis % 2000);
+					sleep(1600 - millis % 1600);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -83,11 +85,14 @@ public class Server {
 				out.println("NAMEACCEPTED");
 				writers.add(out);
 				
+				for(PrintWriter writer: writers) {
+					writer.println("MESSAGE" + "SYSTEM: " + name + " has joined the waiting room. ");
+				}
+				
 				while(true) {
 					//TODO ping users to check if online
 					String input = in.readLine();
 					if(input == null){	
-						System.out.println("meow");
 						return; //don't do anything on empty returns
 					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
 						
@@ -97,16 +102,33 @@ public class Server {
 						//System.out.println(roomOptions[1]); //GAMETYPE
 						//System.out.println(roomOptions[2]); //GAMEROOM NAME
 						
-						synchronized (gameRooms) {
+						synchronized (gameRoomsList) {
 							newRoom = new Room(roomOptions[2] + "|" + roomOptions[1] + "|");
 							newRoom.gameSetup(roomOptions[1]);
-							gameRooms.add(newRoom);
+							gameRoomsList.add(newRoom);
+							//gameRooms.add(newRoom);
 						}
 						
-						//TODO be updating the room status, client list and shit
+						for(PrintWriter writer: writers) {
+							writer.println("MESSAGE" + "SYSTEM: " + name + " has created a new room called: " + roomOptions[2]);
+						}
 						connectToNewRoom();
 						
 						break;
+						
+					} else if (input.startsWith("CONNECTPLAYERTOROOM")) {
+						
+						String roomOptions [] = input.split("\\s+");
+						
+						//roomOptions[0] == CONNECTTOPLAYERROOM
+						//roomOptions[1] == ROOM NUMBER
+						
+						for(PrintWriter writer: writers) {
+							writer.println("MESSAGE" + "SYSTEM: " + name + " has joined a room. ");
+						}
+						
+						System.out.println(input);
+						connectToRoom(Integer.parseInt(roomOptions[1]));
 						
 					} else { 
 						for(PrintWriter writer: writers) {
@@ -129,6 +151,7 @@ public class Server {
 		}
 	
 		public void connectToNewRoom() throws IOException{
+			
 			// send instructions to client to connect to new game
 			ServerSocket gameServSock = new ServerSocket(0);
 			System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
@@ -141,7 +164,18 @@ public class Server {
 			
 			//TODO check for full room gameRooms.remove(newRoom);
 			//TODO Send User Info and Server Info
-			newRoom.connectToRoom(gameServSock);
+			System.out.println(name);
+			newRoom.connectToRoom(name, gameServSock);
+		}
+		
+		public void connectToRoom(int roomNumber) throws IOException{
+			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameRoomsList.get(roomNumber).servSock.getLocalPort();
+			out.println(sendThis);
+			System.out.println(name);
+			gameRoomsList.get(roomNumber).connectToRoom(name, gameRoomsList.get(roomNumber).servSock);
+			if(name != null) { clientNames.remove(name); }
+			if(out != null) { writers.remove(out); }
+			
 		}
 		
 	}
@@ -161,8 +195,8 @@ public class Server {
 		//TODO JSONIFY this
 		//TODO be able to update when the room is closed or full
 		String sendThis = "UPDATEROOMLIST ";
-		sendThis += gameRooms.size() + " "; // Game Roome Size
-		for(Room room : gameRooms) {
+		sendThis += gameRoomsList.size() + " "; // Game Roome Size
+		for(Room room : gameRoomsList) {
 			sendThis += room.getNameOfRoom() + "Players:" + room.getCurrentPlayerCount() 
 															 + "/" + room.getMaxPlayers() + " ";
 		}

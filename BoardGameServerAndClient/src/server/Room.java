@@ -22,16 +22,13 @@ public class Room {
 	
 	//This goes to game
 	private int maxPlayers;
-	//
 	
 	private int currentPlayerCount;
 	private SimpleGameFactory gameFactory;
 	private Game game;
 	
-	//New Server Socket for just the game
-	//TODO non-local host ip?
 	private int portNumber; 
-	private ServerSocket servSock;
+	public ServerSocket servSock;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
@@ -82,12 +79,12 @@ public class Room {
 	}
 	//End of Setters and getters
 	
-	public void connectToRoom(ServerSocket gameServSock) throws IOException{
-		
+	public void connectToRoom(String name , ServerSocket gameServSock) throws IOException{
+		servSock = gameServSock;
 		try{
 			while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
 				//TODO allow for game options that have minAmount of players vs maxAmount of players
-				new GameHandler(gameServSock.accept()).start();
+				new GameHandler(name, gameServSock.accept()).start();
 				incrementPlayerCount();
 				
 			}
@@ -104,16 +101,25 @@ public class Room {
 		private BufferedReader in;
 		private PrintWriter out;
 		
-		public GameHandler(Socket socket){ this.socket = socket; }
+		public GameHandler(String name, Socket socket){ 
+			this.name = name; 
+			synchronized (clientNames) {
+				if(!clientNames.contains(name)) {
+					clientNames.add(name);
+					System.out.println("Added to game room: " + name);
+				}
+			}
+			this.socket = socket; }
 		
 		public void run(){
-			System.out.println("Running new thread");
+			System.out.println("Running new game room thread");
 			try{
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out = new PrintWriter(socket.getOutputStream(), true);
+				writers.add(out);
 				
 				while(true) {
-					//TODO ping users to check if online
+					//TODO ping users to check if online if not granceful handle of disconnect
 					String input = in.readLine();
 					if(input == null){	
 						return; //don't do anything on empty returns
@@ -133,7 +139,7 @@ public class Room {
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
 		} // end of run()
-		
-	}
+	} //end of GameThread
+	
 	
 }

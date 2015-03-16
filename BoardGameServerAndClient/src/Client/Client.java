@@ -96,11 +96,9 @@ public class Client {
         	} else if (line.startsWith("MESSAGE")){
         		homeScreen.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("UPDATEPLAYERLIST")) {
-        		System.out.println("I'm updating player list");
         		String playerList [] = line.split("\\s+");
         		homeScreen.updatePlayerList(playerList);
         	} else if(line.startsWith("UPDATEROOMLIST")) {
-        		System.out.println("Updating room list");
         		String roomList [] = line.split("\\s+");
         		homeScreen.updateRoomList(roomList);
         	} else if(line.startsWith("CONNECTTONEWGAMEROOM")) {
@@ -115,7 +113,14 @@ public class Client {
 	public void connectToNewGameRoom(String instructions) throws IOException{
 		homeScreen.dispose();
 		
-		GameRoomScreen newRoom = new GameRoomScreen();
+		final GameRoomScreen newRoom = new GameRoomScreen();
+		newRoom.textField.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				out.println(newRoom.textField.getText());
+				newRoom.textField.setText("");
+			}
+		});
+		
 		newRoom.setVisible(true);
 		
 		String info [] = instructions.split("\\s+");
@@ -133,7 +138,7 @@ public class Client {
         	//Ping for connection
         	String line = in.readLine();
         	if (line.startsWith("MESSAGE")){
-        		homeScreen.messageArea.append(line.substring(7) + "\n");
+        		newRoom.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("FINISH")) {
         		break;
         	}

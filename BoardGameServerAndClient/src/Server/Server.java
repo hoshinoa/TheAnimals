@@ -86,7 +86,9 @@ public class Server {
 						}
 						
 						updateClientsRoomList();
-						connectToNewGame();
+						
+						//TODO be updating the room status, client list and shit
+						newRoom.connectToRoom();
 						
 						break;
 						
@@ -109,67 +111,6 @@ public class Server {
 					socket.close();
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
-		}
-		
-		public void connectToNewGame() throws IOException{
-			// send instructions to client to connect to new game
-			ServerSocket gameServSock = new ServerSocket(0);
-			System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
-			
-			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
-			out.println(sendThis);
-			
-			try{
-				while(newRoom.getCurrentPlayerCount() != newRoom.getMaxPlayers() ){ //While numplayers != maxPlayers 
-					//TODO allow for game options that have minAmount of players vs maxAmount of players
-					new GameHandler(gameServSock.accept()).start();
-					newRoom.incrementPlayerCount();
-					updateClientsRoomList();
-				}
-			} finally { System.out.println("Closing room on port " + gameServSock.getLocalPort());
-						gameServSock.close(); 
-						gameRooms.remove(newRoom);
-						updateClientsRoomList(); }
-			
-		}
-		
-		private static class GameHandler extends Thread{
-			private String name;
-			private Socket socket;
-			private BufferedReader in;
-			private PrintWriter out;
-			private Room newRoom;
-			
-			public GameHandler(Socket socket){ this.socket = socket; }
-			
-			public void run(){
-				System.out.println("Running new thread");
-				try{
-					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					out = new PrintWriter(socket.getOutputStream(), true);
-					
-					while(true) {
-						//TODO ping users to check if online
-						String input = in.readLine();
-						if(input == null){	
-							return; //don't do anything on empty returns
-						} else { 
-							for(PrintWriter writer: writers) {
-								writer.println("MESSAGE" + name + " : " + input);
-							}
-						}
-					}
-					
-					
-				} catch (IOException e) {
-					System.err.println(e);
-				} finally {
-					try {
-						socket.close();
-					} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
-				}
-			} // end of run()
-			
 		}
 		
 	}

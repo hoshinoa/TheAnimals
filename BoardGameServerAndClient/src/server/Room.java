@@ -1,12 +1,21 @@
 package server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashSet;
 
 import games.Game;
 import games.SimpleGameFactory;
 
 public class Room {
+	
+	private static HashSet<String> clientNames = new HashSet<String>();
+    private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
+	
 	//TODO Handle disconnects from players
 	//TODO figure out  what should be part of room and what should be part of game
 	private String nameOfRoom;
@@ -32,7 +41,7 @@ public class Room {
 		currentPlayerCount = 0;
 		maxPlayers = 2;
 	}
-	
+
 	public void gameSetup(String gameType) throws IOException{
 		game = gameFactory.createGame(gameType);
 		servSock = new ServerSocket(portNumber);
@@ -40,6 +49,14 @@ public class Room {
 	}
 	
 	//Setters and getters
+	public int getPortNumber() {
+		return portNumber;
+	}
+
+	public void setPortNumber(int portNumber) {
+		this.portNumber = portNumber;
+	}
+	
 	public String getNameOfRoom() {
 		return nameOfRoom;
 	}
@@ -64,5 +81,71 @@ public class Room {
 		this.currentPlayerCount ++;
 	}
 	//End of Setters and getters
+	
+	//TODO Refactor all of this game handler stuff into Room
+	public void connectToRoom() throws IOException{
+		// send instructions to client to connect to new game
+		ServerSocket gameServSock = new ServerSocket(0);
+		System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
+		newRoom.setPortNumber(gameServSock.getLocalPort());
+		String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
+		out.println(sendThis);
+		
+		try{
+			while(newRoom.getCurrentPlayerCount() != newRoom.getMaxPlayers() ){ //While numplayers != maxPlayers 
+				//TODO allow for game options that have minAmount of players vs maxAmount of players
+				new GameHandler(gameServSock.accept()).start();
+				newRoom.incrementPlayerCount();
+				updateClientsRoomList();
+				if(name != null) { clientNames.remove(name); }
+				if(out != null) { writers.remove(out); }
+				updateClientsPlayerList();
+			}
+		} finally { System.out.println("Closing room on port " + gameServSock.getLocalPort());
+					gameServSock.close(); 
+					gameRooms.remove(newRoom);
+					updateClientsRoomList(); }
+		
+	}
+	
+	
+	//Multi thread handler for the game
+	private static class GameHandler extends Thread{
+		private String name;
+		private Socket socket;
+		private BufferedReader in;
+		private PrintWriter out;
+		
+		public GameHandler(Socket socket){ this.socket = socket; }
+		
+		public void run(){
+			System.out.println("Running new thread");
+			try{
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				out = new PrintWriter(socket.getOutputStream(), true);
+				
+				while(true) {
+					//TODO ping users to check if online
+					String input = in.readLine();
+					if(input == null){	
+						return; //don't do anything on empty returns
+					} else { 
+						for(PrintWriter writer: writers) {
+							writer.println("MESSAGE" + name + " : " + input);
+						}
+					}
+				}
+				
+				
+			} catch (IOException e) {
+				System.err.println(e);
+			} finally {
+				try {
+					socket.close();
+				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
+			}
+		} // end of run()
+		
+	}
 	
 }

@@ -111,7 +111,11 @@ public class Client {
 	}
 	
 	public void connectToNewGameRoom(String instructions) throws IOException{
-		homeScreen.setVisible(false);
+		homeScreen.dispose();
+		
+		GameRoomScreen newRoom = new GameRoomScreen();
+		newRoom.setVisible(true);
+		
 		String info [] = instructions.split("\\s+");
 		//info[0] = CONNECTTONEWGAMEROOM
 		//info[1] = PORTNUMBER
@@ -122,6 +126,16 @@ public class Client {
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
+        
+        while(true) {
+        	//Ping for connection
+        	String line = in.readLine();
+        	if (line.startsWith("MESSAGE")){
+        		homeScreen.messageArea.append(line.substring(7) + "\n");
+        	} else if(line.startsWith("FINISH")) {
+        		break;
+        	}
+        }
        
 	}
 	

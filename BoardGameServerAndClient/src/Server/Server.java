@@ -120,10 +120,16 @@ public class Server {
 			out.println(sendThis);
 			
 			try{
-				while(true){ //While numplayers
+				while(newRoom.getCurrentPlayerCount() != newRoom.getMaxPlayers() ){ //While numplayers != maxPlayers 
+					//TODO allow for game options that have minAmount of players vs maxAmount of players
 					new GameHandler(gameServSock.accept()).start();
+					newRoom.incrementPlayerCount();
+					updateClientsRoomList();
 				}
-			} finally { gameServSock.close(); }
+			} finally { System.out.println("Closing room on port " + gameServSock.getLocalPort());
+						gameServSock.close(); 
+						gameRooms.remove(newRoom);
+						updateClientsRoomList(); }
 			
 		}
 		

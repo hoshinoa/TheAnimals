@@ -28,6 +28,9 @@ public class Room {
 		this.nameOfRoom = roomName;
 		gameFactory = new SimpleGameFactory();
 		portNumber = 0;
+		//TODO update maxplayers and current player count to be extensible
+		currentPlayerCount = 0;
+		maxPlayers = 2;
 	}
 	
 	public void gameSetup(String gameType) throws IOException{
@@ -57,8 +60,8 @@ public class Room {
 		return currentPlayerCount;
 	}
 
-	public void setCurrentPlayerCount(int currentPlayerCount) {
-		this.currentPlayerCount = currentPlayerCount;
+	public void incrementPlayerCount() {
+		this.currentPlayerCount ++;
 	}
 	//End of Setters and getters
 	

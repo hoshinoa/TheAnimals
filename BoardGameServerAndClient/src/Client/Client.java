@@ -93,7 +93,7 @@ public class Client {
         		String roomList [] = line.split("\\s+");
         		homeScreen.updateRoomList(roomList);
         	} else if(line.startsWith("CONNECTTONEWGAMEROOM")) {
-        		connectToNewGameRoom();
+        		connectToNewGameRoom(line);
         		break;
         	}
         }
@@ -101,14 +101,19 @@ public class Client {
         
 	}
 	
-	public void connectToNewGameRoom() throws IOException{
-		//change portNumber
-		System.out.println("connecting");
+	public void connectToNewGameRoom(String instructions) throws IOException{
+		homeScreen.setVisible(false);
+		String info [] = instructions.split("\\s+");
+		//info[0] = CONNECTTONEWGAMEROOM
+		//info[1] = PORTNUMBER
+		portNumber = info[1];
+		
+		System.out.println("connecting to " + portNumber);
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
-        
+       
 	}
 	
 	public static void main(String[] args) throws IOException{

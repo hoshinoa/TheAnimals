@@ -82,17 +82,10 @@ public class Room {
 	}
 	//End of Setters and getters
 	
-	//TODO Refactor all of this game handler stuff into Room
 	public void connectToRoom() throws IOException{
-		// send instructions to client to connect to new game
-		ServerSocket gameServSock = new ServerSocket(0);
-		System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
-		newRoom.setPortNumber(gameServSock.getLocalPort());
-		String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
-		out.println(sendThis);
-		
+		/*
 		try{
-			while(newRoom.getCurrentPlayerCount() != newRoom.getMaxPlayers() ){ //While numplayers != maxPlayers 
+			while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
 				//TODO allow for game options that have minAmount of players vs maxAmount of players
 				new GameHandler(gameServSock.accept()).start();
 				newRoom.incrementPlayerCount();
@@ -105,7 +98,7 @@ public class Room {
 					gameServSock.close(); 
 					gameRooms.remove(newRoom);
 					updateClientsRoomList(); }
-		
+		*/
 	}
 	
 	

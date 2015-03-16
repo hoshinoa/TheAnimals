@@ -62,12 +62,11 @@ public class Server {
 				
 				out.println("NAMEACCEPTED");
 				writers.add(out);
-
-				updateClientsPlayerList();
-				updateClientsRoomList();
 				
 				while(true) {
 					//TODO ping users to check if online
+					updateClientsPlayerList();
+					updateClientsRoomList();
 					String input = in.readLine();
 					if(input == null){	
 						return; //don't do anything on empty returns
@@ -85,10 +84,8 @@ public class Server {
 							gameRooms.add(newRoom);
 						}
 						
-						updateClientsRoomList();
-						
 						//TODO be updating the room status, client list and shit
-						newRoom.connectToRoom();
+						connectToNewRoom();
 						
 						break;
 						
@@ -111,6 +108,18 @@ public class Server {
 					socket.close();
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
+		}
+	
+		public void connectToNewRoom() throws IOException{
+			// send instructions to client to connect to new game
+			ServerSocket gameServSock = new ServerSocket(0);
+			System.out.println("Server is running on Port: " + gameServSock.getLocalPort());
+			newRoom.setPortNumber(gameServSock.getLocalPort());
+			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
+			out.println(sendThis);
+			
+			//TODO Send User Info and Server Info
+			newRoom.connectToRoom();
 		}
 		
 	}

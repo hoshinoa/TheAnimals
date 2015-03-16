@@ -49,9 +49,10 @@ public class Client {
 		
 		homeScreen.gameList.addListSelectionListener(new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent le) {
-		    	  if(homeScreen.gameList.getSelectedIndex() != -1) {
+		    	  if(homeScreen.gameList.getSelectedIndex() != -1 && !le.getValueIsAdjusting()) {
 		    		  String sendThis = "CONNECTPLAYERTOROOM" + " " + homeScreen.gameList.getSelectedIndex();
 		    		  out.println(sendThis);
+		    		  System.out.println(sendThis);
 		    	  }
 		      }
 		    });

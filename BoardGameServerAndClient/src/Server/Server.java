@@ -164,14 +164,12 @@ public class Server {
 			
 			//TODO check for full room gameRooms.remove(newRoom);
 			//TODO Send User Info and Server Info
-			System.out.println(name);
 			newRoom.connectToRoom(name, gameServSock);
 		}
 		
 		public void connectToRoom(int roomNumber) throws IOException{
 			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameRoomsList.get(roomNumber).servSock.getLocalPort();
 			out.println(sendThis);
-			System.out.println(name);
 			gameRoomsList.get(roomNumber).connectToRoom(name, gameRoomsList.get(roomNumber).servSock);
 			if(name != null) { clientNames.remove(name); }
 			if(out != null) { writers.remove(out); }

@@ -29,6 +29,7 @@ public class Room {
 	
 	private int portNumber; 
 	public ServerSocket servSock;
+	private static String recentlyAddedPlayer;
 	
 	public Room(String roomName) {
 		this.nameOfRoom = roomName;
@@ -80,11 +81,12 @@ public class Room {
 	//End of Setters and getters
 	
 	public void connectToRoom(String name , ServerSocket gameServSock) throws IOException{
+		this.recentlyAddedPlayer = name;
 		servSock = gameServSock;
 		try{
 			while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
 				//TODO allow for game options that have minAmount of players vs maxAmount of players
-				new GameHandler(name, gameServSock.accept()).start();
+				new GameHandler(gameServSock.accept()).start();
 				incrementPlayerCount();
 				
 			}
@@ -101,12 +103,11 @@ public class Room {
 		private BufferedReader in;
 		private PrintWriter out;
 		
-		public GameHandler(String name, Socket socket){ 
-			this.name = name; 
+		public GameHandler(Socket socket){ 
+			this.name = recentlyAddedPlayer;
 			synchronized (clientNames) {
 				if(!clientNames.contains(name)) {
 					clientNames.add(name);
-					System.out.println("Added to game room: " + name);
 				}
 			}
 			this.socket = socket; }
@@ -118,8 +119,12 @@ public class Room {
 				out = new PrintWriter(socket.getOutputStream(), true);
 				writers.add(out);
 				
+				for(PrintWriter writer: writers) {
+					writer.println("MESSAGE" + "SYSTEM: " + "Added to game room: " + name);
+				}
+				
 				while(true) {
-					//TODO ping users to check if online if not granceful handle of disconnect
+					//TODO ping users to check if online if not graceful handle of disconnect
 					String input = in.readLine();
 					if(input == null){	
 						return; //don't do anything on empty returns

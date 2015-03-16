@@ -1,9 +1,12 @@
 package client;
 
 import java.awt.Font;
+import java.awt.Rectangle;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -14,7 +17,9 @@ public class GameRoomScreen extends JFrame{
 	JTextField textField = new JTextField(40);
 	JTextArea messageArea = new JTextArea(8,40);
 	
-	public GameRoomScreen() {
+	BoardGameWindow boardGame;
+	
+	public GameRoomScreen(int cols, int rows) {
 		setTitle("Game Room");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
@@ -28,6 +33,7 @@ public class GameRoomScreen extends JFrame{
 		chatLabel.setBounds(560, 11, 306, 25);
 		getContentPane().add(chatLabel);
 		
+		
 		textField = new JTextField(40);
 		messageArea = new JTextArea(8,40);
 		messageArea.setEditable(false);
@@ -37,6 +43,15 @@ public class GameRoomScreen extends JFrame{
 		getContentPane().add(messagesHolder);
 		textField.setBounds(560, 491, 250, 30);
 		getContentPane().add(textField);
+		
+		boardGame = new BoardGameWindow(cols,rows);
+		JPanel gameFrame = boardGame.getGameFrame();
+		System.out.println(gameFrame.getLayout());
+		gameFrame.setLayout(new BoxLayout(gameFrame, BoxLayout.X_AXIS));
+		gameFrame.setAlignmentY(CENTER_ALIGNMENT);
+		gameFrame.setBounds(new Rectangle(0,0,600,600));
+		getContentPane().add(gameFrame);
+		
 	}
 	
 	//For testing purposes uncomment if you want
@@ -44,7 +59,7 @@ public class GameRoomScreen extends JFrame{
 	public static void main(String args[]) {
 		GameRoomScreen test = new GameRoomScreen();
 		test.setVisible(true);
-	}
-	*/
+	} */
+
 	
 }

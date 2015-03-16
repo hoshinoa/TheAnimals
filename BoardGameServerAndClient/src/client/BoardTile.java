@@ -25,8 +25,8 @@ import javax.swing.JPanel;
 
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(75, 75);
-        }
+            return new Dimension(50,50);
+        } 
         
         private void mouseListen() {
         	// Mouse functions

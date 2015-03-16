@@ -1,12 +1,5 @@
 package client;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,60 +7,31 @@ import javax.swing.JPanel;
 public class BoardGameWindow {
 	
 	JLabel currentStatus;	
+	JPanel gamePane;
 	
-	public BoardGameWindow() {
+	public BoardGameWindow(int cols, int rows) {
 		/*
 		 * Board size, gets passed into BoardGenerator to generate the size of board
 		 */
-		int gridCols = 8;
-		int gridRows = 8;
-		
-		// Initializing frame
-		JFrame boardGameFrame = new JFrame("Board Game");
-		boardGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		boardGameFrame.setSize(1024, 768);
-		boardGameFrame.setResizable(false);
-		boardGameFrame.setLayout(new BorderLayout());
-		
+		int gridCols = cols;
+		int gridRows = rows;
+
 		// Initializing overall game panel
-		JPanel gamePane = new JPanel();
-		gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.PAGE_AXIS));
+		gamePane = new JPanel();
 		
 		// Initializing board panel
-		BoardGenerator testPane = new BoardGenerator(gridCols, gridRows);
-		
-		// Player 1's Name
-		JLabel player1Name = new JLabel("<Player 1 Name>");
-		player1Name.setAlignmentX(Component.CENTER_ALIGNMENT);
-		player1Name.setPreferredSize(new Dimension(200, 50));
-		gamePane.add(player1Name);
+		BoardGenerator gridPane = new BoardGenerator(gridCols, gridRows);
 		
 		// Adding game board pane
-		gamePane.add(testPane);
-		
-		// Player 2's Name
-		JLabel player2Name = new JLabel("<Player 2 Name>");
-		player2Name.setAlignmentX(Component.CENTER_ALIGNMENT);
-		player2Name.setPreferredSize(new Dimension(200, 50));
-		gamePane.add(player2Name);
-		
-		
-		boardGameFrame.add(gamePane, BorderLayout.CENTER);
-		
-		// Initializing status panel
-		currentStatus = new JLabel("<Current Status>");
-		currentStatus.setHorizontalAlignment(JLabel.CENTER);
-		currentStatus.setPreferredSize(new Dimension(200, 50));
-		currentStatus.setFont(new Font("Sans Serif", Font.PLAIN, 30));
-		boardGameFrame.add(currentStatus, BorderLayout.SOUTH);
-		
-		
-		
-		boardGameFrame.pack();
-		boardGameFrame.setVisible(true);
+		gamePane.add(gridPane);
+	
 	}
 	
 
+	public JPanel getGameFrame(){
+		return this.gamePane;
+	}
+	
 	public void updateStatus(String status) {
 		currentStatus.setText(status);
 	}

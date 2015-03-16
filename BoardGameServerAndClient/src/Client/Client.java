@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Client {
 
@@ -44,6 +46,13 @@ public class Client {
 				}
 			}
 		});
+		
+		homeScreen.gameList.addListSelectionListener(new ListSelectionListener() {
+		      public void valueChanged(ListSelectionEvent le) {
+		    	  String sendThis = "CONNECTPLAYERTOROOM" + " " + homeScreen.gameList.getSelectedIndex();
+		    	  out.println(sendThis);
+		      }
+		    });
 	}
 	
 	private String getName() {

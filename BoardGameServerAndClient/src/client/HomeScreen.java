@@ -27,7 +27,7 @@ import javax.swing.ListSelectionModel;
 public class HomeScreen extends JFrame {
 	
 	private JList<String> playerList;
-	private JList<String> gameList;
+	public JList<String> gameList;
 	
 	JButton makeNewRoom;
 	
@@ -87,31 +87,7 @@ public class HomeScreen extends JFrame {
 		getContentPane().add(gameLabel);
 		
 		gameList = new JList<String>();
-		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		/*
-		gameList.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Checkers", "Battleship", "Tic Tac Toe", "Backgammon", "Sorry!", "Monopoly", "Chutes & Ladders"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		*/
-		/*
-		gameList.addListSelectionListener(new ListSelectionListener() {
-		      public void valueChanged(ListSelectionEvent le) {
-		        int idx = gameList.getSelectedIndex();
-		        if (idx != -1)
-		          System.out.println("Current selection: " + gameList.getModel().getElementAt(idx));
-		        else
-		          System.out.println("Please choose a language.");
-		      }
-		    });
-		*/
-		
+		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		JScrollPane gamesHolder = new JScrollPane(gameList);

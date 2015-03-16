@@ -22,6 +22,7 @@ public class Client {
 	
 	private HomeScreen homeScreen;
 	private String serverAddress;
+	private String portNumber;
 	
 	public Client(){
 		homeScreen = new HomeScreen();
@@ -68,8 +69,8 @@ public class Client {
 	private void run() throws IOException {
 		//serverAddress = getServerAddress();
 		serverAddress = "localhost";
-		//String portNumber = getPortNumber();
-		String portNumber = "8901";
+		//portNumber = getPortNumber();
+		portNumber = "8901";
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

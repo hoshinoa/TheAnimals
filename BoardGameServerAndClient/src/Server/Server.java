@@ -21,6 +21,7 @@ public class Server {
 		//ServerSocket servSock = new ServerSocket(0);
 		ServerSocket servSock = new ServerSocket(8901);
 		System.out.println("Server is running on Port: " + servSock.getLocalPort());
+		new ServerStatus().start();
 		try{
 			while(true){
 				new Handler(servSock.accept()).start();
@@ -29,6 +30,25 @@ public class Server {
 		
 	}
 	//End of Main
+	
+	//ServerStatus is a Thread for updating clients on server status
+	private static class ServerStatus extends Thread{
+		
+		public void run(){
+			while(true) {
+				long millis = System.currentTimeMillis();
+				updateClientsPlayerList();
+				updateClientsRoomList();
+			    try {
+					sleep(2000 - millis % 2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 	
 	//Handler is a Thread for a new client
 	private static class Handler extends Thread{
@@ -65,10 +85,9 @@ public class Server {
 				
 				while(true) {
 					//TODO ping users to check if online
-					updateClientsPlayerList();
-					updateClientsRoomList();
 					String input = in.readLine();
 					if(input == null){	
+						System.out.println("meow");
 						return; //don't do anything on empty returns
 					} else if (input.startsWith("MAKENEWROOM")){ //Spawn a new room
 						
@@ -103,7 +122,6 @@ public class Server {
 			} finally {
 				if(name != null) { clientNames.remove(name); }
 				if(out != null) { writers.remove(out); }
-				updateClientsPlayerList();
 				try {
 					socket.close();
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
@@ -118,8 +136,12 @@ public class Server {
 			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameServSock.getLocalPort();
 			out.println(sendThis);
 			
+			if(name != null) { clientNames.remove(name); }
+			if(out != null) { writers.remove(out); }
+			
+			//TODO check for full room gameRooms.remove(newRoom);
 			//TODO Send User Info and Server Info
-			newRoom.connectToRoom();
+			newRoom.connectToRoom(gameServSock);
 		}
 		
 	}

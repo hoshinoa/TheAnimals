@@ -82,23 +82,18 @@ public class Room {
 	}
 	//End of Setters and getters
 	
-	public void connectToRoom() throws IOException{
-		/*
+	public void connectToRoom(ServerSocket gameServSock) throws IOException{
+		
 		try{
 			while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
 				//TODO allow for game options that have minAmount of players vs maxAmount of players
 				new GameHandler(gameServSock.accept()).start();
-				newRoom.incrementPlayerCount();
-				updateClientsRoomList();
-				if(name != null) { clientNames.remove(name); }
-				if(out != null) { writers.remove(out); }
-				updateClientsPlayerList();
+				incrementPlayerCount();
+				
 			}
 		} finally { System.out.println("Closing room on port " + gameServSock.getLocalPort());
-					gameServSock.close(); 
-					gameRooms.remove(newRoom);
-					updateClientsRoomList(); }
-		*/
+					gameServSock.close(); }
+		
 	}
 	
 	

@@ -44,7 +44,7 @@ public class Server {
 				ArrayList<Integer> removeThese = new ArrayList<Integer>();
 				for(Room room: gameRoomsList) {
 					if(room.getCurrentPlayerCount() == room.getMaxPlayers()) {
-						System.out.println(room.getNameOfRoom() + " is full");
+						System.out.println(room.getNameOfRoom() + " is full, removing from list.");
 						removeThese.add(gameRoomsList.indexOf(room));
 					}
 				}
@@ -82,7 +82,7 @@ public class Server {
 					synchronized (clientNames) {
 						if(!clientNames.contains(name)) {
 							clientNames.add(name);
-							System.out.println("Added waiting to room: " + name);
+							System.out.println("Added to waiting room: " + name);
 							break;
 						}
 					}
@@ -170,10 +170,11 @@ public class Server {
 		
 		public void connectToRoom(int roomNumber) throws IOException{
 			String sendThis = "CONNECTTONEWGAMEROOM" + " " + gameRoomsList.get(roomNumber).getPortNumber() + " ";
+			
 			sendThis += gameRoomsList.get(roomNumber).getGameCols() + " ";
 			sendThis += gameRoomsList.get(roomNumber).getGameRows();
-			System.out.println(sendThis);
 			out.println(sendThis);
+			
 			gameRoomsList.get(roomNumber).recentlyAddedPlayer = name;
 			
 			if(name != null) { clientNames.remove(name); }

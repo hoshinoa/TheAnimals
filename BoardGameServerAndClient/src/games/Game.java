@@ -1,6 +1,7 @@
 package games;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class Game 
 {
@@ -23,17 +24,16 @@ public abstract class Game
 		this.gameLogic = gameLogic;
 	}
 	
-	/*
+	
 	// Starts the game.
-	public void startGame(ArrayList<Player> gPlayers)
+	public void startGame(HashSet<String> clientNames)
 	{
 		// List of involved players.
 		//this.gPlayers = gPlayers;
-		
 		// Passes the game board width & height and a list of involved players to the game logic.
-		gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
+		//gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
 	}
-	*/
+	
 	/*
 	// Gives the game logic the index of the current player and a copy of the current board state
 	// after the player has moved a game piece so that the logic can check if the moves are legal.

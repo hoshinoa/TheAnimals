@@ -43,6 +43,11 @@ public class Room {
 		portNumber = servSock.getLocalPort();
 	}
 	
+	public void gameStart() {
+		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is Starting now..."); }
+		game.startGame(clientNames);
+	}
+	
 	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{
 		new GameRoomServer(gameServSock).start(); }
 	
@@ -60,14 +65,12 @@ public class Room {
 					incrementPlayerCount();
 				}
 				
-				//TODO add other server functions Do other stuff
-				//Start the game
-				
 			} catch (IOException e) {
 				System.err.println("Error in sockets"); e.printStackTrace();
 			} finally { 
 				System.out.println("Closing room on port " + this.servSock.getLocalPort());
 				try { this.servSock.close();} catch (IOException e) { System.err.println("Error closing room socket"); e.printStackTrace(); }
+				gameStart();
 			}
 			
 		} //End of run()

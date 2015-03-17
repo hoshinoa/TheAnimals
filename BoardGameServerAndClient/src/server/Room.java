@@ -44,8 +44,7 @@ public class Room {
 	}
 	
 	public void gameStart() {
-		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is Starting now..."); }
-		game.startGame(clientNames);
+		game.startGame(clientNames, writers);
 	}
 	
 	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{

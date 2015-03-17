@@ -1,5 +1,6 @@
 package games;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -12,7 +13,7 @@ public abstract class Game
 	public int MIN_PLAYERS;
 	public GameLogic gameLogic;
 	
-	//public ArrayList<Player> gPlayers;
+	public ArrayList<Player> gPlayers;
 	
 	public Game(String gameTitle, int boardWidth, int boardHeight, int maxPlayers, int minPlayers, GameLogic gameLogic) 
 	{
@@ -22,14 +23,19 @@ public abstract class Game
 		MAX_PLAYERS = maxPlayers;
 		MIN_PLAYERS = minPlayers;
 		this.gameLogic = gameLogic;
+		
+		gPlayers = new ArrayList<Player>();
 	}
 	
 	
 	// Starts the game.
-	public void startGame(HashSet<String> clientNames)
+	public void startGame(HashSet<String> clientNames, HashSet<PrintWriter> writers)
 	{
-		// List of involved players.
-		//this.gPlayers = gPlayers;
+		for(String name: clientNames) {
+			gPlayers.add(new Player(name));
+		}
+		
+		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is starting now..."); }
 		// Passes the game board width & height and a list of involved players to the game logic.
 		//gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
 	}

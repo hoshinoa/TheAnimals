@@ -6,6 +6,8 @@ public class Checkers extends Game {
 		this.gameTitle = "Checkers";
 		this.BOARD_HEIGHT = 8;
 		this.BOARD_WIDTH = 8;
+		this.MAX_PLAYERS = 2;
+		this.MIN_PLAYERS = 2;
 	}
 	
 }

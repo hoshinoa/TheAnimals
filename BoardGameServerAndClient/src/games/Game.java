@@ -7,20 +7,13 @@ public abstract class Game
 	public String gameTitle;
 	public int BOARD_WIDTH;
 	public int BOARD_HEIGHT;
+	public int MAX_PLAYERS;
+	public int MIN_PLAYERS;
+	
+	//public GameLogic gameLogic;
 	//public ArrayList<Player> gPlayers;
-	public GameLogic gameLogic;
 
-	// Creates a new game.
-	// Takes in the game's title, game board width & height, and chosen game logic.
-	public Game(){}
 
-	public Game(String gameTitle, int boardWidth, int boardHeight, GameLogic gameLogic) 
-	{
-		this.gameTitle = gameTitle;
-		BOARD_WIDTH = boardWidth;
-		BOARD_HEIGHT = boardHeight;
-		this.gameLogic = gameLogic;
-	}
 	
 	/*
 	// Starts the game.
@@ -48,7 +41,7 @@ public abstract class Game
 		return newBoard;
 	} */
 	
-	
+	/*
 	// Determines if the game is over by checking if a winner exists in the game logic.
 	public boolean gameOver()
 	{
@@ -67,4 +60,5 @@ public abstract class Game
 	{
 
 	}
+	*/
 }

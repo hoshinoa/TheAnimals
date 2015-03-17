@@ -6,11 +6,8 @@ public class TicTacToeGame extends Game {
 		this.gameTitle = "Tic-Tac-Toe";
 		this.BOARD_HEIGHT = 3;
 		this.BOARD_WIDTH = 3;
+		this.MAX_PLAYERS = 2;
+		this.MIN_PLAYERS = 2;
 	}
 
-	public TicTacToeGame(String gameTitle, int boardWidth, int boardHeight,
-			GameLogic gameLogic) {
-		super(gameTitle, boardWidth, boardHeight, gameLogic);
-	}
-	
 }

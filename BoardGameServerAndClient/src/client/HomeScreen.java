@@ -113,7 +113,7 @@ public class HomeScreen extends JFrame {
 	
 	public String showGamesList() {
 		
-		String[] options = { "Cancel", "Tic-Tac-Toe" };
+		String[] options = { "Cancel", "Tic-Tac-Toe", "Othello", "Checkers" };
 		int choice = JOptionPane.showOptionDialog(null, "Please choose a game to play", "Choose Game",
 		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 		null, options, options[0]);

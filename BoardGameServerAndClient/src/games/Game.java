@@ -9,11 +9,19 @@ public abstract class Game
 	public int BOARD_HEIGHT;
 	public int MAX_PLAYERS;
 	public int MIN_PLAYERS;
+	public GameLogic gameLogic;
 	
-	//public GameLogic gameLogic;
 	//public ArrayList<Player> gPlayers;
-
-
+	
+	public Game(String gameTitle, int boardWidth, int boardHeight, int maxPlayers, int minPlayers, GameLogic gameLogic) 
+	{
+		this.gameTitle = gameTitle;
+		BOARD_WIDTH = boardWidth;
+		BOARD_HEIGHT = boardHeight;
+		MAX_PLAYERS = maxPlayers;
+		MIN_PLAYERS = minPlayers;
+		this.gameLogic = gameLogic;
+	}
 	
 	/*
 	// Starts the game.

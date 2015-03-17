@@ -14,21 +14,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Client {
 
 	private BufferedReader in;
 	private PrintWriter out;
 	
-	private HomeScreen homeScreen = new HomeScreen();
+	private HomeScreen homeScreen;
+	private String serverAddress;
+	private String portNumber;
 	
 	public Client(){
-		
-		
-		//TODO Could refactor this back into the HomeScreen Class
-		homeScreen.textField.setEditable(false);
-		homeScreen.messageArea.setEditable(false);
-		
+		homeScreen = new HomeScreen();
 		homeScreen.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				out.println(homeScreen.textField.getText());
@@ -39,9 +38,24 @@ public class Client {
 		//Make new room button
 		homeScreen.makeNewRoom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				out.println("MAKENEWROOM");
+				String sendThis = "MAKENEWROOM" + " ";
+				String choice = homeScreen.showGamesList();
+				if(choice != null) {
+					sendThis += choice;
+					out.println(sendThis);
+				}
 			}
 		});
+		
+		homeScreen.gameList.addListSelectionListener(new ListSelectionListener() {
+		      public void valueChanged(ListSelectionEvent le) {
+		    	  if(homeScreen.gameList.getSelectedIndex() != -1 && !le.getValueIsAdjusting()) {
+		    		  String sendThis = "CONNECTPLAYERTOROOM" + " " + homeScreen.gameList.getSelectedIndex();
+		    		  out.println(sendThis);
+		    		  System.out.println(sendThis);
+		    	  }
+		      }
+		    });
 	}
 	
 	private String getName() {
@@ -49,7 +63,7 @@ public class Client {
 				homeScreen,
 				"Choose a user name",
 				"Screen name selection",
-				JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.PLAIN_MESSAGE).replace(' ','_');
 	}
 	
 	private String getPortNumber() {
@@ -65,10 +79,10 @@ public class Client {
 	}
 	
 	private void run() throws IOException {
-		//String serverAddress = getServerAddress();
-		String serverAddress = "localhost";
-		//String portNumber = getPortNumber();
-		String portNumber = "8901";
+		//serverAddress = getServerAddress();
+		serverAddress = "localhost";
+		//portNumber = getPortNumber();
+		portNumber = "8901";
 		
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -83,17 +97,54 @@ public class Client {
         	} else if (line.startsWith("MESSAGE")){
         		homeScreen.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("UPDATEPLAYERLIST")) {
-        		System.out.println("I'm updating player list");
         		String playerList [] = line.split("\\s+");
         		homeScreen.updatePlayerList(playerList);
         	} else if(line.startsWith("UPDATEROOMLIST")) {
-        		System.out.println("Updating room list");
         		String roomList [] = line.split("\\s+");
         		homeScreen.updateRoomList(roomList);
+        	} else if(line.startsWith("CONNECTTONEWGAMEROOM")) {
+        		connectToNewGameRoom(line);
+        		break;
         	}
         }
         
         
+	}
+	
+	public void connectToNewGameRoom(String instructions) throws IOException{
+		homeScreen.dispose();
+		
+		String info [] = instructions.split("\\s+");
+		//info[0] = CONNECTTONEWGAMEROOM
+		//info[1] = PORTNUMBER
+		//info[2] = COLS
+		//info[3] = ROWS
+		portNumber = info[1];
+		System.out.println(instructions);
+		final GameRoomScreen newRoom = new GameRoomScreen(Integer.parseInt(info[2]), Integer.parseInt(info[3]));
+		newRoom.textField.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				out.println(newRoom.textField.getText());
+				newRoom.textField.setText("");
+			}
+		});
+		
+		newRoom.setVisible(true);
+		
+        Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream(), true);
+        
+        while(true) {
+        	//TODO Ping for connection
+        	String line = in.readLine();
+        	if (line.startsWith("MESSAGE")){
+        		newRoom.messageArea.append(line.substring(7) + "\n");
+        	} else if(line.startsWith("FINISH")) {
+        		break;
+        	}
+        }
+       
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -103,5 +154,3 @@ public class Client {
 	}
 
 }
-
-//TODO add a graceful disconnect for users

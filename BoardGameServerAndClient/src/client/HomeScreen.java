@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -26,7 +27,7 @@ import javax.swing.ListSelectionModel;
 public class HomeScreen extends JFrame {
 	
 	private JList<String> playerList;
-	private JList<String> gameList;
+	public JList<String> gameList;
 	
 	JButton makeNewRoom;
 	
@@ -51,17 +52,18 @@ public class HomeScreen extends JFrame {
 		textField = new JTextField(40);
 		messageArea = new JTextArea(8,40);
 		
-		//left side of the screen user list
+		textField.setEditable(false);
+		messageArea.setEditable(false);
+		
 		JScrollPane messagesHolder = new JScrollPane(messageArea);
 		messagesHolder.setBounds(560, 50, 250, 400);
 		getContentPane().add(messagesHolder);
 		textField.setBounds(560, 491, 250, 30);
 		getContentPane().add(textField);
-		//right side of the screen rooms list and make new room
+
 		
 		
 		//Player List
-		//TODO make JScrollPanel for names
 		JLabel playerLabel = new JLabel("Waiting Room - Players: ");
 		playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		playerLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -71,9 +73,11 @@ public class HomeScreen extends JFrame {
 		playerList = new JList<String>();
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playerList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		playerList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		playerList.setBounds(10, 47, 223, 491);
-		getContentPane().add(playerList);
+		
+		JScrollPane namesHolder = new JScrollPane(playerList);
+		namesHolder.setBounds(10, 47, 223, 491);
+		namesHolder.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		getContentPane().add(namesHolder);
 		
 		//Game List
 		JLabel gameLabel = new JLabel("Open Rooms");
@@ -82,39 +86,16 @@ public class HomeScreen extends JFrame {
 		gameLabel.setBounds(243, 11, 306, 25);
 		getContentPane().add(gameLabel);
 		
-		//TODO Add JScrollPane for Rooms/Game list
 		gameList = new JList<String>();
-		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		/*
-		gameList.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Checkers", "Battleship", "Tic Tac Toe", "Backgammon", "Sorry!", "Monopoly", "Chutes & Ladders"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		*/
-		/*
-		gameList.addListSelectionListener(new ListSelectionListener() {
-		      public void valueChanged(ListSelectionEvent le) {
-		        int idx = gameList.getSelectedIndex();
-		        if (idx != -1)
-		          System.out.println("Current selection: " + gameList.getModel().getElementAt(idx));
-		        else
-		          System.out.println("Please choose a language.");
-		      }
-		    });
-		*/
-		
-		gameList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 		gameList.setFont(new Font("Tahoma", Font.BOLD, 16));
-		gameList.setBounds(243, 47, 306, 433);
-		getContentPane().add(gameList);
 		
-		//Button for some action
+		JScrollPane gamesHolder = new JScrollPane(gameList);
+		gamesHolder.setBounds(243, 47, 306, 433);
+		gamesHolder.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		getContentPane().add(gamesHolder);
+		
+		//Make new room button
 		makeNewRoom = new JButton("Make New Room");
 		makeNewRoom.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		makeNewRoom.setBounds(243, 491, 306, 47);
@@ -130,6 +111,21 @@ public class HomeScreen extends JFrame {
 		gameList.setListData(Arrays.copyOfRange(rooms, 2, rooms.length));
 	}
 	
+	public String showGamesList() {
+		
+		String[] options = { "Cancel", "Tic-Tac-Toe" };
+		int choice = JOptionPane.showOptionDialog(null, "Please choose a game to play", "Choose Game",
+		JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+		null, options, options[0]);
+		
+		if(choice == 0) {
+			return null;
+		} else {
+			return options[choice] + " " + (JOptionPane.showInputDialog(
+					"Name of the Game Room").replace(' ', '_')) + " ";
+		}
+		
+	}
 	
 	//Uncomment main to test the screen
 	/*

@@ -37,10 +37,10 @@ public abstract class Game
 		gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers, writers);
 	}
 	
-	/*
+	
 	// Gives the game logic the index of the current player and a copy of the current board state
 	// after the player has moved a game piece so that the logic can check if the moves are legal.
-	public GamePiece[][] playTurn(int playerIndex, GamePiece[][] currentBoard)
+	public String playTurn(int playerIndex, GamePiece[][] currentBoard)
 	{
 		// Get the Player at the current player index.
 		//Player currentPlayer = gPlayers.get(playerIndex);
@@ -49,10 +49,10 @@ public abstract class Game
 		//GamePiece[][] newBoard = gameLogic.makeMove(currentPlayer, currentBoard);
 		
 		// Returns a new version of the board after the move has/hasn't been made on the board.
-		return newBoard;
-	} */
+		return "hello";
+	} 
 	
-	/*
+	
 	// Determines if the game is over by checking if a winner exists in the game logic.
 	public boolean gameOver()
 	{
@@ -71,5 +71,5 @@ public abstract class Game
 	{
 
 	}
-	*/
+	
 }

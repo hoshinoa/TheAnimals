@@ -105,7 +105,8 @@ public class Room {
 							game.startGame(clientNames, writers);
 							gameStart++;
 						} else { out.println("MESSAGE" + "SYSTEM: " + "Game has already started"); }
-					} else { //regular message
+					}
+					else { //regular message
 						for(PrintWriter writer: writers) {
 							writer.println("MESSAGE" + name + " : " + input);
 						}

@@ -19,13 +19,23 @@ public class TicTacToeGameLogic implements GameLogic{
 		
 		player1 = players.get(0);
 		player1.setOut(playerOuts[0]);
-		player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 1");
+		player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 1 (X), you will go first");
 		
 		player2 = players.get(1);
 		player2.setOut(playerOuts[1]);
-		player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 2");
+		player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 2 (O), you will go second");
 		
+		player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please make a move");
+		player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please wait...");
 		
+		player1.sendMessageToPlayer("MAKEMOVE");
+		player2.sendMessageToPlayer("WAIT");
+		//Game Loop
+		/*
+		while(!winnerExists()) {
+			
+		}
+		*/
 	}
 	
 	@Override
@@ -56,22 +66,11 @@ public class TicTacToeGameLogic implements GameLogic{
 
 /*
 
-import java.util.*;
 
-
-public class TicTacToeLogic {
-
-	ArrayList<List<Integer>> board;
 	int PLAYER1 = 1;
 	int PLAYER2 = 2;
 	int EMPTY = 0;
 	
-	public TicTacToeLogic(){
-		board = new ArrayList<List<Integer>>();
-		board.add(Arrays.asList(0,0,0));
-		board.add(Arrays.asList(0,0,0));
-		board.add(Arrays.asList(0,0,0));
-	}
 	
 	public void makeMove(int x, int y, int player){
 		board.get(x).set(y,player);
@@ -130,21 +129,4 @@ public class TicTacToeLogic {
 		return true;
 	}
 	
-	public void printBoard(){
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				if (j != 2){
-					System.out.print(board.get(i).get(j) + " | ");
-				}
-				else{
-					System.out.print(board.get(i).get(j));
-				}
-			}
-			if(i !=2)
-				System.out.println("\n----------");
-		}
-	}
-
-
-}
 */

@@ -11,6 +11,7 @@ public class GameState {
 	
 	public GameState(int boardWidth, int boardHeight){
 		this.board = new GamePiece[boardWidth][boardHeight];
+		mCurrentTurn = 1;
 	}
 	
 }

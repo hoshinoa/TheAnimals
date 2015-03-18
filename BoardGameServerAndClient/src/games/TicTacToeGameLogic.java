@@ -1,7 +1,17 @@
 package games;
 
+import java.util.ArrayList;
+
 public class TicTacToeGameLogic implements GameLogic{
 
+	private GameState gameState;
+	
+	@Override
+	public void runGame(int boardWidth, int boardHeight,
+			ArrayList<Player> players) {
+		gameState = new GameState(boardWidth, boardHeight);
+	}
+	
 	@Override
 	public boolean invalidBoard(GameState gs) {
 		// TODO Auto-generated method stub
@@ -18,6 +28,12 @@ public class TicTacToeGameLogic implements GameLogic{
 	public boolean winnerExists() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public GamePiece[][] makeMove(Player p, GamePiece[][] gameBoard) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

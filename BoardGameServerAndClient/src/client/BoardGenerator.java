@@ -14,6 +14,7 @@ public class BoardGenerator extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 		BoardTile boardArray[][];
+		String pressedTile;
 		
 		public BoardGenerator(int gridCols, int gridRows) {
 			
@@ -57,27 +58,5 @@ public class BoardGenerator extends JPanel {
                 }
             }
         }
-		
-		public void changeMouseListeners(String type){
-			
-			for (BoardTile[] row: boardArray) {
-			    for (final BoardTile tile: row) { tile.addMouseListen(new MouseAdapter(){
-			    	 @Override
-					    public void mouseEntered(MouseEvent e) {
-					        
-					    }
-					    
-					    @Override
-					    public void mouseExited(MouseEvent e) {
-					        
-					    }
-
-					    @Override
-					    public void mousePressed(MouseEvent e) {
-					        tile.setBackground(Color.RED);
-					       //TODO set a string for the most recently touched position
-					    }
-			    }); 
-			    } } }
 		
     } // end of class declaration

@@ -1,7 +1,10 @@
 package client;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -138,10 +141,29 @@ public class Client {
         	if (line.startsWith("MESSAGE")){
         		newRoom.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("MAKEMOVE")) {
-				
+ 
+        		for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+				    for (final BoardTile tile: row) { tile.addMouseListen(new MouseAdapter(){
+
+						    @Override
+						    public void mousePressed(MouseEvent e) {
+						        tile.setBackground(Color.RED);
+						        out.println( "MOVEMADE " + tile.x + " " + tile.y);
+						    }
+				    }); 
+				    } }
+        		
 			} else if(line.startsWith("WAIT")) {
-				//TODO ACTUALLY SET INACTIVE
-				newRoom.boardGame.gridPane.changeMouseListeners("INACTIVE");
+				
+				for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+				    for (final BoardTile tile: row) { tile.addMouseListen(new MouseAdapter(){
+
+						    @Override
+						    public void mousePressed(MouseEvent e) {
+						        //Empty can't do anything
+						    }
+				    }); 
+				    } }
 			} 
         	else if(line.startsWith("FINISH")) {
         		break;

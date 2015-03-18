@@ -15,6 +15,13 @@ public class TicTacToeGameLogic implements GameLogic{
 			ArrayList<Player> players, HashSet<PrintWriter> writers) {
 		gameState = new GameState(boardWidth, boardHeight);
 		
+		for(GamePiece[] row: gameState.board) { //initialize model with empty values
+			for(GamePiece piece: row) {
+				piece = new GamePiece();
+				piece.setValue(0);
+			}
+		}
+		
 		PrintWriter playerOuts[] = writers.toArray(new PrintWriter[writers.size()]);
 		
 		player1 = players.get(0);
@@ -30,12 +37,6 @@ public class TicTacToeGameLogic implements GameLogic{
 		
 		player1.sendMessageToPlayer("MAKEMOVE");
 		player2.sendMessageToPlayer("WAIT");
-		//Game Loop
-		/*
-		while(!winnerExists()) {
-			
-		}
-		*/
 	}
 	
 	@Override
@@ -45,8 +46,10 @@ public class TicTacToeGameLogic implements GameLogic{
 	}
 
 	@Override
-	public boolean validMove(GameState gs) {
-		// TODO Auto-generated method stub
+	public boolean validMove(int col, int row) {
+		if(gameState.board[row][col].getValue() == 0){ 
+			return true;
+		}
 		return false;
 	}
 
@@ -57,25 +60,25 @@ public class TicTacToeGameLogic implements GameLogic{
 	}
 
 	@Override
-	public GamePiece[][] makeMove(Player p, GamePiece[][] gameBoard) {
-		// TODO Auto-generated method stub
-		return null;
+	public String makeMove(int col, int row) {
+		String sendThis = "";
+		if(validMove(col,row)){
+			sendThis = "";
+			if(gameState.mCurrentTurn == 1) { //player 1
+				gameState.board[row][col].setPiece('X');
+				gameState.board[row][col].setValue(1); 
+				gameState.mCurrentTurn = 2; }
+			else { //player 2
+				gameState.board[row][col].setPiece('0');
+				gameState.board[row][col].setValue(2); 
+				gameState.mCurrentTurn = 1; }
+			
+			return sendThis;
+			} else {
+			//Do this other thing
+			return sendThis; }
 	}
 
-}
-
-/*
-
-
-	int PLAYER1 = 1;
-	int PLAYER2 = 2;
-	int EMPTY = 0;
-	
-	
-	public void makeMove(int x, int y, int player){
-		board.get(x).set(y,player);
-	}
-	
 	public boolean isGameOver(){
 		if (checkColumnsForWin() || checkRowsForWin() || checkDiagonalsForWin() || isBoardFull()){
 			 return true;
@@ -83,16 +86,9 @@ public class TicTacToeGameLogic implements GameLogic{
 		return false;
 	}
 	
-	public boolean isLegalMove(int x, int y){
-		if(board.get(x).get(y) == EMPTY){
-			return true;
-		}
-		return false;
-	}
-	
 	private boolean checkColumnsForWin() {
 		for (int i = 0; i < 3; i++) {
-			if (board.get(0).get(i) == board.get(1).get(i) && board.get(2).get(i) == board.get(1).get(i) && board.get(1).get(i) != EMPTY) {
+			if (gameState.board[0][i].getValue() == gameState.board[1][i].getValue() && gameState.board[2][i].getValue() == gameState.board[i][i].getValue() && gameState.board[0][i].getValue() != 0) {
 				return true;
 		    }
 		}
@@ -101,18 +97,18 @@ public class TicTacToeGameLogic implements GameLogic{
 	
 	private boolean checkRowsForWin() {
         for (int i = 0; i < 3; i++) {
-            if (board.get(i).get(0) == board.get(i).get(1) && board.get(i).get(2) == board.get(i).get(1) && board.get(i).get(1) != EMPTY) {
+            if (gameState.board[i][0].getValue() == gameState.board[i][1].getValue() && gameState.board[i][2].getValue() == gameState.board[i][1].getValue() && gameState.board[i][1].getValue() != 0) {
                 return true;
             }
         }
         return false;
     }
-
+	
 	private boolean checkDiagonalsForWin() {
-		if (board.get(0).get(0) == board.get(1).get(1) && board.get(1).get(1) == board.get(2).get(2) && board.get(1).get(1) != EMPTY){
+		if (gameState.board[0][0].getValue() == gameState.board[1][1].getValue() && gameState.board[1][1].getValue() == gameState.board[2][2].getValue() && gameState.board[1][1].getValue() != 0){
 			return true;
 		}
-		else if(board.get(0).get(2) == board.get(1).get(1) && board.get(1).get(1) == board.get(2).get(0) && board.get(1).get(1) != EMPTY){
+		else if(gameState.board[0][2].getValue() == gameState.board[1][1].getValue() && gameState.board[1][1].getValue() == gameState.board[2][0].getValue() && gameState.board[1][1].getValue() != 0){
 			return true;
 		}
 		return false;
@@ -121,7 +117,7 @@ public class TicTacToeGameLogic implements GameLogic{
 	private boolean isBoardFull(){
 		for (int i = 0; i < 3; i++){
 			for (int j = 0; j < 3; j++){
-				if (board.get(i).get(j) == EMPTY){
+				if (gameState.board[i][j].getValue() == 0){
 					return false;
 				}
 			}
@@ -129,4 +125,6 @@ public class TicTacToeGameLogic implements GameLogic{
 		return true;
 	}
 	
-*/
+}
+
+

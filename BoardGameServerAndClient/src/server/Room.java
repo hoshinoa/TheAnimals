@@ -105,8 +105,14 @@ public class Room {
 							game.startGame(clientNames, writers);
 							gameStart++;
 						} else { out.println("MESSAGE" + "SYSTEM: " + "Game has already started"); }
-					}
-					else { //regular message
+					} else if(input.startsWith("MOVEMADE")) {
+						String moveInfo [] = input.split("\\s+");
+						//moveInfo[0] == "MOVEMADE"
+						//moveInfo[1] == column pressed
+						//moveInfo[2] == row pressed
+						
+						
+					} else { //regular message
 						for(PrintWriter writer: writers) {
 							writer.println("MESSAGE" + name + " : " + input);
 						}

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class GameState {
 
-	private int mCurrentTurn;
+	int mCurrentTurn;
 
-	private GamePiece board[][];
+	GamePiece board[][];
 	
 	public GameState(int boardWidth, int boardHeight){
 		this.board = new GamePiece[boardWidth][boardHeight];

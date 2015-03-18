@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
     public class BoardTile extends JPanel {
@@ -14,10 +15,15 @@ import javax.swing.JPanel;
 		public int x;
 		public int y;
 	
+		public JLabel label; //switch to image if you want to render an image
+		
         public BoardTile(int col, int row) {
+        	//x should equal row, and y should equal col, but whatever;
         	this.x = col;
         	this.y = row;
-        	//mouseListen();
+        	defaultBackground = this.getBackground();
+        	label = new JLabel("-");
+        	this.add(label);
         }
 
         @Override

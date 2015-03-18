@@ -2,6 +2,7 @@ package games;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class TicTacToeGameLogic implements GameLogic{
@@ -14,13 +15,6 @@ public class TicTacToeGameLogic implements GameLogic{
 	public void runGame(int boardWidth, int boardHeight,
 			ArrayList<Player> players, HashSet<PrintWriter> writers) {
 		gameState = new GameState(boardWidth, boardHeight);
-		
-		for(GamePiece[] row: gameState.board) { //initialize model with empty values
-			for(GamePiece piece: row) {
-				piece = new GamePiece();
-				piece.setValue(0);
-			}
-		}
 		
 		PrintWriter playerOuts[] = writers.toArray(new PrintWriter[writers.size()]);
 		
@@ -47,6 +41,7 @@ public class TicTacToeGameLogic implements GameLogic{
 
 	@Override
 	public boolean validMove(int col, int row) {
+		
 		if(gameState.board[row][col].getValue() == 0){ 
 			return true;
 		}
@@ -63,11 +58,12 @@ public class TicTacToeGameLogic implements GameLogic{
 	public String makeMove(int col, int row) {
 		String sendThis = "";
 		if(validMove(col,row)){
-			sendThis = "";
+			System.out.println(sendThis);
 			if(gameState.mCurrentTurn == 1) { //player 1
 				gameState.board[row][col].setPiece('X');
 				gameState.board[row][col].setValue(1); 
-				gameState.mCurrentTurn = 2; }
+				gameState.mCurrentTurn = 2; 
+				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; }
 			else { //player 2
 				gameState.board[row][col].setPiece('0');
 				gameState.board[row][col].setValue(2); 
@@ -75,7 +71,7 @@ public class TicTacToeGameLogic implements GameLogic{
 			
 			return sendThis;
 			} else {
-			//Do this other thing
+			sendThis = "INVALIDMOVE ";
 			return sendThis; }
 	}
 

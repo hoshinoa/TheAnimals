@@ -110,8 +110,8 @@ public class Room {
 						//moveInfo[0] == "MOVEMADE"
 						//moveInfo[1] == column pressed
 						//moveInfo[2] == row pressed
-						
-						
+						String sendThis = game.gameLogic.makeMove(Integer.parseInt(moveInfo[1]), Integer.parseInt(moveInfo[2]));
+						for(PrintWriter writer: writers) { writer.println(sendThis); }
 					} else { //regular message
 						for(PrintWriter writer: writers) {
 							writer.println("MESSAGE" + name + " : " + input);

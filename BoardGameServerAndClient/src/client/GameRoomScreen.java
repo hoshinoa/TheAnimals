@@ -45,7 +45,6 @@ public class GameRoomScreen extends JFrame{
 		
 		boardGame = new BoardGameWindow(cols,rows);
 		JPanel gameFrame = boardGame.gamePane;
-		System.out.println(gameFrame.getLayout());
 		gameFrame.setLayout(new BoxLayout(gameFrame, BoxLayout.X_AXIS));
 		gameFrame.setAlignmentY(CENTER_ALIGNMENT);
 		gameFrame.setBounds(new Rectangle(0,0,600,600));
@@ -56,9 +55,10 @@ public class GameRoomScreen extends JFrame{
 	//For testing purposes uncomment if you want
 	/*
 	public static void main(String args[]) {
-		GameRoomScreen test = new GameRoomScreen();
+		GameRoomScreen test = new GameRoomScreen(3,3);
 		test.setVisible(true);
-	} */
+	} 
+	*/
 
 	
 }

@@ -164,7 +164,18 @@ public class Client {
 						    }
 				    }); 
 				    } }
-			} 
+			} else if(line.startsWith("PLACEPIECE")){
+				String placePieceInstructions [] = line.split("\\s+");
+				//placePieceInstructions[0] == "PLACEPIECE"
+				//placePieceInstructions[1] == Piece to place 'x' or 'o'
+				//placePieceInstructions[2] == col
+				//placePieceInstructions[3] == row
+				
+				newRoom.boardGame.gridPane.boardArray[Integer.parseInt(placePieceInstructions[2])][Integer.parseInt(placePieceInstructions[3])].label.setText(placePieceInstructions[1]);
+				
+			} else if(line.startsWith("INVALIDMOVE")) {
+				out.println("The move was invalid please try again");
+			}
         	else if(line.startsWith("FINISH")) {
         		break;
         	}

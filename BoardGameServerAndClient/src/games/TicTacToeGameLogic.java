@@ -58,18 +58,25 @@ public class TicTacToeGameLogic implements GameLogic{
 	public String makeMove(int col, int row) {
 		String sendThis = "";
 		if(validMove(col,row)){
-			System.out.println(sendThis);
 			if(gameState.mCurrentTurn == 1) { //player 1
 				gameState.board[row][col].setPiece('X');
 				gameState.board[row][col].setValue(1); 
 				gameState.mCurrentTurn = 2; 
 				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
-
-				player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please make a move");
-				player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please wait...");
 				
-				player2.sendMessageToPlayer("MAKEMOVE");
-				player1.sendMessageToPlayer("WAIT");
+				if(isGameOver()) { //player 1 victory
+					player1.sendMessageToPlayer("WAIT");
+					player2.sendMessageToPlayer("WAIT");
+					player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Congratulations Player 1 is the WINNER!");
+					player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Congratulations Player 1 is the WINNER!");
+				} else {
+					sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
+					player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please make a move");
+					player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please wait...");
+				
+					player2.sendMessageToPlayer("MAKEMOVE");
+					player1.sendMessageToPlayer("WAIT");
+				}
 				
 			} else { //player 2
 				gameState.board[row][col].setPiece('O');
@@ -77,11 +84,19 @@ public class TicTacToeGameLogic implements GameLogic{
 				gameState.mCurrentTurn = 1; 
 				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
 				
-				player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please make a move");
-				player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please wait...");
+				if(isGameOver()) { //player 2 victory
+					player1.sendMessageToPlayer("WAIT");
+					player2.sendMessageToPlayer("WAIT");
+					player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Congratulations Player 2 is the WINNER!");
+					player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Congratulations Player 2 is the WINNER!");
+				} else {
+					
+					player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please make a move");
+					player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please wait...");
 				
-				player1.sendMessageToPlayer("MAKEMOVE");
-				player2.sendMessageToPlayer("WAIT");
+					player1.sendMessageToPlayer("MAKEMOVE");
+					player2.sendMessageToPlayer("WAIT");
+				}
 			}
 			
 			return sendThis;

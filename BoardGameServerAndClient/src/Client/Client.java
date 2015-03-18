@@ -135,27 +135,36 @@ public class Client {
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
-        MouseAdapter ma = null;
+        
+        for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+        	for (final BoardTile tile: row) { 
+    	    	tile.addMouseListen(new MouseAdapter(){
+
+    			    @Override
+    			    public void mousePressed(MouseEvent e) {
+    			    	//tile.setBackground(Color.RED);
+    			    	if(tile.enabled) {
+    			    		out.println( "MOVEMADE " + tile.x + " " + tile.y);
+    			    	}
+    			    }
+    	    }); 
+    	    } 
+		}
+        
         while(true) {
         	String line = in.readLine();
         	if (line.startsWith("MESSAGE")){
         		newRoom.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("MAKEMOVE")) {
         		for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
-				    for (final BoardTile tile: row) { tile.addMouseListen(ma = new MouseAdapter(){
-
-						    @Override
-						    public void mousePressed(MouseEvent e) {
-						    		//tile.setBackground(Color.RED);
-						    		out.println( "MOVEMADE " + tile.x + " " + tile.y);
-						    }
-				    }); 
+				    for (final BoardTile tile: row) { 
+				    	tile.enabled = true;
 				    } }
         		
 			} else if(line.startsWith("WAIT")) {
 				for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
 				    for (final BoardTile tile: row) { 
-				    	tile.removeMouseListener(ma);
+				    	tile.enabled = false;
 				    } }
 				
 			} else if(line.startsWith("PLACEPIECE")){
@@ -168,7 +177,7 @@ public class Client {
 				newRoom.boardGame.gridPane.boardArray[Integer.parseInt(placePieceInstructions[2])][Integer.parseInt(placePieceInstructions[3])].label.setText(placePieceInstructions[1]);
 				
 			} else if(line.startsWith("INVALIDMOVE")) {
-				out.println("The move was invalid please try again");
+				//out.println("The move was invalid please try again");
 			}
         	else if(line.startsWith("FINISH")) {
         		break;

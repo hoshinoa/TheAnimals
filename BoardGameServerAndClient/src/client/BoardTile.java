@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 		private Color defaultBackground;
 		public int x;
 		public int y;
-	
+		public boolean enabled;
+		
 		public JLabel label; //switch to image if you want to render an image
 		
         public BoardTile(int col, int row) {
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
         	defaultBackground = this.getBackground();
         	label = new JLabel("-");
         	this.add(label);
+        	enabled = false;
         }
 
         @Override

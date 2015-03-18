@@ -135,35 +135,29 @@ public class Client {
         Socket socket = new Socket(serverAddress, Integer.parseInt(portNumber));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
-        
+        MouseAdapter ma = null;
         while(true) {
         	String line = in.readLine();
         	if (line.startsWith("MESSAGE")){
         		newRoom.messageArea.append(line.substring(7) + "\n");
         	} else if(line.startsWith("MAKEMOVE")) {
- 
         		for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
-				    for (final BoardTile tile: row) { tile.addMouseListen(new MouseAdapter(){
+				    for (final BoardTile tile: row) { tile.addMouseListen(ma = new MouseAdapter(){
 
 						    @Override
 						    public void mousePressed(MouseEvent e) {
-						        tile.setBackground(Color.RED);
-						        out.println( "MOVEMADE " + tile.x + " " + tile.y);
+						    		//tile.setBackground(Color.RED);
+						    		out.println( "MOVEMADE " + tile.x + " " + tile.y);
 						    }
 				    }); 
 				    } }
         		
 			} else if(line.startsWith("WAIT")) {
-				
 				for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
-				    for (final BoardTile tile: row) { tile.addMouseListen(new MouseAdapter(){
-
-						    @Override
-						    public void mousePressed(MouseEvent e) {
-						        //Empty can't do anything
-						    }
-				    }); 
+				    for (final BoardTile tile: row) { 
+				    	tile.removeMouseListener(ma);
 				    } }
+				
 			} else if(line.startsWith("PLACEPIECE")){
 				String placePieceInstructions [] = line.split("\\s+");
 				//placePieceInstructions[0] == "PLACEPIECE"

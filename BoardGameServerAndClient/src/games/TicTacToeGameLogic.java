@@ -63,11 +63,26 @@ public class TicTacToeGameLogic implements GameLogic{
 				gameState.board[row][col].setPiece('X');
 				gameState.board[row][col].setValue(1); 
 				gameState.mCurrentTurn = 2; 
-				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; }
-			else { //player 2
-				gameState.board[row][col].setPiece('0');
+				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
+
+				player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please make a move");
+				player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 2's turn, please wait...");
+				
+				player2.sendMessageToPlayer("MAKEMOVE");
+				player1.sendMessageToPlayer("WAIT");
+				
+			} else { //player 2
+				gameState.board[row][col].setPiece('O');
 				gameState.board[row][col].setValue(2); 
-				gameState.mCurrentTurn = 1; }
+				gameState.mCurrentTurn = 1; 
+				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
+				
+				player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please make a move");
+				player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "Currently Player 1's turn, please wait...");
+				
+				player1.sendMessageToPlayer("MAKEMOVE");
+				player2.sendMessageToPlayer("WAIT");
+			}
 			
 			return sendThis;
 			} else {

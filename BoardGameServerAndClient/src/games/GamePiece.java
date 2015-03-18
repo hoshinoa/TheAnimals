@@ -1,16 +1,21 @@
 package games;
-import java.awt.Image;
-
 
 public class GamePiece {
 
-	private String mType;
-	//private Player mOwnedBy;
+	private String type;
+	private char piece;
 	
-	private Image mSprite;
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public char getPiece() {
+		return piece;
+	}
+	public void setPiece(char piece) {
+		this.piece = piece;
+	}
 	
-	public GamePiece(){} //Default Constructor - Should be used to set an image
-	
-	//This function changes the Image sprite for the GamePiece
-	public void setSprite(){} 
 }

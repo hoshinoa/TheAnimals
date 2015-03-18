@@ -11,7 +11,6 @@ import java.util.HashSet;
 import games.Game;
 import games.SimpleGameFactory;
 
-//TODO Handle disconnects from players
 public class Room {
 	
 	private HashSet<String> clientNames = new HashSet<String>();
@@ -119,6 +118,9 @@ public class Room {
 			} finally {
 				try {
 					socket.close();
+					for(PrintWriter writer: writers) {
+						writer.println("MESSAGE" + "SYSTEM: " + name + " has disconnected from the game, please restart...");
+					}
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
 		} // end of run()

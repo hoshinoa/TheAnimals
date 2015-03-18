@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public class TicTacToeGameLogic implements GameLogic{
 
 	private GameState gameState;
+	private Player player1;
+	private Player player2;
 	
 	@Override
 	public void runGame(int boardWidth, int boardHeight,
 			ArrayList<Player> players) {
 		gameState = new GameState(boardWidth, boardHeight);
+		player1 = players.get(0);
+		player2 = players.get(1);
 	}
 	
 	@Override

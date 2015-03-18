@@ -114,7 +114,7 @@ public class TicTacToeGameLogic implements GameLogic{
 	
 	private boolean checkColumnsForWin() {
 		for (int i = 0; i < 3; i++) {
-			if (gameState.board[0][i].getValue() == gameState.board[1][i].getValue() && gameState.board[2][i].getValue() == gameState.board[i][i].getValue() && gameState.board[0][i].getValue() != 0) {
+			if (gameState.board[0][i].getValue() == gameState.board[1][i].getValue() && gameState.board[2][i].getValue() == gameState.board[1][i].getValue() && gameState.board[0][i].getValue() != 0) {
 				return true;
 		    }
 		}

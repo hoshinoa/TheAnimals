@@ -23,7 +23,7 @@ import javax.swing.JPanel;
         	this.x = col;
         	this.y = row;
         	defaultBackground = this.getBackground();
-        	label = new JLabel("-");
+        	label = new JLabel(" ");
         	this.add(label);
         	enabled = false;
         }

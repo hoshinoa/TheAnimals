@@ -1,6 +1,8 @@
 package games;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class TicTacToeGameLogic implements GameLogic{
 
@@ -10,10 +12,20 @@ public class TicTacToeGameLogic implements GameLogic{
 	
 	@Override
 	public void runGame(int boardWidth, int boardHeight,
-			ArrayList<Player> players) {
+			ArrayList<Player> players, HashSet<PrintWriter> writers) {
 		gameState = new GameState(boardWidth, boardHeight);
+		
+		PrintWriter playerOuts[] = writers.toArray(new PrintWriter[writers.size()]);
+		
 		player1 = players.get(0);
+		player1.setOut(playerOuts[0]);
+		player1.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 1");
+		
 		player2 = players.get(1);
+		player2.setOut(playerOuts[1]);
+		player2.sendMessageToPlayer("MESSAGE" + "Tic-Tac-Toe: " + "You are player 2");
+		
+		
 	}
 	
 	@Override

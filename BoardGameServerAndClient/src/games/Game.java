@@ -34,7 +34,7 @@ public abstract class Game
 	{
 		for(String name: clientNames) { gPlayers.add(new Player(name)); }
 		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is starting now..."); }
-		gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
+		gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers, writers);
 	}
 	
 	/*

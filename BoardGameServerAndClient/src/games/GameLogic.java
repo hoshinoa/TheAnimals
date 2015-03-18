@@ -1,12 +1,14 @@
 package games;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public interface GameLogic 
 {
 	
 	// The Game abstract class calls on runGame to initialize the first game state and set up the game board.
-	public void runGame(int boardWidth, int boardHeight, ArrayList<Player> players);
+	public void runGame(int boardWidth, int boardHeight, ArrayList<Player> players, HashSet<PrintWriter> writers);
 	
 	// Inputs the current player and game state so that the game logic can determine if
 	// the move was legal for the current game state.

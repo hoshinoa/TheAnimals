@@ -15,6 +15,7 @@ public abstract class Game
 	
 	public ArrayList<Player> gPlayers;
 	
+	
 	public Game(String gameTitle, int boardWidth, int boardHeight, int maxPlayers, int minPlayers, GameLogic gameLogic) 
 	{
 		this.gameTitle = gameTitle;
@@ -34,10 +35,8 @@ public abstract class Game
 		for(String name: clientNames) {
 			gPlayers.add(new Player(name));
 		}
-		
+		//Doesn't work as intended all of the time need to think about this some more
 		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is starting now..."); }
-		// Passes the game board width & height and a list of involved players to the game logic.
-		//gameLogic.runGame(BOARD_WIDTH, BOARD_HEIGHT, gPlayers);
 	}
 	
 	/*

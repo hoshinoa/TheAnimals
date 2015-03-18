@@ -1,5 +1,9 @@
 import java.util.*;
 
+/* When calling makeMove() and isLegalMove(), the x and y values
+ * are in the range of 1 to 8, as displayed in printBoard(). The
+ * methods itself will subtract 1 for 0-based indexing.
+*/
 
 public class OthelloLogic{
 

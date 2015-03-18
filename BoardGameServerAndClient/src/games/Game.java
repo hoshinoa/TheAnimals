@@ -32,10 +32,7 @@ public abstract class Game
 	// Starts the game.
 	public void startGame(HashSet<String> clientNames, HashSet<PrintWriter> writers)
 	{
-		for(String name: clientNames) {
-			gPlayers.add(new Player(name));
-		}
-		//Doesn't work as intended all of the time need to think about this some more
+		for(String name: clientNames) { gPlayers.add(new Player(name)); }
 		for(PrintWriter writer: writers) { writer.println("MESSAGE" + "SYSTEM: " + "Players matched! Game is starting now..."); }
 	}
 	

@@ -12,7 +12,6 @@ import games.Game;
 import games.SimpleGameFactory;
 
 //TODO Handle disconnects from players
-//TODO figure out  what should be part of room and what should be part of game
 public class Room {
 	
 	private HashSet<String> clientNames = new HashSet<String>();
@@ -43,10 +42,6 @@ public class Room {
 		portNumber = servSock.getLocalPort();
 	}
 	
-	public void gameStart() {
-		game.startGame(clientNames, writers);
-	}
-	
 	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{
 		new GameRoomServer(gameServSock).start(); }
 	
@@ -69,7 +64,6 @@ public class Room {
 			} finally { 
 				System.out.println("Closing room on port " + this.servSock.getLocalPort());
 				try { this.servSock.close();} catch (IOException e) { System.err.println("Error closing room socket"); e.printStackTrace(); }
-				gameStart();
 			}
 			
 		} //End of run()
@@ -82,6 +76,7 @@ public class Room {
 		private Socket socket;
 		private BufferedReader in;
 		private PrintWriter out;
+		private int gameStart = 0;
 		
 		public GameHandler(Socket socket){ 
 			this.name = recentlyAddedPlayer;
@@ -104,10 +99,14 @@ public class Room {
 				}
 				
 				while(true) {
-					//TODO ping users to check if online if not graceful handle of disconnect
 					String input = in.readLine();
 					if(input == null){ return; } 
-					else { 
+					else if(input.startsWith("STARTGAME")) {
+						if(gameStart == 0) {
+							game.startGame(clientNames, writers);
+							gameStart++;
+						} else { out.println("MESSAGE" + "SYSTEM: " + "Game has already started"); }
+					} else { //regular message
 						for(PrintWriter writer: writers) {
 							writer.println("MESSAGE" + name + " : " + input);
 						}

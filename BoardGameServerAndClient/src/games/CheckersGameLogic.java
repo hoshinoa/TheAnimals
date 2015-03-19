@@ -20,7 +20,6 @@ public class CheckersGameLogic implements GameLogic{
 	
 	public int currentSelectionX;
 	public int currentSelectionY;
-	public boolean selected = false;
 	
 	@Override
 	public void runGame(int boardWidth, int boardHeight,
@@ -249,23 +248,24 @@ public class CheckersGameLogic implements GameLogic{
 		
 	}
 	
-
+	public void resetBoardMoves(){
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++) { gameState.board[i][j].legal = false; } }
+	}
 	
 	@Override
 	public String makeMove(int col, int row) {
 		String sendThis = "";
 		
 		//Jump, or Select Piece move
-		if(gameState.board[row][col].getValue() == gameState.mCurrentTurn && !selected) { //is your own piece, select it
+		if(gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //is your own piece, select it
 			currentSelectionX = row;
 			currentSelectionY = col;
-			selected = true;
-			
+			resetBoardMoves();
 			markLegalMoves(false, col, row);
-			System.out.println("Selected");
 			return sendThis;
 			
-		} else if (gameState.board[row][col].legal && selected) {
+		} else if (gameState.board[row][col].legal) {
 			System.out.println("movin");
 			//Empty out current space
 			gameState.board[currentSelectionX][currentSelectionY].setPiece(" ");
@@ -289,8 +289,8 @@ public class CheckersGameLogic implements GameLogic{
 				
 			gameState.board[row][col].setValue(gameState.mCurrentTurn);
 			sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
-			
-			selected = false;
+
+			resetBoardMoves();
 			//TODO check for victory
 		} else { //is probably opponents space, don't do anything
 			sendThis = "INVALIDMOVE ";

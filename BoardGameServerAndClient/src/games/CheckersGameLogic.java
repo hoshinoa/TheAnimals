@@ -7,7 +7,7 @@ import java.util.HashSet;
 public class CheckersGameLogic implements GameLogic{
 
 	public int EMPTY = 0;
-	public int RED = 1;
+	public int WHITE = 1;
 	public int BLACK = 2;
 	public int RED_KING = 3;
 	public int BLACK_KING = 4;
@@ -17,6 +17,10 @@ public class CheckersGameLogic implements GameLogic{
 	private GameState gameState;
 	private Player player1;
 	private Player player2;
+	
+	public int currentSelectionX;
+	public int currentSelectionY;
+	public boolean selected = false;
 	
 	@Override
 	public void runGame(int boardWidth, int boardHeight,
@@ -157,8 +161,42 @@ public class CheckersGameLogic implements GameLogic{
 
 	@Override
 	public String makeMove(int col, int row) {
-		// TODO Auto-generated method stub
-		return null;
+		String sendThis = "";
+		
+		//Jump, or Select Piece move
+		if(gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //is your own piece, select it
+			currentSelectionX = row;
+			currentSelectionY = col;
+			selected = true;
+			System.out.println("Selected a piece");
+			return sendThis;
+		} else if (gameState.board[row][col].getValue() == EMPTY && selected) {
+			System.out.println("Jump maneuver");
+			//Empty out current space
+			gameState.board[currentSelectionX][currentSelectionY].setPiece(" ");
+			gameState.board[currentSelectionX][currentSelectionY].setValue(EMPTY);
+			sendThis = "PLACEPIECE " + "p" + " " + currentSelectionY + " " + currentSelectionX; 
+			player1.sendMessageToPlayer(sendThis);
+			player2.sendMessageToPlayer(sendThis);
+			
+			//Jump to new space
+			//TODO check if you have to King the piece
+			if(gameState.mCurrentTurn == WHITE) {
+				gameState.board[row][col].setPiece("W");
+			} else {
+				gameState.board[row][col].setPiece("B");
+			}
+				
+			gameState.board[row][col].setValue(gameState.mCurrentTurn);
+			sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
+			
+			selected = false;
+			//TODO check for victory
+		} else { //is probably opponents space, don't do anything
+			sendThis = "INVALIDMOVE ";
+		}
+		
+		return sendThis;
 	}
 
 	@Override
@@ -175,7 +213,9 @@ public class CheckersGameLogic implements GameLogic{
 
 	@Override
 	public boolean winnerExists() {
-		// TODO Auto-generated method stub
+		if (blackCount == 0 || redCount == 0){
+			return true;
+		}
 		return false;
 	}
 
@@ -183,31 +223,6 @@ public class CheckersGameLogic implements GameLogic{
 
 /*
 
-
-	
-	public CheckersLogic(){
-		board = new ArrayList<List<Integer>>();
-		board.add(Arrays.asList(0,1,0,1,0,1,0,1));
-		board.add(Arrays.asList(1,0,1,0,1,0,1,0));
-		board.add(Arrays.asList(0,1,0,1,0,1,0,1));
-		board.add(Arrays.asList(0,0,0,0,0,0,0,0));
-		board.add(Arrays.asList(0,0,0,0,0,0,0,0));
-		board.add(Arrays.asList(2,0,2,0,2,0,2,0));
-		board.add(Arrays.asList(0,2,0,2,0,2,0,2));
-		board.add(Arrays.asList(2,0,2,0,2,0,2,0));
-		current_turn = 1;
-		blackCount = 12;
-		redCount = 12;
-	}
-	
-	public boolean isGameOver(){
-		if (blackCount == 0 || redCount == 0){
-			return true;
-		}
-		return false;
-	}
-	
-	
 	public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
      board.get(toRow).set(toCol, board.get(fromRow).get(fromCol));
      board.get(fromRow).set(fromCol,EMPTY);
@@ -237,13 +252,6 @@ public class CheckersGameLogic implements GameLogic{
      
   }
   
-	public void setCurrent_turn(int turn){
-		current_turn = turn;
-	}
-	
-	public int getCurrent_turn(){
-		return current_turn;
-	}
 	public boolean isLegalMove(int fromRow, int fromCol, int toRow, int toCol){
 		CheckersMove[] moveArray = getLegalMoves(current_turn);
 		if (moveArray != null){
@@ -391,18 +399,6 @@ public class CheckersGameLogic implements GameLogic{
      }
      
   }
-  
-  	public void printBoard() {
-  		System.out.println("  0 1 2 3 4 5 6 7 x");
-		for (int i=0;i<8;i++) {
-			System.out.print((i) + " ");
-			for (int j=0;j<8;j++) {
-				System.out.print(board.get(i).get(j) + " ");
-			}
-			    System.out.println();
-		}
-		System.out.println("y");
-  	}
   
   
 }

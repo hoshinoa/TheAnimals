@@ -36,9 +36,9 @@ public class OthelloGameLogic implements GameLogic{
 			
 			//Initial Board Setup
 			
-			gameState.board[3][3].setPiece('W');
+			gameState.board[3][3].setPiece("W");
 			gameState.board[3][3].setValue(2);
-			gameState.board[4][4].setPiece('W');
+			gameState.board[4][4].setPiece("W");
 			gameState.board[4][4].setValue(2);
 			
 			player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[3][3].getPiece() + " " + 3 + " " + 3); 
@@ -46,9 +46,9 @@ public class OthelloGameLogic implements GameLogic{
 			player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[4][4].getPiece() + " " + 4 + " " + 4); 
 			player2.sendMessageToPlayer("PLACEPIECE " + gameState.board[4][4].getPiece() + " " + 4 + " " + 4);
 			
-			gameState.board[3][4].setPiece('B');
+			gameState.board[3][4].setPiece("B");
 			gameState.board[3][4].setValue(1);
-			gameState.board[4][3].setPiece('B');
+			gameState.board[4][3].setPiece("B");
 			gameState.board[4][3].setValue(1);
 			
 			player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[3][4].getPiece() + " " + 3 + " " + 4); 
@@ -73,7 +73,7 @@ public class OthelloGameLogic implements GameLogic{
 		
 		if (validMove(col, row)){
 			if(gameState.mCurrentTurn == 1) { //player 1
-				gameState.board[row][col].setPiece('B');
+				gameState.board[row][col].setPiece("B");
 				gameState.board[row][col].setValue(1); 
 				flipPieces(col, row);
 				gameState.mCurrentTurn = 2; 
@@ -83,7 +83,7 @@ public class OthelloGameLogic implements GameLogic{
 				player2.sendMessageToPlayer("MESSAGE" + "Othello: " + "Currently Player 2's turn, please make a move");
 				player1.sendMessageToPlayer("MESSAGE" + "Othello: " + "Currently Player 2's turn, please wait...");
 			} else { //player 2
-				gameState.board[row][col].setPiece('W');
+				gameState.board[row][col].setPiece("W");
 				gameState.board[row][col].setValue(2); 
 				flipPieces(col, row);
 				gameState.mCurrentTurn = 1; 
@@ -150,10 +150,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkAbove(col, row - 1) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -171,10 +171,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkBelow(col, row + 1) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -192,10 +192,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkLeft(col - 1, row ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -211,12 +211,12 @@ public class OthelloGameLogic implements GameLogic{
 		} else if(gameState.board[row][col].getValue() == gameState.mCurrentTurn){ //need to do flipping
 			return true;
 		} else { //different color, continue
-			if (checkLeft(col + 1, row ) ) { //if true flip current piece 
+			if (checkRight(col + 1, row ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -235,10 +235,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkUpperLeftDiagonal(col - 1, row - 1 ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -257,10 +257,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkUpperRightDiagonal(col + 1, row - 1 ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -279,10 +279,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkLowerRightDiagonal(col + 1, row + 1 ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
@@ -301,10 +301,10 @@ public class OthelloGameLogic implements GameLogic{
 		} else { //different color, continue
 			if (checkLowerLeftDiagonal(col - 1, row + 1 ) ) { //if true flip current piece 
 				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece('W');
+					gameState.board[row][col].setPiece("W");
 					gameState.board[row][col].setValue(2);
 				} else {
-					gameState.board[row][col].setPiece('B');
+					gameState.board[row][col].setPiece("B");
 					gameState.board[row][col].setValue(1);
 				}
 				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 

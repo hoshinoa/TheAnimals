@@ -3,7 +3,7 @@ package games;
 public class GamePiece {
 
 	private String type;
-	private char piece;
+	private String piece;
 	private int value;
 	
 	public String getType() {
@@ -18,10 +18,10 @@ public class GamePiece {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public char getPiece() {
+	public String getPiece() {
 		return piece;
 	}
-	public void setPiece(char piece) {
+	public void setPiece(String piece) {
 		this.piece = piece;
 	}
 	

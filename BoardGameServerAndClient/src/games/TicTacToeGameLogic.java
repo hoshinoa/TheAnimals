@@ -59,7 +59,7 @@ public class TicTacToeGameLogic implements GameLogic{
 		String sendThis = "";
 		if(validMove(col,row)){
 			if(gameState.mCurrentTurn == 1) { //player 1
-				gameState.board[row][col].setPiece('X');
+				gameState.board[row][col].setPiece("X");
 				gameState.board[row][col].setValue(1); 
 				gameState.mCurrentTurn = 2; 
 				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
@@ -79,7 +79,7 @@ public class TicTacToeGameLogic implements GameLogic{
 				}
 				
 			} else { //player 2
-				gameState.board[row][col].setPiece('O');
+				gameState.board[row][col].setPiece("O");
 				gameState.board[row][col].setValue(2); 
 				gameState.mCurrentTurn = 1; 
 				sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 

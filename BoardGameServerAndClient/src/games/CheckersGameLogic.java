@@ -164,7 +164,7 @@ public class CheckersGameLogic implements GameLogic{
 		String sendThis = "";
 		
 		//Jump, or Select Piece move
-		if(gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //is your own piece, select it
+		if(gameState.board[row][col].getValue() == gameState.mCurrentTurn && !selected) { //is your own piece, select it
 			currentSelectionX = row;
 			currentSelectionY = col;
 			selected = true;

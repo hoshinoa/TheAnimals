@@ -1,5 +1,0 @@
-INDEX VERSION 1.127+C:\Users\Mudassir\Documents\GitHub\TheAnimals\ExampleGame\.metadata\.plugins\org.eclipse.jdt.core
-513670982.index
-1657330681.index
-62674686.index
-3853995095.index

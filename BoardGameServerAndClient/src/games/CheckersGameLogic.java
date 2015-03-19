@@ -9,7 +9,7 @@ public class CheckersGameLogic implements GameLogic{
 	public int EMPTY = 0;
 	public int WHITE = 1;
 	public int BLACK = 2;
-	public int RED_KING = 3;
+	public int WHITE_KING = 3;
 	public int BLACK_KING = 4;
 	public int redCount;
 	public int blackCount;
@@ -140,7 +140,7 @@ public class CheckersGameLogic implements GameLogic{
 		gameState.board[5][4].setPiece("B");
 		gameState.board[5][6].setPiece("B");
 		gameState.board[5][0].setValue(2);
-		gameState.board[2][2].setValue(2);
+		gameState.board[5][2].setValue(2);
 		gameState.board[5][4].setValue(2);
 		gameState.board[5][6].setValue(2);
 		player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[5][0].getPiece() + " " + 0 + " " + 5); 
@@ -163,84 +163,79 @@ public class CheckersGameLogic implements GameLogic{
 		boolean hasLegalMove = false;
 		
 		if(gameState.mCurrentTurn == WHITE) { //check bottom diagonals
-			if(row != 0 && col != 0) { 
-				if(row != 8 && col != 0){ hasLegalMove |= checkLowerLeftDiagonal(col-1,row+1); }
-				if(row != 8 && col != 8){ hasLegalMove |= checkLowerRightDiagonal(col+1,row+1); }
-			}
-		} else {} //
+			if(row != 7 && col != 0){ hasLegalMove |= checkLowerLeftDiagonal(col-1,row+1); }
+			if(row != 7 && col != 7){ hasLegalMove |= checkLowerRightDiagonal(col+1,row+1); }
+		} else if (gameState.mCurrentTurn == BLACK) { //check upper diagonals
+			if(row != 0 && col != 0){ hasLegalMove |= checkUpperLeftDiagonal(col-1,row-1); }
+			if(row != 0 && col != 7){ hasLegalMove |= checkUpperRightDiagonal(col+1,row-1); }
+		}
 		
-		System.out.println(hasLegalMove);
 		return hasLegalMove;
 	}
 	
 	public boolean checkUpperLeftDiagonal(int col, int row){
-		if(col == 0 || row == 0 || gameState.board[row][col].getValue() == 0) { //Stop don't do anything
-			return false;
-		} else if(gameState.board[row][col].getValue() == gameState.mCurrentTurn){ //need to do flipping
-			return true;
-		} else { //different color, continue
-			if (checkUpperLeftDiagonal(col - 1, row - 1 ) ) { //if true flip current piece 
-				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece("W");
-					gameState.board[row][col].setValue(2);
-				} else {
-					gameState.board[row][col].setPiece("B");
-					gameState.board[row][col].setValue(1);
-				}
-				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
-				player2.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row);
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkUpperRightDiagonal(int col, int row){
-		if(col == 8 || row == 0 || gameState.board[row][col].getValue() == 0) { //Stop don't do anything
-			return false;
-		} else if(gameState.board[row][col].getValue() == gameState.mCurrentTurn){ //need to do flipping
-			return true;
-		} else { //different color, continue
-			if (checkUpperRightDiagonal(col + 1, row - 1 ) ) { //if true flip current piece 
-				if(gameState.mCurrentTurn == 2) {
-					gameState.board[row][col].setPiece("W");
-					gameState.board[row][col].setValue(2);
-				} else {
-					gameState.board[row][col].setPiece("B");
-					gameState.board[row][col].setValue(1);
-				}
-				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
-				player2.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row);
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkLowerRightDiagonal(int col, int row){
-		if(col == 8 || row == 8 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+		if(col < 0 || row < 0 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
 			gameState.board[row][col].legal = true;
+			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
-			if(gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
-				gameState.board[row + 1][col + 1].legal = true;
+			if(row - 1 < 0 && col - 1 < 0 && gameState.board[row - 1][col - 1].getValue() == 0) { //have a legal space that removes something
+				gameState.board[row - 1][col - 1].legal = true; 
+				System.out.println((row - 1) + " " + (col - 1));
 				return true;
 			} 
 		}
 		return false;
 	}
 	
-	public boolean checkLowerLeftDiagonal(int col, int row){
-		if(col == 0 || row == 8 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+	public boolean checkUpperRightDiagonal(int col, int row){
+		if(col > 7 || row < 0 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
 			gameState.board[row][col].legal = true;
+			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
-			if(gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
+			if(row - 1 < 0 && col + 1 > 7 && gameState.board[row - 1][col + 1].getValue() == 0) { //have a legal space that removes something
+				gameState.board[row - 1][col + 1].legal = true;
+				System.out.println((row - 1) + " " + (col + 1));
+				return true;
+			} 
+		}
+		return false;
+	}
+	
+	public boolean checkLowerRightDiagonal(int col, int row){
+		if(col > 7 || row > 7 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+			return false;
+		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
+			System.out.println(row + " " + col);
+			gameState.board[row][col].legal = true;
+			return true;
+		} else { //different color, continue
+			if(row + 1 > 7 && col + 1 > 7 && gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
+				gameState.board[row + 1][col + 1].legal = true;
+				System.out.println((row + 1) + " " + (col + 1));
+				return true;
+				
+			} 
+		}
+		return false;
+	}
+	
+	public boolean checkLowerLeftDiagonal(int col, int row){
+		if(col < 0 || row > 7 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+			return false;
+		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
+			gameState.board[row][col].legal = true;
+			System.out.println(row + " " + col);
+			return true;
+		} else { //different color, continue
+			if(row + 1 > 7 && col - 1 < 0 && gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row + 1][col - 1].legal = true;
+				System.out.println((row + 1) + " " + (col - 1));
 				return true;
 			} 
 		}
@@ -266,7 +261,7 @@ public class CheckersGameLogic implements GameLogic{
 			return sendThis;
 			
 		} else if (gameState.board[row][col].legal) {
-			System.out.println("movin");
+			
 			//Empty out current space
 			gameState.board[currentSelectionX][currentSelectionY].setPiece(" ");
 			gameState.board[currentSelectionX][currentSelectionY].setValue(EMPTY);
@@ -279,19 +274,29 @@ public class CheckersGameLogic implements GameLogic{
 				//TODO check if you have to King the piece
 				//TODO remove eaten pieces
 			
-			//TODO invalidate board all legal to nonlegal
-			
+			gameState.board[row][col].setValue(gameState.mCurrentTurn);
 			if(gameState.mCurrentTurn == WHITE) {
 				gameState.board[row][col].setPiece("W");
+				player1.sendMessageToPlayer("WAIT");
+				player2.sendMessageToPlayer("MAKEMOVE");
+				player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 2's turn, please make a move");
+				player1.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 2's turn, please wait...");
+				gameState.mCurrentTurn = 2;
 			} else {
 				gameState.board[row][col].setPiece("B");
+				player2.sendMessageToPlayer("WAIT");
+				player1.sendMessageToPlayer("MAKEMOVE");
+				player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 1's turn, please make a move");
+				player1.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 1's turn, please wait...");
+				gameState.mCurrentTurn = 1;
 			}
 				
-			gameState.board[row][col].setValue(gameState.mCurrentTurn);
 			sendThis = "PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row; 
 
 			resetBoardMoves();
-			//TODO check for victory
+			if(winnerExists()) {
+				//TODO Victory of some kind
+			}
 		} else { //is probably opponents space, don't do anything
 			sendThis = "INVALIDMOVE ";
 		}

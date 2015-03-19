@@ -3,6 +3,8 @@ package client;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -11,7 +13,9 @@ import javax.swing.border.MatteBorder;
 public class BoardGenerator extends JPanel {
 
 		private static final long serialVersionUID = 1L;
-
+		BoardTile boardArray[][];
+		String pressedTile;
+		
 		public BoardGenerator(int gridCols, int gridRows) {
 			
             setLayout(new GridBagLayout());
@@ -21,6 +25,8 @@ public class BoardGenerator extends JPanel {
             /*
              * Generating visual grid
              */
+            boardArray = new BoardTile[gridCols][gridRows];
+            
             for (int row = 0; row < gridRows; row++) {
                 for (int col = 0; col < gridCols; col++) {
                     gbc.gridx = col;
@@ -47,7 +53,10 @@ public class BoardGenerator extends JPanel {
                     }
                     cellPane.setBorder(border);
                     add(cellPane, gbc);
+                    
+                    boardArray[col][row] = cellPane;
                 }
             }
         }
-    }
+		
+    } // end of class declaration

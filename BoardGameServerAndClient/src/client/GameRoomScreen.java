@@ -33,7 +33,6 @@ public class GameRoomScreen extends JFrame{
 		chatLabel.setBounds(560, 11, 306, 25);
 		getContentPane().add(chatLabel);
 		
-		
 		textField = new JTextField(40);
 		messageArea = new JTextArea(8,40);
 		messageArea.setEditable(false);
@@ -45,8 +44,7 @@ public class GameRoomScreen extends JFrame{
 		getContentPane().add(textField);
 		
 		boardGame = new BoardGameWindow(cols,rows);
-		JPanel gameFrame = boardGame.getGameFrame();
-		System.out.println(gameFrame.getLayout());
+		JPanel gameFrame = boardGame.gamePane;
 		gameFrame.setLayout(new BoxLayout(gameFrame, BoxLayout.X_AXIS));
 		gameFrame.setAlignmentY(CENTER_ALIGNMENT);
 		gameFrame.setBounds(new Rectangle(0,0,600,600));
@@ -57,9 +55,10 @@ public class GameRoomScreen extends JFrame{
 	//For testing purposes uncomment if you want
 	/*
 	public static void main(String args[]) {
-		GameRoomScreen test = new GameRoomScreen();
+		GameRoomScreen test = new GameRoomScreen(3,3);
 		test.setVisible(true);
-	} */
+	} 
+	*/
 
 	
 }

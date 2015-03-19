@@ -1,7 +1,10 @@
 package client;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,7 +55,6 @@ public class Client {
 		    	  if(homeScreen.gameList.getSelectedIndex() != -1 && !le.getValueIsAdjusting()) {
 		    		  String sendThis = "CONNECTPLAYERTOROOM" + " " + homeScreen.gameList.getSelectedIndex();
 		    		  out.println(sendThis);
-		    		  System.out.println(sendThis);
 		    	  }
 		      }
 		    });
@@ -120,7 +122,6 @@ public class Client {
 		//info[2] = COLS
 		//info[3] = ROWS
 		portNumber = info[1];
-		System.out.println(instructions);
 		final GameRoomScreen newRoom = new GameRoomScreen(Integer.parseInt(info[2]), Integer.parseInt(info[3]));
 		newRoom.textField.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -135,12 +136,50 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
         
+        for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+        	for (final BoardTile tile: row) { 
+    	    	tile.addMouseListen(new MouseAdapter(){
+
+    			    @Override
+    			    public void mousePressed(MouseEvent e) {
+    			    	//tile.setBackground(Color.RED);
+    			    	if(tile.enabled) {
+    			    		out.println( "MOVEMADE " + tile.x + " " + tile.y);
+    			    	}
+    			    }
+    	    }); 
+    	    } 
+		}
+        
         while(true) {
-        	//TODO Ping for connection
         	String line = in.readLine();
         	if (line.startsWith("MESSAGE")){
         		newRoom.messageArea.append(line.substring(7) + "\n");
-        	} else if(line.startsWith("FINISH")) {
+        	} else if(line.startsWith("MAKEMOVE")) {
+        		for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+				    for (final BoardTile tile: row) { 
+				    	tile.enabled = true;
+				    } }
+        		
+			} else if(line.startsWith("WAIT")) {
+				for (BoardTile[] row: newRoom.boardGame.gridPane.boardArray) {
+				    for (final BoardTile tile: row) { 
+				    	tile.enabled = false;
+				    } }
+				
+			} else if(line.startsWith("PLACEPIECE")){
+				String placePieceInstructions [] = line.split("\\s+");
+				//placePieceInstructions[0] == "PLACEPIECE"
+				//placePieceInstructions[1] == Piece to place 'x' or 'o'
+				//placePieceInstructions[2] == col
+				//placePieceInstructions[3] == row
+				
+				newRoom.boardGame.gridPane.boardArray[Integer.parseInt(placePieceInstructions[2])][Integer.parseInt(placePieceInstructions[3])].label.setText(placePieceInstructions[1]);
+				
+			} else if(line.startsWith("INVALIDMOVE")) {
+				//out.println("The move was invalid please try again");
+			}
+        	else if(line.startsWith("FINISH")) {
         		break;
         	}
         }

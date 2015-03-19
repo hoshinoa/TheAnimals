@@ -16,14 +16,10 @@ public class Room {
 	private HashSet<String> clientNames = new HashSet<String>();
     private HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 	
-	//TODO Handle disconnects from players
-	//TODO figure out  what should be part of room and what should be part of game
 	private String nameOfRoom;
-	
-	//This goes to game
 	private int maxPlayers;
-	
 	private int currentPlayerCount;
+	
 	private SimpleGameFactory gameFactory;
 	private Game game;
 	
@@ -35,59 +31,15 @@ public class Room {
 		this.nameOfRoom = roomName;
 		gameFactory = new SimpleGameFactory();
 		portNumber = 0;
-		//TODO update maxplayers and current player count to be extensible
-		currentPlayerCount = 0;
-		maxPlayers = 2;
+		currentPlayerCount = 0; 
 	}
 
 	public void gameSetup(String gameType) throws IOException{
 		this.game = gameFactory.createGame(gameType);
+		maxPlayers = this.game.MAX_PLAYERS;
 		servSock = new ServerSocket(portNumber);
 		portNumber = servSock.getLocalPort();
 	}
-	
-	//Setters and getters
-	public int getPortNumber() {
-		return portNumber;
-	}
-
-	public void setPortNumber(int portNumber) {
-		this.portNumber = portNumber;
-	}
-	
-	public String getNameOfRoom() {
-		return nameOfRoom;
-	}
-
-	public void setNameOfRoom(String nameOfRoom) {
-		this.nameOfRoom = nameOfRoom;
-	}
-
-	public int getMaxPlayers() {
-		return maxPlayers;
-	}
-
-	public void setMaxPlayers(int maxPlayers) {
-		this.maxPlayers = maxPlayers;
-	}
-
-	public int getCurrentPlayerCount() {
-		return currentPlayerCount;
-	}
-
-	public void incrementPlayerCount() {
-		this.currentPlayerCount ++;
-	}
-	
-	public int getGameCols(){
-		return game.BOARD_HEIGHT;
-	}
-	
-	public int getGameRows(){
-		return game.BOARD_WIDTH;
-	}
-	
-	//End of Setters and getters
 	
 	public void createGameRoomServer(ServerSocket gameServSock) throws IOException{
 		new GameRoomServer(gameServSock).start(); }
@@ -102,12 +54,9 @@ public class Room {
 			System.out.println("Starting new game room server");
 			try{
 				while(getCurrentPlayerCount() != getMaxPlayers() ){ //While numplayers != maxPlayers 
-					//TODO allow for game options that have minAmount of players vs maxAmount of players
 					new GameHandler(this.servSock.accept()).start();
 					incrementPlayerCount();
 				}
-				
-				//TODO add other server functions Do other stuff
 				
 			} catch (IOException e) {
 				System.err.println("Error in sockets"); e.printStackTrace();
@@ -126,6 +75,7 @@ public class Room {
 		private Socket socket;
 		private BufferedReader in;
 		private PrintWriter out;
+		private int gameStart = 0;
 		
 		public GameHandler(Socket socket){ 
 			this.name = recentlyAddedPlayer;
@@ -148,11 +98,21 @@ public class Room {
 				}
 				
 				while(true) {
-					//TODO ping users to check if online if not graceful handle of disconnect
 					String input = in.readLine();
-					if(input == null){	
-						return; //don't do anything on empty returns
-					} else { 
+					if(input == null){ return; } 
+					else if(input.startsWith("STARTGAME")) {
+						if(gameStart == 0) {
+							game.startGame(clientNames, writers);
+							gameStart++;
+						} else { out.println("MESSAGE" + "SYSTEM: " + "Game has already started"); }
+					} else if(input.startsWith("MOVEMADE")) {
+						String moveInfo [] = input.split("\\s+");
+						//moveInfo[0] == "MOVEMADE"
+						//moveInfo[1] == column pressed
+						//moveInfo[2] == row pressed
+						String sendThis = game.gameLogic.makeMove(Integer.parseInt(moveInfo[1]), Integer.parseInt(moveInfo[2]));
+						for(PrintWriter writer: writers) { writer.println(sendThis); }
+					} else { //regular message
 						for(PrintWriter writer: writers) {
 							writer.println("MESSAGE" + name + " : " + input);
 						}
@@ -165,10 +125,25 @@ public class Room {
 			} finally {
 				try {
 					socket.close();
+					for(PrintWriter writer: writers) {
+						writer.println("MESSAGE" + "SYSTEM: " + name + " has disconnected from the game, please restart...");
+					}
 				} catch (IOException e){ System.err.println("There was an error closing connections, shutting down now"); }
 			}
 		} // end of run()
 	} //end of GameThread
 	
+	//Setters and getters
+	public int getPortNumber() { return portNumber; }
+	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
+	public String getNameOfRoom() { return nameOfRoom; }
+	public void setNameOfRoom(String nameOfRoom) { this.nameOfRoom = nameOfRoom; }
+	public int getMaxPlayers() { return maxPlayers; }
+	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
+	public int getCurrentPlayerCount() { return currentPlayerCount; }
+	public void incrementPlayerCount() { this.currentPlayerCount ++; }
+	public int getGameCols(){ return game.BOARD_HEIGHT; }
+	public int getGameRows(){ return game.BOARD_WIDTH; }
+	//End of Setters and getters
 	
 }

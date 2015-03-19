@@ -309,7 +309,15 @@ public class CheckersGameLogic implements GameLogic{
 
 			resetBoardMoves();
 			if(winnerExists()) {
-				//TODO Victory of some kind
+				player1.sendMessageToPlayer("WAIT");
+				player2.sendMessageToPlayer("WAIT");
+				if(whiteCount == 0) {
+					player1.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Congratulations Player 2 is the WINNER!");
+					player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Congratulations Player 2 is the WINNER!");
+				} else {
+					player1.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Congratulations Player 1 is the WINNER!");
+					player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Congratulations Player 1 is the WINNER!");
+				}
 			}
 		} else { //is probably opponents space, don't do anything
 			sendThis = "INVALIDMOVE ";

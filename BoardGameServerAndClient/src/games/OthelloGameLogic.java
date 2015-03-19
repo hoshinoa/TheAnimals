@@ -96,7 +96,7 @@ public class OthelloGameLogic implements GameLogic{
 			
 			winnerExists();
 			
-		}  else { System.out.println("Theres a piece there"); sendThis = "INVALIDMOVE "; }
+		}  else { sendThis = "INVALIDMOVE "; }
 		return sendThis;
 	}
 

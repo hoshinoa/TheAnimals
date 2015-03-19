@@ -168,14 +168,15 @@ public class CheckersGameLogic implements GameLogic{
 			currentSelectionX = row;
 			currentSelectionY = col;
 			selected = true;
-			System.out.println("Selected a piece");
+			
 			return sendThis;
+			
 		} else if (gameState.board[row][col].getValue() == EMPTY && selected) {
-			System.out.println("Jump maneuver");
+			
 			//Empty out current space
 			gameState.board[currentSelectionX][currentSelectionY].setPiece(" ");
 			gameState.board[currentSelectionX][currentSelectionY].setValue(EMPTY);
-			sendThis = "PLACEPIECE " + "p" + " " + currentSelectionY + " " + currentSelectionX; 
+			sendThis = "PLACEPIECE " + "-" + " " + currentSelectionY + " " + currentSelectionX; 
 			player1.sendMessageToPlayer(sendThis);
 			player2.sendMessageToPlayer(sendThis);
 			

@@ -20,6 +20,7 @@ public class CheckersGameLogic implements GameLogic{
 	
 	public int currentSelectionX;
 	public int currentSelectionY;
+	public boolean selectionIsKing;
 	
 	@Override
 	public void runGame(int boardWidth, int boardHeight,
@@ -158,16 +159,27 @@ public class CheckersGameLogic implements GameLogic{
 		whiteCount = 12;
 	}
 
-	public boolean markLegalMoves(boolean fromPrevious, int col, int row){
+	public boolean markLegalMoves(boolean king, int col, int row){
 		
 		boolean hasLegalMove = false;
 		
 		if(gameState.mCurrentTurn == WHITE) { //check bottom diagonals
 			if(row != 7 && col != 0){ hasLegalMove |= checkLowerLeftDiagonal(col-1,row+1); }
 			if(row != 7 && col != 7){ hasLegalMove |= checkLowerRightDiagonal(col+1,row+1); }
+			
+			if(king){
+				if(row != 0 && col != 0){ hasLegalMove |= checkUpperLeftDiagonal(col-1,row-1); }
+				if(row != 0 && col != 7){ hasLegalMove |= checkUpperRightDiagonal(col+1,row-1); }
+			}
+			
 		} else if (gameState.mCurrentTurn == BLACK) { //check upper diagonals
 			if(row != 0 && col != 0){ hasLegalMove |= checkUpperLeftDiagonal(col-1,row-1); }
 			if(row != 0 && col != 7){ hasLegalMove |= checkUpperRightDiagonal(col+1,row-1); }
+			
+			if(king){
+				if(row != 7 && col != 0){ hasLegalMove |= checkLowerLeftDiagonal(col-1,row+1); }
+				if(row != 7 && col != 7){ hasLegalMove |= checkLowerRightDiagonal(col+1,row+1); }
+			}
 		}
 		
 		return hasLegalMove;
@@ -249,7 +261,13 @@ public class CheckersGameLogic implements GameLogic{
 			currentSelectionX = row;
 			currentSelectionY = col;
 			resetBoardMoves();
-			markLegalMoves(false, col, row);
+			
+			if(gameState.board[row][col].getPiece().contains("K")) {
+				selectionIsKing = true;
+			} else {
+				selectionIsKing = false;
+			}
+			markLegalMoves(selectionIsKing, col, row);
 			return sendThis;
 			
 		} else if (gameState.board[row][col].legal) {
@@ -285,19 +303,28 @@ public class CheckersGameLogic implements GameLogic{
 				whiteCount--;
 			}
 			
-			//While still legal moves //Note can't jump to two empty spaces
-				//TODO check if you have to King the piece
+			//TODO While THERE ARE still legal moves 
 			
 			gameState.board[row][col].setValue(gameState.mCurrentTurn);
 			if(gameState.mCurrentTurn == WHITE) {
-				gameState.board[row][col].setPiece("W");
+				if(row == 7 || selectionIsKing) { // White King Piece
+					gameState.board[row][col].setPiece("WK");
+					System.out.println("White king");
+				} else {
+					gameState.board[row][col].setPiece("W");
+				}
 				player1.sendMessageToPlayer("WAIT");
 				player2.sendMessageToPlayer("MAKEMOVE");
 				player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 2's turn, please make a move");
 				player1.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 2's turn, please wait...");
 				gameState.mCurrentTurn = 2;
 			} else {
-				gameState.board[row][col].setPiece("B");
+				if(row == 0 || selectionIsKing) { // Black King Piece
+					gameState.board[row][col].setPiece("BK");
+					System.out.println("black king");
+				} else {
+					gameState.board[row][col].setPiece("B");
+				}
 				player2.sendMessageToPlayer("WAIT");
 				player1.sendMessageToPlayer("MAKEMOVE");
 				player2.sendMessageToPlayer("MESSAGE" + "Checkers: " + "Currently Player 1's turn, please make a move");

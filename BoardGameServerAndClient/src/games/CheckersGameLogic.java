@@ -159,6 +159,98 @@ public class CheckersGameLogic implements GameLogic{
 		redCount = 12;
 	}
 
+	public boolean markLegalMoves(boolean fromPrevious, int col, int row){
+		
+		boolean hasLegalMove = false;
+		
+		if(gameState.mCurrentTurn == WHITE) { //check bottom diagonals
+			if(row != 0 && col != 0) { 
+				if(row != 8 && col != 0){ hasLegalMove |= checkLowerLeftDiagonal(col-1,row+1); }
+				if(row != 8 && col != 8){ hasLegalMove |= checkLowerRightDiagonal(col+1,row+1); }
+			}
+		} else {} //
+		
+		System.out.println(hasLegalMove);
+		return hasLegalMove;
+	}
+	
+	public boolean checkUpperLeftDiagonal(int col, int row){
+		if(col == 0 || row == 0 || gameState.board[row][col].getValue() == 0) { //Stop don't do anything
+			return false;
+		} else if(gameState.board[row][col].getValue() == gameState.mCurrentTurn){ //need to do flipping
+			return true;
+		} else { //different color, continue
+			if (checkUpperLeftDiagonal(col - 1, row - 1 ) ) { //if true flip current piece 
+				if(gameState.mCurrentTurn == 2) {
+					gameState.board[row][col].setPiece("W");
+					gameState.board[row][col].setValue(2);
+				} else {
+					gameState.board[row][col].setPiece("B");
+					gameState.board[row][col].setValue(1);
+				}
+				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
+				player2.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkUpperRightDiagonal(int col, int row){
+		if(col == 8 || row == 0 || gameState.board[row][col].getValue() == 0) { //Stop don't do anything
+			return false;
+		} else if(gameState.board[row][col].getValue() == gameState.mCurrentTurn){ //need to do flipping
+			return true;
+		} else { //different color, continue
+			if (checkUpperRightDiagonal(col + 1, row - 1 ) ) { //if true flip current piece 
+				if(gameState.mCurrentTurn == 2) {
+					gameState.board[row][col].setPiece("W");
+					gameState.board[row][col].setValue(2);
+				} else {
+					gameState.board[row][col].setPiece("B");
+					gameState.board[row][col].setValue(1);
+				}
+				player1.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row); 
+				player2.sendMessageToPlayer("PLACEPIECE " + gameState.board[row][col].getPiece() + " " + col + " " + row);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkLowerRightDiagonal(int col, int row){
+		if(col == 8 || row == 8 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+			return false;
+		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
+			gameState.board[row][col].legal = true;
+			return true;
+		} else { //different color, continue
+			if(gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
+				gameState.board[row + 1][col + 1].legal = true;
+				return true;
+			} 
+		}
+		return false;
+	}
+	
+	public boolean checkLowerLeftDiagonal(int col, int row){
+		if(col == 0 || row == 8 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
+			return false;
+		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
+			gameState.board[row][col].legal = true;
+			return true;
+		} else { //different color, continue
+			if(gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
+				gameState.board[row + 1][col - 1].legal = true;
+				return true;
+			} 
+		}
+		return false;
+		
+	}
+	
+
+	
 	@Override
 	public String makeMove(int col, int row) {
 		String sendThis = "";
@@ -169,10 +261,12 @@ public class CheckersGameLogic implements GameLogic{
 			currentSelectionY = col;
 			selected = true;
 			
+			markLegalMoves(false, col, row);
+			System.out.println("Selected");
 			return sendThis;
 			
-		} else if (gameState.board[row][col].getValue() == EMPTY && selected) {
-			
+		} else if (gameState.board[row][col].legal && selected) {
+			System.out.println("movin");
 			//Empty out current space
 			gameState.board[currentSelectionX][currentSelectionY].setPiece(" ");
 			gameState.board[currentSelectionX][currentSelectionY].setValue(EMPTY);
@@ -180,8 +274,13 @@ public class CheckersGameLogic implements GameLogic{
 			player1.sendMessageToPlayer(sendThis);
 			player2.sendMessageToPlayer(sendThis);
 			
-			//Jump to new space
-			//TODO check if you have to King the piece
+			//While still legal moves //Note can't jump to two empty spaces
+				//Jump to new space
+				//TODO check if you have to King the piece
+				//TODO remove eaten pieces
+			
+			//TODO invalidate board all legal to nonlegal
+			
 			if(gameState.mCurrentTurn == WHITE) {
 				gameState.board[row][col].setPiece("W");
 			} else {

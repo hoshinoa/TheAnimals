@@ -2,21 +2,15 @@ package games;
 
 public class GamePiece {
 
-	private String type;
+	public boolean legal = false;
 	private String piece;
 	private int value;
 	
-	public String getType() {
-		return type;
-	}
 	public int getValue() {
 		return value;
 	}
 	public void setValue(int value) {
 		this.value = value;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	public String getPiece() {
 		return piece;

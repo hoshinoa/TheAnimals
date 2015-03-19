@@ -11,7 +11,7 @@ public class CheckersGameLogic implements GameLogic{
 	public int BLACK = 2;
 	public int WHITE_KING = 3;
 	public int BLACK_KING = 4;
-	public int redCount;
+	public int whiteCount;
 	public int blackCount;
 	
 	private GameState gameState;
@@ -155,7 +155,7 @@ public class CheckersGameLogic implements GameLogic{
 		gameState.mCurrentTurn = 1;
 		
 		blackCount = 12;
-		redCount = 12;
+		whiteCount = 12;
 	}
 
 	public boolean markLegalMoves(boolean fromPrevious, int col, int row){
@@ -178,12 +178,10 @@ public class CheckersGameLogic implements GameLogic{
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
 			gameState.board[row][col].legal = true;
-			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
 			if(row - 1 >= 0 && col - 1 >= 0 && gameState.board[row - 1][col - 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row - 1][col - 1].legal = true; 
-				System.out.println((row - 1) + " " + (col - 1));
 				return true;
 			} 
 		}
@@ -195,12 +193,10 @@ public class CheckersGameLogic implements GameLogic{
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
 			gameState.board[row][col].legal = true;
-			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
 			if(row - 1 >= 0 && col + 1 <= 7 && gameState.board[row - 1][col + 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row - 1][col + 1].legal = true;
-				System.out.println((row - 1) + " " + (col + 1));
 				return true;
 			} 
 		}
@@ -211,13 +207,11 @@ public class CheckersGameLogic implements GameLogic{
 		if(col > 7 || row > 7 || gameState.board[row][col].getValue() == gameState.mCurrentTurn) { //Stop don't do anything
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
-			System.out.println(row + " " + col);
 			gameState.board[row][col].legal = true;
 			return true;
 		} else { //different color, continue
 			if(row + 1 <= 7 && col + 1 <= 7 && gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row + 1][col + 1].legal = true;
-				System.out.println((row + 1) + " " + (col + 1));
 				return true;
 				
 			} 
@@ -230,12 +224,10 @@ public class CheckersGameLogic implements GameLogic{
 			return false;
 		} else if( gameState.board[row][col].getValue() == 0 ){ //have a legal space
 			gameState.board[row][col].legal = true;
-			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
 			if(row + 1 <= 7 && col - 1 >= 0 && gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row + 1][col - 1].legal = true;
-				System.out.println((row + 1) + " " + (col - 1));
 				return true;
 			} 
 		}
@@ -269,10 +261,32 @@ public class CheckersGameLogic implements GameLogic{
 			player1.sendMessageToPlayer(sendThis);
 			player2.sendMessageToPlayer(sendThis);
 			
+			//If you jumped over a piece empty that space too
+			if(row - currentSelectionX == 2) { //jumped down 
+				int x = (row + currentSelectionX) / 2;
+				int y = (col + currentSelectionY) / 2;
+				gameState.board[x][y].setPiece(" ");
+				gameState.board[x][y].setValue(EMPTY);
+				sendThis = "PLACEPIECE " + "-" + " " + y + " " + x; 
+				System.out.println("Jumping down!:  " + sendThis);
+				player1.sendMessageToPlayer(sendThis);
+				player2.sendMessageToPlayer(sendThis);
+				blackCount--;
+				}
+			if(row - currentSelectionX == -2) { //jumped up
+				int x = (row + currentSelectionX) / 2;
+				int y = (col + currentSelectionY) / 2;
+				gameState.board[x][y].setPiece(" ");
+				gameState.board[x][y].setValue(EMPTY);
+				sendThis = "PLACEPIECE " + "-" + " " + y + " " + x; 
+				System.out.println("Jumping up!:  " + sendThis);
+				player1.sendMessageToPlayer(sendThis);
+				player2.sendMessageToPlayer(sendThis);
+				whiteCount--;
+			}
+			
 			//While still legal moves //Note can't jump to two empty spaces
-				//Jump to new space
 				//TODO check if you have to King the piece
-				//TODO remove eaten pieces
 			
 			gameState.board[row][col].setValue(gameState.mCurrentTurn);
 			if(gameState.mCurrentTurn == WHITE) {
@@ -318,206 +332,10 @@ public class CheckersGameLogic implements GameLogic{
 
 	@Override
 	public boolean winnerExists() {
-		if (blackCount == 0 || redCount == 0){
+		if (blackCount == 0 || whiteCount == 0){
 			return true;
 		}
 		return false;
 	}
 
 }
-
-/*
-
-	public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
-     board.get(toRow).set(toCol, board.get(fromRow).get(fromCol));
-     board.get(fromRow).set(fromCol,EMPTY);
-     if (fromRow - toRow == 2 || fromRow - toRow == -2) {
-    	
-        int jumpRow = (fromRow + toRow) / 2; 
-        int jumpCol = (fromCol + toCol) / 2; 
-        board.get(jumpRow).set(jumpCol,EMPTY);
-        if(current_turn == 1){
-        	blackCount--;
-        }
-        else{
-        	redCount--;
-        }
-     }
-     if (toRow == 7 && board.get(toRow).get(toCol) == RED)
-        board.get(toRow).set(toCol,RED_KING);
-     if (toRow == 0 && board.get(toRow).get(toCol) == BLACK)
-    	 board.get(toRow).set(toCol,BLACK_KING);
-     CheckersMove[] x = getLegalJumpsFrom(current_turn, toRow, toCol);
-     if(x!=null){
-    	 makeMove(x[0].fromRow, x[0].fromCol, x[0].toRow, x[0].toCol);
-     }
-     
-
-
-     
-  }
-  
-	public boolean isLegalMove(int fromRow, int fromCol, int toRow, int toCol){
-		CheckersMove[] moveArray = getLegalMoves(current_turn);
-		if (moveArray != null){
-		CheckersMove wantedTurn = new CheckersMove(fromRow, fromCol, toRow, toCol);
-		for(int i = 0; i < moveArray.length; i++){
-			if(wantedTurn.fromCol == moveArray[i].fromCol && wantedTurn.toCol == moveArray[i].toCol && wantedTurn.fromRow == moveArray[i].fromRow && wantedTurn.toRow == moveArray[i].toRow){
-				return true;
-			}
-		}
-		return false;
-		}
-		else{
-			return false;
-		}
-	}
-
-  public CheckersMove[] getLegalMoves(int player) {
-     if (player != RED && player != BLACK)
-        return null;
-
-     int playerKing;  
-     if (player == RED)
-        playerKing = RED_KING;
-     else
-        playerKing = BLACK_KING;
-
-     Vector<CheckersMove> moves = new Vector<CheckersMove>(); 
-     
-     for (int row = 0; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-           if (board.get(row).get(col)== player || board.get(row).get(col) == playerKing) {
-              if (canJump(player, row, col, row+1, col+1, row+2, col+2))
-                 moves.addElement(new CheckersMove(row, col, row+2, col+2));
-              if (canJump(player, row, col, row-1, col+1, row-2, col+2))
-                 moves.addElement(new CheckersMove(row, col, row-2, col+2));
-              if (canJump(player, row, col, row+1, col-1, row+2, col-2))
-                 moves.addElement(new CheckersMove(row, col, row+2, col-2));
-              if (canJump(player, row, col, row-1, col-1, row-2, col-2))
-                 moves.addElement(new CheckersMove(row, col, row-2, col-2));
-           }
-        }
-     }
-          
-     if (moves.size() == 0) {
-        for (int row = 0; row < 8; row++) {
-           for (int col = 0; col < 8; col++) {
-              if (board.get(row).get(col) == player || board.get(row).get(col) == playerKing) {
-                 if (canMove(player,row,col,row+1,col+1))
-                    moves.addElement(new CheckersMove(row,col,row+1,col+1));
-                 if (canMove(player,row,col,row-1,col+1))
-                    moves.addElement(new CheckersMove(row,col,row-1,col+1));
-                 if (canMove(player,row,col,row+1,col-1))
-                    moves.addElement(new CheckersMove(row,col,row+1,col-1));
-                 if (canMove(player,row,col,row-1,col-1))
-                    moves.addElement(new CheckersMove(row,col,row-1,col-1));
-              }
-           }
-        }
-     }     
-     if (moves.size() == 0){
-        return null;
-     }
-     else {
-        CheckersMove[] moveArray = new CheckersMove[moves.size()];
-        for (int i = 0; i < moves.size(); i++)
-           moveArray[i] = (CheckersMove)moves.elementAt(i);
-        return moveArray;
-     }
-
-  }
-  
-
-  public CheckersMove[] getLegalJumpsFrom(int player, int row, int col) {
-     if (player != RED && player != BLACK)
-        return null;
-     int playerKing;  
-     if (player == RED)
-        playerKing = RED_KING;
-     else
-        playerKing = BLACK_KING;
-     Vector<CheckersMove> moves = new Vector<CheckersMove>();  
-     if (board.get(row).get(col) == player || board.get(row).get(col) == playerKing) {
-        if (canJump(player, row, col, row+1, col+1, row+2, col+2))
-           moves.addElement(new CheckersMove(row, col, row+2, col+2));
-        if (canJump(player, row, col, row-1, col+1, row-2, col+2))
-           moves.addElement(new CheckersMove(row, col, row-2, col+2));
-        if (canJump(player, row, col, row+1, col-1, row+2, col-2))
-           moves.addElement(new CheckersMove(row, col, row+2, col-2));
-        if (canJump(player, row, col, row-1, col-1, row-2, col-2))
-           moves.addElement(new CheckersMove(row, col, row-2, col-2));
-     }
-     if (moves.size() == 0)
-        return null;
-     else {
-        CheckersMove[] moveArray = new CheckersMove[moves.size()];
-        for (int i = 0; i < moves.size(); i++)
-           moveArray[i] = (CheckersMove)moves.elementAt(i);
-        return moveArray;
-     }
-  } 
-  
-
-  private boolean canJump(int player, int r1, int c1, int r2, int c2, int r3, int c3) {          
-     if (r3 < 0 || r3 >= 8 || c3 < 0 || c3 >= 8)
-        return false;  
-        
-     if (board.get(r3).get(c3) != EMPTY)
-        return false;  
-        
-     if (player == RED) {
-        if (board.get(r1).get(c1) == RED && r3 < r1)
-           return false;  
-        if (board.get(r2).get(c2) != BLACK && board.get(r2).get(c2) != BLACK_KING)
-           return false; 
-        return true;
-     }
-     else {
-        if (board.get(r1).get(c1) == BLACK && r3 > r1)
-           return false; 
-        if (board.get(r2).get(c2) != RED && board.get(r2).get(c2) != RED_KING)
-           return false;  
-        return true;  
-     }
-
-  } 
-  
-
-  private boolean canMove(int player, int r1, int c1, int r2, int c2) {      
-     if (r2 < 0 || r2 >= 8 || c2 < 0 || c2 >= 8)
-        return false; 
-        
-     if (board.get(r2).get(c2) != EMPTY){
-        return false;  
-     }
-
-     if (player == RED) {
-        if (board.get(r1).get(c1) == RED && r2 < r1)
-            return false;  
-         return true;  
-     }
-     else {
-        if (board.get(r1).get(c1) == BLACK && r2 > r1)
-            return false;  
-         return true;  
-     }
-     
-  }
-  
-  
-}
-
-
-// HELPER CLASS
-class CheckersMove {
-  int fromRow, fromCol;  
-  int toRow, toCol;      
-  CheckersMove(int r1, int c1, int r2, int c2) {
-     fromRow = r1;
-     fromCol = c1;
-     toRow = r2;
-     toCol = c2;
-  }
-}
- */

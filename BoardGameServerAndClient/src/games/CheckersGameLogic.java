@@ -181,7 +181,7 @@ public class CheckersGameLogic implements GameLogic{
 			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
-			if(row - 1 < 0 && col - 1 < 0 && gameState.board[row - 1][col - 1].getValue() == 0) { //have a legal space that removes something
+			if(row - 1 >= 0 && col - 1 >= 0 && gameState.board[row - 1][col - 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row - 1][col - 1].legal = true; 
 				System.out.println((row - 1) + " " + (col - 1));
 				return true;
@@ -198,7 +198,7 @@ public class CheckersGameLogic implements GameLogic{
 			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
-			if(row - 1 < 0 && col + 1 > 7 && gameState.board[row - 1][col + 1].getValue() == 0) { //have a legal space that removes something
+			if(row - 1 >= 0 && col + 1 <= 7 && gameState.board[row - 1][col + 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row - 1][col + 1].legal = true;
 				System.out.println((row - 1) + " " + (col + 1));
 				return true;
@@ -215,7 +215,7 @@ public class CheckersGameLogic implements GameLogic{
 			gameState.board[row][col].legal = true;
 			return true;
 		} else { //different color, continue
-			if(row + 1 > 7 && col + 1 > 7 && gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
+			if(row + 1 <= 7 && col + 1 <= 7 && gameState.board[row + 1][col + 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row + 1][col + 1].legal = true;
 				System.out.println((row + 1) + " " + (col + 1));
 				return true;
@@ -233,7 +233,7 @@ public class CheckersGameLogic implements GameLogic{
 			System.out.println(row + " " + col);
 			return true;
 		} else { //different color, continue
-			if(row + 1 > 7 && col - 1 < 0 && gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
+			if(row + 1 <= 7 && col - 1 >= 0 && gameState.board[row + 1][col - 1].getValue() == 0) { //have a legal space that removes something
 				gameState.board[row + 1][col - 1].legal = true;
 				System.out.println((row + 1) + " " + (col - 1));
 				return true;
